@@ -1,0 +1,388 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2173DF;
+            --dark-blue: #0A3C91;
+            --text-dark: #333;
+            --text-light: #666;
+            --text-white: #ffffff;
+            --input-border: #dcdcdc;
+            --button-hover-blue: #1a5ea5;
+            --background-light: #f0f2f5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-light);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .login-container {
+            display: flex;
+            background-color: var(--text-white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 900px;
+            width: 90%;
+            margin: 20px;
+        }
+
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: var(--text-white);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            text-align: center;
+            overflow: hidden; / For pseudo-elements /
+        }
+
+        .welcome-section::before,
+        .welcome-section::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .welcome-section::before {
+            width: 250px;
+            height: 250px;
+            top: -50px;
+            left: -80px;
+        }
+
+        .welcome-section::after {
+            width: 350px;
+            height: 350px;
+            bottom: -100px;
+            right: -100px;
+            opacity: 0.8;
+        }
+
+        .welcome-content {
+            z-index: 2; / Ensure content is above pseudo-elements /
+            max-width: 300px;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .welcome-section h2 {
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .welcome-section p {
+            font-size: 0.85em;
+            line-height: 1.6;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .signin-section {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: var(--text-dark);
+            background-color: var(--text-white);
+        }
+
+        .signin-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .signin-section .subtitle {
+            font-size: 0.8em;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8em;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: calc(100% - 24px); / Account for padding /
+            padding: 12px;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 0.9em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .password-group .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(2px); / Adjust to align with input text /
+            font-size: 0.8em;
+            color: var(--primary-blue);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .options-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.85em;
+        }
+
+        .checkbox-container {
+            display: block;
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 0;
+            cursor: pointer;
+            font-size: 0.85em;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: var(--text-light);
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 18px;
+            width: 18px;
+            background-color: var(--text-white);
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+            left: 6px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .forgot-password {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: var(--button-hover-blue);
+        }
+
+        .signin-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-blue);
+            color: var(--text-white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-bottom: 30px;
+        }
+
+        .signin-button:hover {
+            background-color: var(--button-hover-blue);
+            transform: translateY(-2px);
+        }
+
+        .signup-prompt {
+            text-align: center;
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 20px;
+        }
+
+        .signup-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link:hover {
+            color: var(--button-hover-blue);
+        }
+
+        / Responsive adjustments /
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                width: 95%;
+                max-width: 450px; / Limit width for single column /
+            }
+
+            .welcome-section {
+                padding: 30px 20px;
+                border-bottom-left-radius: 0;
+                border-top-right-radius: 15px; / Adjust border radius for top section /
+            }
+
+            .welcome-section h1 {
+                font-size: 2em;
+            }
+
+            .welcome-section h2 {
+                font-size: 1em;
+            }
+
+            .welcome-section p {
+                font-size: 0.8em;
+            }
+
+            .signin-section {
+                padding: 30px 20px;
+            }
+
+            .signin-section h3 {
+                font-size: 1.5em;
+            }
+
+            .signin-section .subtitle {
+                font-size: 0.75em;
+            }
+
+            .welcome-section::before,
+            .welcome-section::after {
+                display: none; / Hide complex shapes on smaller screens /
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>WELCOME</h1>
+                <h2>YOUR HEADLINE NAME</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.</p>
+            </div>
+        </div>
+        <div class="signin-section">
+            <div class="signin-content">
+                <h3>Sign in</h3>
+                <p class="subtitle">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
+
+                <form>
+                    <div class="input-group">
+                        <label for="username">User name</label>
+                        <input type="text" id="username" name="username">
+                    </div>
+                    <div class="input-group password-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password">
+                        <span class="show-password">SHOW</span>
+                    </div>
+                    <div class="options-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" checked="checked">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="signin-button">Sing In</button>
+                </form>
+
+                <p class="signup-prompt">Don't have an account? <a href="#" class="signup-link">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Optional JavaScript for show/hide password functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const showPasswordToggle = document.querySelector('.show-password');
+            const passwordInput = document.getElementById('password');
+
+            if (showPasswordToggle && passwordInput) {
+                showPasswordToggle.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+```

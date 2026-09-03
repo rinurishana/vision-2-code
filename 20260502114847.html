@@ -1,0 +1,239 @@
+Here is the HTML and CSS code to recreate the design from your image.
+
+index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="welcome-section">
+            <h1 class="welcome-title">WELCOME</h1>
+            <h2 class="welcome-subtitle">YOUR HEADLINE NAME</h2>
+            <p class="welcome-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.</p>
+        </div>
+        <div class="signin-section">
+            <h2 class="signin-title">Sign in</h2>
+            <p class="signin-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
+            <form>
+                <div class="form-group">
+                    <label for="username">User name</label>
+                    <input type="text" id="username" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="password" autocomplete="current-password">
+                        <span class="show-password">SHOW</span>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="signin-button">Sing In</button>
+            </form>
+            <p class="signup-prompt">Don't have an account? <a href="#" class="signup-link">Sign up</a></p>
+        </div>
+    </div>
+</body>
+</html>
+```
+
+style.css
+```css
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5; / Light grey background /
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.login-container {
+    display: flex;
+    width: 800px; / Fixed width based on design /
+    height: 500px; / Fixed height based on design /
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden; / Ensures child elements respect rounded corners /
+}
+
+/ Welcome Section - Left side /
+.welcome-section {
+    flex: 1; / Takes half the width /
+    / Simulating the abstract shapes with multiple radial gradients over a linear gradient /
+    background: 
+        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+        linear-gradient(135deg, #1e6de8, #2f7bf7); / Main blue gradient /
+    color: #fff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative; / For potential future absolute positioning, if needed /
+    overflow: hidden; / Important for gradients not to spill out of rounded corners /
+}
+
+.welcome-title {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.welcome-subtitle {
+    font-size: 1em;
+    margin-bottom: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+}
+
+.welcome-description {
+    font-size: 0.8em;
+    line-height: 1.6;
+    opacity: 0.7;
+}
+
+/ Sign In Section - Right side /
+.signin-section {
+    flex: 1; / Takes half the width /
+    background-color: #fff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.signin-title {
+    font-size: 2em;
+    margin-bottom: 5px;
+    color: #1c1c1c; / Dark grey/black /
+    font-weight: 700;
+}
+
+.signin-description {
+    font-size: 0.7em; / Small descriptive text /
+    color: #666; / Grey text /
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc; / Light grey border /
+    border-radius: 5px;
+    font-size: 0.9em;
+    box-sizing: border-box; / Include padding in width calculation /
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #1e6de8; / Blue border on focus /
+}
+
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper input {
+    flex-grow: 1;
+}
+
+.show-password {
+    position: absolute;
+    right: 12px;
+    font-size: 0.75em;
+    color: #1e6de8; / Blue text /
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 0.8em;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #1e6de8; / Styles the checkbox /
+}
+
+.remember-me label {
+    color: #666;
+}
+
+.forgot-password {
+    color: #1e6de8; / Blue link /
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.signin-button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #1e6de8; / Blue button /
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 40px; / Space before signup prompt /
+}
+
+.signin-button:hover {
+    background-color: #2f7bf7; / Slightly lighter blue on hover /
+}
+
+.signup-prompt {
+    text-align: center;
+    font-size: 0.8em;
+    color: #666;
+    margin-top: auto; / Pushes this element to the bottom within the flex container /
+}
+
+.signup-link {
+    color: #1e6de8; / Blue link /
+    text-decoration: none;
+    font-weight: 600;
+}
+```

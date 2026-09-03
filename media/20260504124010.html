@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World - Blue Glass Theme</title>
+    <style>
+        /* Import a clean modern font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        :root {
+            /* Define some CSS variables for consistent theming */
+            --background-gradient: linear-gradient(135deg, #0f4c81, #001f3f); /* Deep blue gradient */
+            --glass-bg: rgba(255, 255, 255, 0.15); /* Light translucent white for glass effect */
+            --glass-border: rgba(255, 255, 255, 0.3); /* Subtle white border */
+            --text-color: #ffffff; /* White text */
+            --shadow-color: rgba(0, 0, 0, 0.37); /* Darker shadow for depth */
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-gradient);
+            color: var(--text-color);
+            overflow: hidden; /* Prevent scrollbars if content slightly exceeds viewport */
+        }
+
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(10px); /* Safari support for backdrop-filter */
+            border: 1px solid var(--glass-border);
+            border-radius: 15px; /* Slightly rounded corners */
+            box-shadow: 0 8px 32px 0 var(--shadow-color); /* Elegant depth shadow */
+            padding: 40px 60px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%; /* Responsive width */
+            animation: fadeIn 1.5s ease-out; /* Smooth entrance animation */
+            transition: all 0.3s ease; /* Smooth transitions for hover effects */
+        }
+
+        .glass-container:hover {
+            transform: translateY(-5px) scale(1.01); /* Subtle lift and scale on hover */
+            box-shadow: 0 12px 40px 0 var(--shadow-color); /* Enhanced shadow on hover */
+        }
+
+        h1 {
+            font-size: 3.5em; /* Large, prominent heading */
+            margin: 0;
+            font-weight: 600; /* Bolder text for impact */
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Soft glow around text */
+            letter-spacing: 2px; /* Slightly spaced letters for a modern look */
+        }
+
+        /* Keyframe animation for fade-in effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+            .glass-container {
+                padding: 30px 40px;
+                border-radius: 10px; /* Slightly less rounded on small screens */
+            }
+            h1 {
+                font-size: 2.5em; /* Smaller font size on mobile */
+                letter-spacing: 1px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .glass-container {
+                padding: 25px 30px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <h1>Hello World</h1>
+    </div>
+</body>
+</html>

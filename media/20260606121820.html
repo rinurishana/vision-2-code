@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regional Technologies - Project Centre, Kozhikode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0056b3; /* A professional blue */
+            --secondary-color: #f8f9fa; /* Light grey for sections */
+            --dark-text: #343a40; /* Dark grey for body text */
+            --light-text: #ffffff; /* White for header/footer text */
+            --accent-color: #28a745; /* Green for buttons/highlights */
+            --border-color: #e9ecef;
+        }
+
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-text);
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 0.8em;
+            color: var(--primary-color);
+        }
+
+        h1 { font-size: 2.8em; }
+        h2 { font-size: 2.2em; }
+        h3 { font-size: 1.8em; }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.1em;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5em;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 1em 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--light-text);
+            margin-bottom: 0; /* Override h1 margin */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 2em;
+        }
+
+        nav ul li a {
+            color: var(--light-text);
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 86, 179, 0.8), rgba(0, 86, 179, 0.8)), url('https://via.placeholder.com/1920x800?text=Kozhikode+Cityscape') no-repeat center center/cover;
+            color: var(--light-text);
+            text-align: center;
+            padding: 8em 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            color: var(--light-text);
+            font-size: 3.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.4em;
+            margin-bottom: 2em;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--light-text);
+            padding: 0.9em 2em;
+            border-radius: 5px;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #218838; /* Darker green */
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* Sections */
+        section {
+            padding: 5em 0;
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--secondary-color);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3em;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* About Section specifics */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+            align-items: center;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Projects Section specifics */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+        }
+
+        .project-card {
+            background-color: var(--light-text);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .project-card-content {
+            padding: 1.5em;
+        }
+
+        .project-card-content h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.4em;
+        }
+
+        .project-card-content p {
+            font-size: 0.95em;
+            color: var(--dark-text);
+            margin-bottom: 1em;
+        }
+
+        .project-card .btn {
+            padding: 0.6em 1.2em;
+            font-size: 0.9em;
+            background-color: var(--primary-color);
+        }
+        .project-card .btn:hover {
+            background-color: #004494;
+        }
+
+        /* Contact Section specifics */
+        .contact-info {
+            text-align: center;
+            margin-bottom: 3em;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5em;
+            font-size: 1.1em;
+        }
+
+        .contact-info strong {
+            color: var(--primary-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2em;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: 500;
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8em;
+            margin-bottom: 1.5em;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1em;
+        }
+
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .contact-form .btn {
+            width: auto;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-text);
+            color: var(--secondary-color);
+            text-align: center;
+            padding: 2.5em 0;
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6em 0;
+                min-height: 60vh;
+            }
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .hero p {
+                font-size: 1.2em;
+            }
+
+            nav ul {
+                margin-top: 1em;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+
+            nav ul li {
+                margin: 0.5em 0;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                order: -1; /* Image appears first on small screens */
+                margin-bottom: 2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+            .hero p {
+                font-size: 1em;
+            }
+            .logo {
+                font-size: 1.5em;
+            }
+            .btn {
+                padding: 0.7em 1.5em;
+                font-size: 0.9em;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            section {
+                padding: 3em 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">Regional Technologies</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Innovating the Future of Kozhikode</h1>
+                <p>Regional Technologies is a pioneering project centre dedicated to fostering technological advancements and skilled professionals in Kozhikode.</p>
+                <a href="#projects" class="btn">Explore Our Projects</a>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">About Regional Technologies</h2>
+                <div class="about-grid">
+                    <div class="about-content">
+                        <p>Established in the vibrant city of Kozhikode, Regional Technologies stands as a beacon for innovation and development. Our mission is to bridge the gap between academic knowledge and practical application, providing a dynamic platform for students and professionals to develop cutting-edge projects.</p>
+                        <p>We specialize in nurturing talent across various technological domains, including software development, hardware prototyping, data science, and AI. Our centre is equipped with state-of-the-art facilities and mentored by experienced industry experts, ensuring a conducive environment for learning, experimentation, and project execution.</p>
+                        <p>At Regional Technologies, we believe in empowering the next generation of innovators and contributing significantly to the technological landscape of Kozhikode and beyond.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://via.placeholder.com/600x400?text=Project+Centre+Interior" alt="Modern Project Centre Interior">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title">Our Featured Projects</h2>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <img src="https://via.placeholder.com/400x200?text=Smart+City+Solution" alt="Smart City Solution Project">
+                        <div class="project-card-content">
+                            <h3>Smart Urban Mobility System</h3>
+                            <p>A comprehensive solution for optimizing traffic flow and public transport efficiency using IoT and AI.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <img src="https://via.placeholder.com/400x200?text=AI+Healthcare" alt="AI in Healthcare Project">
+                        <div class="project-card-content">
+                            <h3>AI-Powered Diagnostic Assistant</h3>
+                            <p>Developing an intelligent system to assist medical professionals in early disease detection and diagnosis.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <img src="https://via.placeholder.com/400x200?text=Sustainable+Energy" alt="Sustainable Energy Project">
+                        <div class="project-card-content">
+                            <h3>Renewable Energy Management Platform</h3>
+                            <p>An innovative platform for monitoring and managing renewable energy sources in commercial buildings.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <img src="https://via.placeholder.com/400x200?text=EdTech+Platform" alt="EdTech Platform Project">
+                        <div class="project-card-content">
+                            <h3>Interactive E-Learning Platform</h3>
+                            <p>Creating an engaging and adaptive online learning environment for skill development.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Get in Touch</h2>
+                <div class="contact-info">
+                    <p>We'd love to hear from you! Whether you have a project idea, want to collaborate, or simply learn more about us, feel free to reach out.</p>
+                    <p><strong>Address:</strong> 123 Innovation Drive, Cyberpark Road, Kozhikode, Kerala, India</p>
+                    <p><strong>Email:</strong> <a href="mailto:info@regionaltech.com">info@regionaltech.com</a></p>
+                    <p><strong>Phone:</strong> <a href="tel:+911234567890">+91 12345 67890</a></p>
+                </div>
+                <div class="contact-grid">
+                    <form class="contact-form">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Regional Technologies. All rights reserved.</p>
+            <p>Innovating in Kozhikode.</p>
+        </div>
+    </footer>
+</body>
+</html>

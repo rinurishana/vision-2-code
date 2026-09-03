@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glasgow & 20 Miles Around</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Arial', sans-serif;
+            color: #ffffff;
+        }
+
+        .hero-section {
+            background-color: #1a1a1a;
+            padding: 80px 0;
+            text-align: left;
+        }
+
+        .hero-section h4 {
+            font-size: 14px;
+            font-weight: 400;
+            color: #aaaaaa;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-section h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 58px;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 16px;
+            font-weight: 400;
+            color: #aaaaaa;
+            line-height: 26px;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .area-list {
+            display: grid;
+            grid-template-columns: repeat(5, auto);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .area-item {
+            font-size: 14px;
+            font-weight: 500;
+            color: #aaaaaa;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: #2e2e2e;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .area-item.active {
+            background-color: #90ee90;
+            color: #1a1a1a;
+        }
+
+        .area-item:hover {
+            background-color: #3a3a3a;
+            color: #ffffff;
+        }
+
+        .map-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            border: 1px solid #3a3a3a;
+        }
+
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            border: 2px dashed #90ee90;
+            transform: translate(-50%, -50%);
+            opacity: 0.8;
+        }
+
+        .map-label {
+            position: relative;
+            z-index: 1;
+            font-size: 16px;
+            font-weight: 700;
+            color: #90ee90;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .map-label span {
+            display: block;
+            font-size: 12px;
+            font-weight: 400;
+            color: #ffffff;
+        }
+
+        .how-it-works-section {
+            background-color: #181818;
+            padding: 60px 0;
+        }
+
+        .how-it-works-section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .how-it-works-section h4 {
+            font-size: 14px;
+            font-weight: 400;
+            color: #aaaaaa;
+            letter-spacing: 0.5px;
+            margin-bottom: 60px;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .step-card {
+            flex: 1;
+            background-color: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .step-card h3 {
+            font-size: 72px;
+            font-weight: 700;
+            color: #90ee90;
+            opacity: 0.3;
+            margin-bottom: 15px;
+        }
+
+        .step-card h5 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .step-card p {
+            font-size: 16px;
+            font-weight: 400;
+            color: #aaaaaa;
+            line-height: 26px;
+        }
+
+        .testimonials-section {
+            background-color: #1a1a1a;
+            padding: 80px 0;
+        }
+
+        .testimonials-section h4 {
+            font-size: 14px;
+            font-weight: 400;
+            color: #aaaaaa;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .testimonials-section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 50px;
+        }
+
+        .testimonial-cards-container {
+            display: flex;
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            flex: 1;
+            background-color: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .stars {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .star-icon {
+            font-size: 16px;
+            color: #90ee90;
+        }
+
+        .testimonial-card p {
+            font-size: 16px;
+            font-weight: 400;
+            color: #aaaaaa;
+            line-height: 26px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-card .author {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .testimonial-card .author-area {
+            font-size: 14px;
+            font-weight: 400;
+            color: #aaaaaa;
+        }
+
+        .hero-content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .hero-text-content {
+            flex-basis: 60%;
+        }
+
+        .hero-map-content {
+            flex-basis: 35%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .flex-row-wrap {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="section hero-section">
+        <div class="container">
+            <div class="hero-content-wrapper">
+                <div class="hero-text-content">
+                    <h4>WHERE WE COVER</h4>
+                    <h1>GLASGOW & 20 MILES<br>AROUND</h1>
+                    <p>If you're stuck anywhere in or around the city, there's a<br>good chance we cover you. Some of the areas we reach:</p>
+                    <div class="area-list">
+                        <div class="area-item active">Glasgow</div>
+                        <div class="area-item">Paisley</div>
+                        <div class="area-item">Renfrew</div>
+                        <div class="area-item">Clydebank</div>
+                        <div class="area-item">Bearsden</div>
+                        <div class="area-item">Bishopbriggs</div>
+                        <div class="area-item">Cumbernauld</div>
+                        <div class="area-item">Coatbridge</div>
+                        <div class="area-item">Airdrie</div>
+                        <div class="area-item">Motherwell</div>
+                        <div class="area-item">Hamilton</div>
+                        <div class="area-item">East Kilbride</div>
+                        <div class="area-item">Rutherglen</div>
+                        <div class="area-item">Barrhead</div>
+                        <div class="area-item">Newton Mearns</div>
+                        <div class="area-item">Johnstone</div>
+                        <div class="area-item">Wishaw</div>
+                        <div class="area-item">Kirrintilloch</div>
+                        <div class="area-item">Dumbarton</div>
+                        <div class="area-item">Erskine</div>
+                    </div>
+                </div>
+                <div class="hero-map-content">
+                    <div class="map-container">
+                        <div class="map-label">
+                            GLASGOW
+                            <span>20 mile radius</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="section how-it-works-section">
+        <div class="container">
+            <h4>HOW IT WORKS</h4>
+            <h2>THREE STEPS, THAT'S IT</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <h3>01</h3>
+                    <h5>Call us</h5>
+                    <p>Tell us where you are and what's happened.<br>We'll give you a straight answer and a price<br>before we move.</p>
+                </div>
+                <div class="step-card">
+                    <h3>02</h3>
+                    <h5>We come to you</h5>
+                    <p>The nearest available truck heads straight<br>out to your location, any hour of the day.</p>
+                </div>
+                <div class="step-card">
+                    <h3>03</h3>
+                    <h5>Back on the road</h5>
+                    <p>We recover your vehicle and take it home, to<br>your garage, or wherever you need it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section testimonials-section">
+        <div class="container">
+            <h4>WHAT DRIVERS SAY</h4>
+            <h2>TRUSTED ON THE ROAD</h2>
+            <div class="testimonial-cards-container">
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                    </div>
+                    <p>[Replace with a real Google review once<br>you collect your first ones. Keep it short<br>and specific. ]</p>
+                    <div class="author">— Customer name, area</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                    </div>
+                    <p>[Replace with a real review. Genuine,<br>named reviews from real customers build<br>the most trust. ]</p>
+                    <div class="author">— Customer name, area</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                        <div class="star-icon">★</div>
+                    </div>
+                    <p>[Replace with a real review. Ask every early<br>customer to leave one on your Google<br>profile. ]</p>
+                    <div class="author">— Customer name, area</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

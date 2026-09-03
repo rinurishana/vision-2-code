@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+VU/hX8PuYxKk/ScgIKHXA9/zQSSjI/w/nKw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 375px;
+            height: 812px;
+            background-color: #f7f7f7;
+            border-radius: 40px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative; / For bottom nav positioning /
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px 0px 20px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        .status-bar .left {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-bar .battery-icon {
+            width: 20px;
+            height: 9px;
+            border: 1px solid #fff;
+            border-radius: 2px;
+            position: relative;
+            margin-left: 2px;
+        }
+
+        .status-bar .battery-icon::after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            width: 14px;
+            height: 5px;
+            background-color: #fff;
+            border-radius: 1px;
+        }
+
+        .status-bar .battery-icon::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: -3px;
+            width: 1px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 0 1px 1px 0;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #a77bfd, #8f53ed);
+            padding: 20px;
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+        
+        .profile-header::before,
+        .profile-header::after {
+            content: '';
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .profile-header::before {
+            width: 150px;
+            height: 150px;
+            top: 100px;
+            left: -50px;
+            transform: scale(1.2);
+        }
+        .profile-header::after {
+            width: 100px;
+            height: 100px;
+            top: 20px;
+            right: -30px;
+            transform: scale(1.5);
+        }
+
+        .profile-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .settings-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 20px;
+            z-index: 10;
+        }
+
+        .avatar-wrapper {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.15);
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-name {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .member-since {
+            color: #ebebeb;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .share-button {
+            background-color: #38314e;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .share-button:hover {
+            background-color: #4a4261;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+            flex-grow: 1;
+            padding-bottom: 80px;
+        }
+
+        .grid-item {
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .grid-item .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-wrapper.shopping { background: linear-gradient(135deg, #4ed3ef, #2de6b7); }
+        .icon-wrapper.ubers { background: linear-gradient(135deg, #7c50ec, #8f53ed); }
+        .icon-wrapper.groceries { background: linear-gradient(135deg, #f0547b, #ee7b8f); }
+        .icon-wrapper.dates { background: linear-gradient(135deg, #ff8c7a, #ffbb7e); }
+        .icon-wrapper.stats { background: linear-gradient(135deg, #a77bfd, #8f53ed); }
+        .icon-wrapper.cards { background: linear-gradient(135deg, #4ed3ef, #2de6b7); }
+
+        .grid-item .icon-wrapper i {
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .grid-item .icon-wrapper.cards svg {
+            width: 28px;
+            height: 28px;
+            fill: #fff;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
+        }
+
+        .grid-item .item-title {
+            color: #333;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 0;
+            border-top: 1px solid #f0f0f0;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.03);
+            border-radius: 0 0 40px 40px;
+            padding-bottom: env(safe-area-inset-bottom, 15px);
+            box-sizing: border-box;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #b0b0b0;
+            font-size: 11px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            position: relative;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+            color: inherit;
+        }
+
+        .nav-item.active {
+            color: #4b4b4b;
+        }
+
+        .nav-item.active .icon-circle {
+            background-color: #3b82f6;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: -15px;
+            box-shadow: 0 5px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-item.active .icon-circle i {
+            color: #fff;
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .nav-item.active .item-text {
+            color: #3b82f6;
+            margin-top: 35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="status-bar">
+            <div class="left">1:20</div>
+            <div class="right">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <div class="battery-icon"></div>
+            </div>
+        </div>
+
+        <header class="profile-header">
+            <i class="fas fa-cog settings-icon"></i>
+            <div class="profile-content">
+                <div class="avatar-wrapper">
+                    <img src="https://i.ibb.co/L5rK5qg/profile-picture.png" alt="Profile Picture" class="avatar">
+                </div>
+                <h1 class="profile-name">John Mcdonald</h1>
+                <p class="member-since">Members since July 23rd. 2016</p>
+                <button class="share-button">Share Account</button>
+            </div>
+        </header>
+
+        <main class="grid-container">
+            <div class="grid-item">
+                <div class="icon-wrapper shopping">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <span class="item-title">Shopping</span>
+            </div>
+            <div class="grid-item">
+                <div class="icon-wrapper ubers">
+                    <i class="fas fa-car"></i>
+                </div>
+                <span class="item-title">Ubers</span>
+            </div>
+            <div class="grid-item">
+                <div class="icon-wrapper groceries">
+                    <i class="fas fa-shopping-basket"></i>
+                </div>
+                <span class="item-title">Groceries</span>
+            </div>
+            <div class="grid-item">
+                <div class="icon-wrapper dates">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <span class="item-title">Dates</span>
+            </div>
+            <div class="grid-item">
+                <div class="icon-wrapper stats">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <span class="item-title">Stats</span>
+            </div>
+            <div class="grid-item">
+                <div class="icon-wrapper cards">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 14H5c-1.11 0-2 .9-2 2v4c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2v-4c0-1.1-.89-2-2-2zm0 4H5v-2h14v2z"/>
+                        <path d="M22 6c0-1.1-.89-2-2-2H6c-1.11 0-2 .9-2 2v4c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V6zm-2 4H6V8h14v2z"/>
+                    </svg>
+                </div>
+                <span class="item-title">Cards</span>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item">
+                <i class="fas fa-stream"></i>
+                <span class="item-text">Feed</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span class="item-text">Analytics</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span class="item-text">Accounts</span>
+            </a>
+            <a href="#" class="nav-item active">
+                <div class="icon-circle">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                <span class="item-text">More</span>
+            </a>
+        </nav>
+    </div>
+</body>
+</html>

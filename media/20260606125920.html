@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision2Code Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a202c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('dummy-background.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(26, 32, 44, 0.8), rgba(26, 32, 44, 0.9));
+            z-index: 1;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(30, 39, 51, 0.8);
+            border-radius: 12px;
+            padding: 40px 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            width: 380px;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo svg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: #a0aec0;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: calc(100% - 40px);
+            padding: 15px 20px 15px 50px;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(54, 62, 76, 0.6);
+            color: #e2e8f0;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input::placeholder {
+            color: #718096;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+            font-size: 20px;
+        }
+
+        .input-group input:focus {
+            background-color: rgba(72, 85, 101, 0.8);
+            box-shadow: 0 0 0 2px rgba(30, 122, 231, 0.5);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background-color: #3182ce;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(49, 130, 206, 0.39);
+        }
+
+        .btn-login:hover {
+            background-color: #2b6cb0;
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-google:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-google svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .signup-text {
+            font-size: 14px;
+            color: #a0aec0;
+        }
+
+        .signup-text a {
+            color: #3182ce;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+
+        .hr-line {
+            border: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 30px 0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="login-container">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M13.5,16.5v-9c0-0.83-0.67-1.5-1.5-1.5s-1.5,0.67-1.5,1.5v9c0,0.83,0.67,1.5,1.5,1.5S13.5,17.33,13.5,16.5z"/>
+                <path d="M12,5c-3.87,0-7,3.13-7,7s3.13,7,7,7s7-3.13,7-7S15.87,5,12,5z M13.5,14.5c0,0.83-0.67,1.5-1.5,1.5s-1.5-0.67-1.5-1.5v-5c0-0.83,0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5V14.5z"/>
+            </svg>
+        </div>
+        <div class="logo-text">Vision2Code</div>
+        <div class="subtitle">Login</div>
+
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Enter Username">
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Enter Password">
+        </div>
+
+        <button class="btn-login">Login</button>
+
+        <hr class="hr-line">
+
+        <button class="btn-google">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.56 12.25c0-1.78-1.44-3.25-3.25-3.25s-3.25,1.44-3.25,3.25 1.44,3.25 3.25,3.25 3.25-1.44 3.25-3.25zm-.79 5.75H5.5c0.32,1.29,1.48,2.25,2.79,2.25h11.21c1.31,0,2.47-0.96,2.79-2.25zM19.97 10.37l-1.22-1.22c-.23-.23-.58-.23-.81,0-.23.23-.23.58,0,.81l1.22,1.22c.23.23.58.23.81,0 .23-.23.23-.58,0-.81zm-3.9-7.47l-1.22-1.22c-.23-.23-.58-.23-.81,0-.23.23-.23.58,0,.81l1.22,1.22c.23.23.58.23.81,0 .23-.23.23-.58,0-.81zm-12.06.58c-.46-.46-.46-1.21,0-1.67.46-.46,1.21-.46,1.67,0 .46.46.46,1.21,0,1.67-.46.46-1.21.46-1.67,0zm-1.67,7.47l-1.22,1.22c-.23.23-.58.23-.81,0-.23-.23-.23-.58,0-.81l1.22-1.22c.23-.23.58-.23.81,0 .23.23.23.58,0,.81zm6.72-9.02c-.46-.46-.46-1.21,0-1.67.46-.46,1.21-.46,1.67,0 .46.46.46,1.21,0,1.67-.46.46-1.21.46-1.67,0z"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M22.97,12.25c0,1.78-1.44,3.25-3.25,3.25h-1.5v-6.5h1.5C21.53,9,22.97,10.47,22.97,12.25z M18.72,13.25c0-0.83-0.67-1.5-1.5-1.5h-2.47v3h2.47C18.05,14.75,18.72,14.08,18.72,13.25z M11.5,14.75H9v-3h2.47c0.83,0,1.5,0.67,1.5,1.5S12.33,14.75,11.5,14.75z M5.5,16.5h1.5v-6.5H5.5c-1.78,0-3.25,1.47-3.25,3.25S3.72,16.5,5.5,16.5z"/>
+            </svg>
+            Sign up with Google
+        </button>
+
+        <div class="signup-text">
+            Not signed up yet? <a href="#">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>

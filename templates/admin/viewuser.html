@@ -1,0 +1,354 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{##}
+{#<head>#}
+{#    <title>Admin - View Users</title>#}
+{#{% extends 'admin/admin_homenew.html' %}#}
+{#{% block body %}#}
+{##}
+{##}
+{#<style>#}
+{##}
+{#body{#}
+{#    margin:0;#}
+{#    padding:0;#}
+{#    font-family: Arial, Helvetica, sans-serif;#}
+{#    background: linear-gradient(135deg,#000000,#0a1f44);#}
+{#}#}
+{##}
+{#/* Main container */#}
+{#.container{#}
+{#    width:85%;#}
+{#    margin:60px auto;#}
+{#    background:#0b132b;#}
+{#    padding:30px;#}
+{#    border-radius:12px;#}
+{#    box-shadow:0px 0px 20px rgba(0,0,0,0.8);#}
+{#}#}
+{##}
+{#/* Heading */#}
+{#h2{#}
+{#    text-align:center;#}
+{#    color:#ffffff;#}
+{#    margin-bottom:25px;#}
+{#    letter-spacing:1px;#}
+{#}#}
+{##}
+{#/* Table styling */#}
+{#table{#}
+{#    width:100%;#}
+{#    border-collapse:collapse;#}
+{#    color:white;#}
+{#}#}
+{##}
+{#/* Table headers */#}
+{#th{#}
+{#    background:#142850;#}
+{#    padding:12px;#}
+{#    text-align:center;#}
+{#}#}
+{##}
+{#/* Table cells */#}
+{#td{#}
+{#    padding:12px;#}
+{#    text-align:center;#}
+{#    border-bottom:1px solid #1c2541;#}
+{#}#}
+{##}
+{#/* Alternate rows */#}
+{#tr:nth-child(even){#}
+{#    background:#1c2541;#}
+{#}#}
+{##}
+{#/* Hover effect */#}
+{#tr:hover{#}
+{#    background:#274690;#}
+{#}#}
+{#.back-link{#}
+{#display:block;#}
+{#margin-top:15px;#}
+{#color:#aaa;#}
+{#text-decoration:none;#}
+{#}#}
+{##}
+{#.back-link:hover{#}
+{#color:white;#}
+{#}#}
+{#</style>#}
+{##}
+{##}
+{##}
+{#<body>#}
+{##}
+{#<div class="container">#}
+{##}
+{#<h2>User Profiles</h2>#}
+{##}
+{#<table>#}
+{##}
+{#<thead>#}
+{#<tr>#}
+{#<th>User</th#}
+{#><th>Name</th>#}
+{#<th>Designation</th>#}
+{#<th>Email</th>#}
+{#<th>Phone</th>#}
+{#<th>Date</th>#}
+{#</tr>#}
+{#</thead>#}
+{##}
+{##}
+{#     {% for i in user %}#}
+{#    <tr>#}
+{#    <td>{{ i.id }}</td>#}
+{#    <td>{{ i.name }}</td>#}
+{#    <td>{{ i.designation }}</td>#}
+{#    <td>{{ i.email }}</td>#}
+{#    <td>{{ i.phone }}</td>#}
+{#    <td>{{ i.date }}</td>#}
+{#    </tr>#}
+{#    {% endfor %}#}
+{##}
+{#<!-- Blank row initially -->#}
+{#<tr>#}
+{#<td colspan="5">No users registered</td>#}
+{#</tr>#}
+{##}
+{#<!-- Example structure when users sign up -->#}
+{#<!--#}
+{#<tr>#}
+{#<td>U101</td>#}
+{#<td>Riya</td>#}
+{#<td>riya@email.com</td>#}
+{#<td>9876543210</td>#}
+{#<td>03-04-2026</td>#}
+{#</tr>#}
+{#-->#}
+{##}
+{#</table>#}
+{#<a href="/myapp/admin_home" class="back-link">← Back to Dashboard</a>#}
+{#</div>#}
+{##}
+{#</body>#}
+{##}
+{#{% endblock %}#}
+
+
+
+{% extends 'admin/admin_homenew.html' %}
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - View Users</title>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg,#000000,#0a1f44);
+        }
+
+        /* Main container */
+        .container{
+            width:85%;
+            margin:60px auto;
+            background:#0b132b;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0px 0px 20px rgba(0,0,0,0.8);
+        }
+
+        /* Heading */
+        h2{
+            text-align:center;
+            color:#ffffff;
+            margin-bottom:25px;
+            letter-spacing:1px;
+        }
+
+        /* Table styling */
+        table{
+            width:100%;
+            border-collapse:collapse;
+            color:white;
+        }
+
+        /* Table headers */
+        th{
+            background:#142850;
+            padding:12px;
+            text-align:center;
+        }
+
+        /* Table cells */
+        td{
+            padding:12px;
+            text-align:center;
+            border-bottom:1px solid #1c2541;
+        }
+
+        /* Alternate rows */
+        tr:nth-child(even){
+            background:#1c2541;
+        }
+
+        /* Hover effect */
+        tr:hover{
+            background:#274690;
+        }
+
+        .back-link{
+            display:block;
+            margin-top:15px;
+            color:#aaa;
+            text-decoration:none;
+        }
+
+        .back-link:hover{
+            color:white;
+        }
+
+        /* DataTable Styling */
+        .dataTables_wrapper{
+            color:white;
+        }
+
+        .dataTables_length,
+        .dataTables_filter,
+        .dataTables_info,
+        .dataTables_paginate{
+            color:white !important;
+            margin-bottom:10px;
+        }
+
+        .dataTables_filter input,
+        .dataTables_length select{
+            background:#1c2541;
+            color:white;
+            border:1px solid #274690;
+            border-radius:5px;
+            padding:5px;
+        }
+
+        table.dataTable{
+            color:white;
+        }
+
+        table.dataTable thead th{
+            background:#142850;
+            color:white;
+        }
+
+        table.dataTable tbody tr{
+            background:#0b132b;
+        }
+
+        table.dataTable tbody tr:nth-child(even){
+            background:#1c2541;
+        }
+
+        table.dataTable tbody tr:hover{
+            background:#274690;
+        }
+
+        .paginate_button{
+            color:white !important;
+        }
+
+        .paginate_button.current{
+            background:#274690 !important;
+            color:white !important;
+            border:none !important;
+        }
+        .delete-btn{
+        background:linear-gradient(90deg,#ff1744,#8b0000);
+        color:white;
+        padding:6px 12px;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;
+        }
+
+        .delete-btn:hover{
+        background:linear-gradient(90deg,#ff5252,#b30000);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>User Profiles</h2>
+
+    <table id="userTable" class="display">
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Action</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+        {% for i in user %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.name }}</td>
+                <td>{{ i.designation }}</td>
+                <td>{{ i.email }}</td>
+                <td>{{ i.phone }}</td>
+                <td>
+                    <a href="/myapp/delete_user/{{ i.LOGIN.id }}" class="btn delete-btn">Delete</a>
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include "msgalert.html" %}
+
+
+    <a href="/myapp/admin_home" class="back-link">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#userTable').DataTable({
+            "pageLength": 10,
+            "lengthMenu": [[5,10,25,50,100,-1],[5,10,25,50,100,"All"]],
+            "ordering": true,
+            "searching": true,
+            "paging": true,
+            "info": true,
+            "responsive": true
+        });
+    });
+</script>
+
+</body>
+</html>
+
+{% endblock %}

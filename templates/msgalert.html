@@ -1,0 +1,96 @@
+{% if messages %}
+
+<style>
+/* Message Container */
+.message-container{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Base Message Style */
+.message-box{
+    min-width: 280px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    background: rgba(20,20,40,0.75);
+    color: white;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    animation: slideIn 0.4s ease;
+}
+
+/* Success */
+.message-success{
+    border-left: 5px solid #00ff9d;
+}
+
+/* Error */
+.message-error{
+    border-left: 5px solid #ff4d4d;
+}
+
+/* Close button */
+.close-btn{
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.close-btn:hover{
+    opacity: 1;
+}
+
+/* Animation */
+@keyframes slideIn{
+    from{
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to{
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+</style>
+
+
+<div class="message-container">
+{% for message in messages %}
+
+<div class="message-box
+{% if message.tags == 'success' %} message-success
+{% elif message.tags == 'error' %} message-error
+{% endif %}">
+
+<span>{{ message }}</span>
+
+<span class="close-btn" onclick="this.parentElement.remove()">✖</span>
+
+</div>
+
+{% endfor %}
+</div>
+
+
+<script>
+/* Auto disappear after 4 seconds */
+setTimeout(function(){
+    document.querySelectorAll(".message-box").forEach(function(msg){
+        msg.style.opacity = "0";
+        setTimeout(()=>msg.remove(),500);
+    });
+},4000);
+</script>
+
+{% endif %}

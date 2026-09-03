@@ -1,0 +1,509 @@
+Here's the HTML and CSS code to recreate the iPhone home screen design based on the provided image.
+
+The code uses placeholder images (`https://via.placeholder.com`) for app icons. To achieve the exact look, you would replace these URLs with paths to your actual app icon images. The Calendar icon is built using CSS for its dynamic text.
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Home Screen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        / CSS Variables for easy customization /
+        :root {
+            --app-icon-size: 58px; / Standard size for app icons /
+            --app-label-font-size: 11px;
+            --notification-badge-size: 20px;
+            --screen-background-color: #fdf0d7; / Pale yellow from image /
+            --dock-background: rgba(255, 255, 255, 0.7); / Translucent white for the dock /
+            --text-color: #333; / Dark gray for text /
+            --red-badge: #ff3b30; / Standard iOS red notification badge color /
+        }
+
+        / Basic Body and iPhone Container Styling /
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: #f1f1f1; / Background color behind the phone mock /
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; / Align the phone to the top /
+            min-height: 100vh;
+            padding-top: 20px; / Space above the entire phone mock /
+        }
+
+        .iphone-container {
+            width: 360px; / Width based on the image's aspect ratio /
+            background-color: var(--screen-background-color);
+            display: flex;
+            flex-direction: column;
+            padding-top: 25px; / Space for the top bezel/notch area /
+            padding-bottom: 10px; / Space at the bottom of the screen /
+            box-sizing: border-box;
+            border-radius: 30px; / Rounded corners for the phone screen /
+            overflow: hidden; / Ensures content respects rounded corners /
+            box-shadow: 0 0 0 10px var(--screen-background-color), / Inner bezel /
+                        0 0 0 12px #ccc, / Outer bezel light gray /
+                        0 0 0 13px #eee, / Outer bezel lighter gray /
+                        0 10px 30px rgba(0,0,0,0.2); / Drop shadow for the device /
+        }
+
+        / Status Bar Styling (Top of the screen) /
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            margin-bottom: 20px; / Space below the status bar /
+            color: var(--text-color);
+            font-size: 13px;
+            font-weight: 600; / Semi-bold for status text /
+        }
+        .status-left, .status-right {
+            display: flex;
+            align-items: center;
+            gap: 5px; / Space between icons and text /
+        }
+        .status-bar img {
+            height: 13px; / Consistent height for status icons /
+            vertical-align: middle;
+            filter: brightness(0.7); / Slightly darker icons /
+        }
+        .airplane-icon {
+            width: 13px;
+        }
+        .moon-icon {
+            width: 10px; / Moon icon is slightly smaller /
+        }
+        .battery-icon {
+            width: 25px;
+            position: relative;
+            border: 1px solid var(--text-color);
+            border-radius: 3px;
+            margin-left: 2px;
+            height: 13px;
+            box-sizing: border-box;
+        }
+        .battery-icon::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            bottom: 2px;
+            left: 2px;
+            width: 18%; / Simulating 18% battery charge /
+            background-color: var(--text-color);
+            border-radius: 1px;
+        }
+        .battery-icon::after {
+            content: "";
+            position: absolute;
+            right: -3px;
+            top: 3px;
+            width: 2px;
+            height: 7px;
+            background-color: var(--text-color);
+            border-radius: 0 1px 1px 0;
+        }
+
+        / App Grid Layout /
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); / 4 columns of equal width /
+            gap: 15px 5px; / Vertical gap, Horizontal gap between apps /
+            padding: 0 15px; / Horizontal padding for the entire grid /
+            flex-grow: 1; / Allows the grid to take available vertical space /
+            margin-bottom: 20px; / Space above page indicators /
+        }
+
+        .app-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 5px; / Space between app icon and its label /
+        }
+
+        .app-icon-wrapper {
+            position: relative;
+            width: var(--app-icon-size);
+            height: var(--app-icon-size);
+            border-radius: 17%; / Standard iOS app icon rounding /
+            overflow: hidden; / Crucial for images within rounded corners /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); / Subtle shadow beneath icons /
+            background-color: white; / Default background for icons that are not specific images (like Calendar) /
+        }
+
+        .app-icon-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; / Ensures image fills the wrapper /
+            border-radius: 17%; / Ensures the image itself is rounded /
+        }
+
+        .app-label {
+            color: var(--text-color);
+            font-size: var(--app-label-font-size);
+            white-space: nowrap; / Prevent label from wrapping /
+            overflow: hidden;
+            text-overflow: ellipsis; / Add ellipsis if label is too long /
+            max-width: 100%;
+            font-weight: 500; / Medium font weight for labels /
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--red-badge);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 50%; / Make badge circular /
+            min-width: var(--notification-badge-size);
+            height: var(--notification-badge-size);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 5px; / Padding for multi-digit numbers /
+            box-sizing: border-box;
+            z-index: 10;
+            border: 2px solid var(--screen-background-color); / Creates a small border effect matching screen background /
+            transform: scale(0.9); / Slightly shrink badges for visual appeal /
+        }
+
+        / Specific Calendar Icon Styling (Built with CSS) /
+        .calendar-icon-wrapper {
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: var(--app-icon-size); / Base font size for relative units /
+        }
+        .calendar-day {
+            font-size: 0.23em; / Relative to parent font-size /
+            font-weight: 600;
+            color: var(--red-badge);
+            text-transform: uppercase;
+            line-height: 1; / Tighter line height /
+            margin-top: -0.1em; / Adjust vertical position /
+        }
+        .calendar-date {
+            font-size: 0.6em; / Relative to parent font-size /
+            font-weight: 200; / Light font weight for the number /
+            color: var(--text-color);
+            line-height: 1;
+        }
+
+        / Page Indicators (Dots at the bottom of the grid) /
+        .page-indicators {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px; / Space above the dock /
+        }
+        .page-indicators span {
+            width: 6px;
+            height: 6px;
+            background-color: rgba(0, 0, 0, 0.2); / Faded dots /
+            border-radius: 50%;
+            margin: 0 3px;
+        }
+        .page-indicators .active-dot {
+            background-color: rgba(0, 0, 0, 0.4); / Active dot is darker /
+        }
+
+        / Dock Styling (Bottom row of persistent apps) /
+        .dock-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 0 15px;
+            box-sizing: border-box;
+            margin-top: auto; / Pushes the dock to the bottom if the container has extra height /
+        }
+
+        .dock {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            max-width: calc(4  var(--app-icon-size) + 3  15px + 20px); / Max width for 4 icons + gaps + padding /
+            height: calc(var(--app-icon-size) + 20px); / Height to accommodate icons and padding /
+            background: var(--dock-background);
+            backdrop-filter: blur(20px); / Frosted glass effect /
+            -webkit-backdrop-filter: blur(20px); / For Safari /
+            border-radius: 30px; / Highly rounded corners for the dock /
+            padding: 0 10px; / Inner padding for dock items /
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05); / Subtle shadow above the dock /
+        }
+        .dock .app-item {
+            margin: 0; / Remove default margins /
+            gap: 0; / No gap as labels are hidden /
+        }
+        .dock .app-label {
+            display: none; / Hide labels in the dock /
+        }
+        .dock .app-icon-wrapper {
+            box-shadow: none; / No individual icon shadows in dock /
+            background-color: transparent; / Dock icons usually have transparent background /
+        }
+    </style>
+</head>
+<body>
+
+    <div class="iphone-container">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-left">
+                <!-- Placeholder for Airplane Mode icon -->
+                <img src="https://via.placeholder.com/13x13/fdf0d7/333?text=%2B" alt="Airplane Mode" class="airplane-icon">
+                <span>6:48 AM</span>
+            </div>
+            <div class="status-right">
+                <!-- Placeholder for Do Not Disturb (Moon) icon -->
+                <img src="https://via.placeholder.com/10x13/fdf0d7/333?text=%2B" alt="Do Not Disturb" class="moon-icon">
+                <span>18%</span>
+                <div class="battery-icon"></div>
+            </div>
+        </div>
+
+        <!-- App Grid -->
+        <div class="app-grid">
+            <!-- Row 1 -->
+            <div class="app-item">
+                <div class="app-icon-wrapper calendar-icon-wrapper">
+                    <div class="calendar-day">Thursday</div>
+                    <div class="calendar-date">31</div>
+                </div>
+                <div class="app-label">Calendar</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Clock icon image -->
+                    <img src="https://via.placeholder.com/58x58/333/fff?text=Clock" alt="Clock">
+                </div>
+                <div class="app-label">Clock</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Camera icon image -->
+                    <img src="https://via.placeholder.com/58x58/ccc/333?text=Cam" alt="Camera">
+                </div>
+                <div class="app-label">Camera</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Photos icon image -->
+                    <img src="https://via.placeholder.com/58x58/D81B60/fff?text=Photo" alt="Photos">
+                    <span class="notification-badge">5</span>
+                </div>
+                <div class="app-label">Photos</div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Weather icon image -->
+                    <img src="https://via.placeholder.com/58x58/64B5F6/fff?text=Weather" alt="Weather">
+                </div>
+                <div class="app-label">Weather</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Settings icon image -->
+                    <img src="https://via.placeholder.com/58x58/BDBDBD/333?text=Gear" alt="Settings">
+                </div>
+                <div class="app-label">Settings</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Calculator icon image -->
+                    <img src="https://via.placeholder.com/58x58/BDBDBD/333?text=Calc" alt="Calculator">
+                </div>
+                <div class="app-label">Calculator</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Facebook icon image -->
+                    <img src="https://via.placeholder.com/58x58/1976D2/fff?text=f" alt="Facebook">
+                    <span class="notification-badge">5</span>
+                </div>
+                <div class="app-label">Facebook</div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Messenger icon image -->
+                    <img src="https://via.placeholder.com/58x58/1E88E5/fff?text=Chat" alt="Messenger">
+                    <span class="notification-badge">1</span>
+                </div>
+                <div class="app-label">Messenger</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual WhatsApp icon image -->
+                    <img src="https://via.placeholder.com/58x58/4CAF50/fff?text=WA" alt="WhatsApp">
+                </div>
+                <div class="app-label">WhatsApp</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Twitter icon image -->
+                    <img src="https://via.placeholder.com/58x58/03A9F4/fff?text=Tweet" alt="Twitter">
+                    <span class="notification-badge">20</span>
+                </div>
+                <div class="app-label">Twitter</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Instagram icon image -->
+                    <img src="https://via.placeholder.com/58x58/833AB4/fff?text=Insta" alt="Instagram">
+                </div>
+                <div class="app-label">Instagram</div>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual FaceTime icon image -->
+                    <img src="https://via.placeholder.com/58x58/4CAF50/fff?text=FT" alt="FaceTime">
+                </div>
+                <div class="app-label">FaceTime</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Maps icon image -->
+                    <img src="https://via.placeholder.com/58x58/8BC34A/fff?text=Map" alt="Maps">
+                </div>
+                <div class="app-label">Maps</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual YouTube icon image -->
+                    <img src="https://via.placeholder.com/58x58/F44336/fff?text=YT" alt="YouTube">
+                    <span class="notification-badge">118</span>
+                </div>
+                <div class="app-label">YouTube</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual TV icon image -->
+                    <img src="https://via.placeholder.com/58x58/212121/fff?text=TV" alt="TV">
+                </div>
+                <div class="app-label">TV</div>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Reminders icon image -->
+                    <img src="https://via.placeholder.com/58x58/fff/333?text=List" alt="Reminders">
+                </div>
+                <div class="app-label">Reminders</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Stocks icon image -->
+                    <img src="https://via.placeholder.com/58x58/212121/fff?text=Stock" alt="Stocks">
+                </div>
+                <div class="app-label">Stocks</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Books icon image -->
+                    <img src="https://via.placeholder.com/58x58/FF9800/fff?text=Book" alt="Books">
+                </div>
+                <div class="app-label">Books</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Mail icon image -->
+                    <img src="https://via.placeholder.com/58x58/2196F3/fff?text=Mail" alt="Mail">
+                    <span class="notification-badge">218,882</span>
+                </div>
+                <div class="app-label">Mail</div>
+            </div>
+
+            <!-- Row 6 -->
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Podcasts icon image -->
+                    <img src="https://via.placeholder.com/58x58/9C27B0/fff?text=Pod" alt="Podcasts">
+                </div>
+                <div class="app-label">Podcasts</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual App Store icon image -->
+                    <img src="https://via.placeholder.com/58x58/2196F3/fff?text=App" alt="App Store">
+                </div>
+                <div class="app-label">App Store</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Shortcuts icon image -->
+                    <img src="https://via.placeholder.com/58x58/673AB7/fff?text=Short" alt="Shortcuts">
+                </div>
+                <div class="app-label">Shortcuts</div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon-wrapper">
+                    <!-- Replace with actual Notes icon image -->
+                    <img src="https://via.placeholder.com/58x58/fff/333?text=Note" alt="Notes">
+                </div>
+                <div class="app-label">Notes</div>
+            </div>
+        </div>
+
+        <!-- Page Indicators -->
+        <div class="page-indicators">
+            <span class="active-dot"></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Dock (Bottom row of apps) -->
+        <div class="dock-container">
+            <div class="dock">
+                <div class="app-item">
+                    <div class="app-icon-wrapper">
+                        <!-- Replace with actual Compass icon image -->
+                        <img src="https://via.placeholder.com/58x58/2196F3/fff?text=Comp" alt="Compass">
+                    </div>
+                    <div class="app-label">Compass</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon-wrapper">
+                        <!-- Replace with actual Phone icon image -->
+                        <img src="https://via.placeholder.com/58x58/4CAF50/fff?text=Phone" alt="Phone">
+                    </div>
+                    <div class="app-label">Phone</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon-wrapper">
+                        <!-- Replace with actual Contacts icon image -->
+                        <img src="https://via.placeholder.com/58x58/BDBDBD/333?text=Cont" alt="Contacts">
+                    </div>
+                    <div class="app-label">Contacts</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon-wrapper">
+                        <!-- Replace with actual Music icon image -->
+                        <img src="https://via.placeholder.com/58x58/E91E63/fff?text=Music" alt="Music">
+                    </div>
+                    <div class="app-label">Music</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand-Specific Homepage Designs</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        / Global Reset and Box-Sizing /
+        html {
+            box-sizing: border-box;
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif; / A common sans-serif font /
+            -webkit-font-smoothing: antialiased; / Smoother font rendering /
+            -moz-osx-font-smoothing: grayscale; / Smoother font rendering /
+            height: 100%;
+            overflow-x: hidden; / Prevent horizontal scroll /
+        }
+
+        / Main layout container for the entire section /
+        .main-section {
+            display: flex;
+            min-height: 100vh; / Ensure it takes full viewport height /
+            width: 100%;
+            background-color: #fff; / Explicit white background for the content side /
+        }
+
+        / Left content area holding text and logo /
+        .content-left {
+            flex: 0 0 50%; / Content area takes approximately 50% width on desktop /
+            max-width: 960px; / Max width for content on very large screens to prevent stretching too wide /
+            padding: 100px 80px 100px 150px; / Top Right Bottom Left padding (Estimated) /
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; / Pushes logo to bottom, title/list to top /
+            box-sizing: border-box; / Include padding in flex item's total width/height /
+        }
+
+        / Header for main title /
+        .content-header h1 {
+            color: #1C3A69; / Dark blue color from image /
+            font-size: 68px; / Estimated from image /
+            font-weight: 800; / Heavier font weight for title /
+            line-height: 1.1;
+            margin: 0 0 50px 0; / No top margin, 50px bottom margin (Estimated) /
+        }
+
+        / List for information items /
+        .info-list {
+            list-style: none; / Remove default list bullets /
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start; / Align icon and text at the top /
+            margin-bottom: 35px; / Spacing between list items (Estimated) /
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0; / No bottom margin for the last item /
+        }
+
+        / Icon styling (Font Awesome) /
+        .info-item .icon {
+            color: #26A5DE; / Light blue color from image /
+            font-size: 32px; / Estimated icon size /
+            margin-right: 25px; / Space between icon and text (Estimated) /
+            position: relative;
+            top: 4px; / Adjust vertical alignment slightly for pixel perfection /
+            min-width: 32px; / Ensure icon has dedicated space and text doesn't wrap under it /
+        }
+
+        / Paragraph text for information items /
+        .info-item p {
+            color: #1C3A69; / Dark blue color from image /
+            font-size: 24px; / Estimated from image /
+            font-weight: 600; / Semi-bold font weight /
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        / Underline style for specific text parts /
+        .info-item p .underline {
+            text-decoration: underline;
+            text-decoration-color: #26A5DE; / Light blue underline color /
+            text-decoration-thickness: 3px; / Estimated thickness /
+            text-underline-offset: 4px; / Estimated offset from baseline /
+        }
+
+        / Logo and tagline section (semantic footer for the left content) /
+        .logo-section {
+            margin-top: auto; / Pushes this section to the bottom of the flex column /
+            padding-top: 50px; / Additional spacing above the logo section (Estimated) /
+        }
+
+        .logo {
+            color: #1C3A69; / Dark blue color for logo /
+            font-size: 40px; / Estimated from image /
+            font-weight: 800; / Bold font for logo /
+            line-height: 1;
+            margin-bottom: 5px; / Small space between logo and tagline /
+        }
+
+        .tagline {
+            color: #444444; / Dark grey color for tagline /
+            font-size: 18px; / Estimated from image /
+            font-weight: normal;
+            line-height: 1;
+        }
+
+        / Right side for the large image /
+        .image-space {
+            flex: 1; / Takes all remaining available horizontal space /
+            /
+            IMPORTANT: The actual image (the desk with laptop, monitor, etc.)
+            would be placed here.
+            This div serves as a placeholder for the visual content from the right side of the image.
+            In a real implementation, you would replace this comment block with an <img> tag,
+            or apply a `background-image` CSS property to this `.image-space` div itself.
+
+            Example for `<img>` tag (inside this div):
+            <img src="path/to/your/image.jpg" alt="Office desk with digital devices and beautiful websites" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
+            Example for `background-image` (applied to the `.image-space` CSS rule):
+            .image-space {
+                background-image: url('path/to/your/image.jpg');
+                background-size: cover;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+            /
+            background-color: #E0E0E0; / Placeholder grey to visually represent the area /
+        }
+
+        / Responsive Adjustments /
+        @media (max-width: 1440px) {
+            .content-left {
+                padding: 80px 60px 80px 120px;
+            }
+            .content-header h1 {
+                font-size: 58px;
+                margin-bottom: 40px;
+            }
+            .info-item p {
+                font-size: 22px;
+            }
+            .info-item .icon {
+                font-size: 30px;
+                margin-right: 20px;
+            }
+            .logo {
+                font-size: 36px;
+            }
+            .tagline {
+                font-size: 17px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .content-left {
+                padding: 60px 50px 60px 80px;
+                flex: 0 0 55%; / Content takes more width on smaller screens /
+            }
+            .content-header h1 {
+                font-size: 48px;
+                margin-bottom: 35px;
+            }
+            .info-item p {
+                font-size: 20px;
+                line-height: 1.3;
+            }
+            .info-item .icon {
+                font-size: 28px;
+                margin-right: 18px;
+                top: 2px;
+            }
+            .logo {
+                font-size: 32px;
+            }
+            .tagline {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-section {
+                flex-direction: column; / Stack content and image space vertically /
+            }
+            .content-left {
+                flex: 0 0 auto; / Allow content to dictate height /
+                width: 100%;
+                padding: 50px;
+                max-width: none; / No max-width constraint on smaller screens /
+            }
+            .image-space {
+                display: none; / Hide image space on smaller screens to prioritize content /
+            }
+            .content-header h1 {
+                font-size: 40px;
+                margin-bottom: 25px;
+            }
+            .info-item {
+                margin-bottom: 25px;
+            }
+            .info-item p {
+                font-size: 18px;
+            }
+            .info-item .icon {
+                font-size: 24px;
+                margin-right: 15px;
+                top: 0;
+            }
+            .logo-section {
+                padding-top: 30px;
+            }
+            .logo {
+                font-size: 28px;
+            }
+            .tagline {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-left {
+                padding: 40px 30px;
+            }
+            .content-header h1 {
+                font-size: 32px;
+            }
+            .info-item p {
+                font-size: 16px;
+            }
+            .info-item .icon {
+                font-size: 20px;
+            }
+            .logo {
+                font-size: 24px;
+            }
+            .tagline {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-left {
+                padding: 30px 20px;
+            }
+            .content-header h1 {
+                font-size: 28px;
+                line-height: 1.2;
+            }
+            .info-item p {
+                font-size: 14px;
+            }
+            .info-item .icon {
+                font-size: 18px;
+                top: 0;
+            }
+            .logo {
+                font-size: 20px;
+            }
+            .tagline {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="main-section">
+        <div class="content-left">
+            <div> <!-- Wrapper for title and list to keep them grouped at the top -->
+                <header class="content-header">
+                    <h1>Brand-Specific Homepage Designs</h1>
+                </header>
+                <ul class="info-list">
+                    <li class="info-item">
+                        <i class="fas fa-check-circle icon"></i>
+                        <p>THE AVERAGE USER VISITS UP TO <span class="underline">130 WEBSITES DAILY</span></p>
+                    </li>
+                    <li class="info-item">
+                        <i class="fas fa-check-circle icon"></i>
+                        <p><span class="underline">38% OF USERS NOTICE</span> A WEBSITE'S LAYOUT AND NAVIGATION</p>
+                    </li>
+                </ul>
+            </div>
+            <footer class="logo-section"> <!-- Semantic element for logo and tagline -->
+                <div class="logo">DIGITALSILK</div>
+                <div class="tagline">We Grow Brands Online</div>
+            </footer>
+        </div>
+        <div class="image-space">
+            <!--
+            IMPORTANT: The actual image (the desk with laptop, monitor, etc.)
+            from the original design would be placed here.
+
+            This div (`.image-space`) serves as a placeholder for that visual content.
+            In a real implementation, you would typically display the image in one of these ways:
+
+            1.  Using an `<img>` tag directly inside this div:
+                <img src="path/to/your/full-background-image.jpg" alt="Office desk with digital devices" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
+            2.  Using a `background-image` CSS property on this `.image-space` div:
+                You would add the following to the `.image-space` CSS rule above:
+                background-image: url('path/to/your/full-background-image.jpg');
+                background-size: cover;
+                background-position: center center;
+                background-repeat: no-repeat;
+
+            For this exercise, the `background-color: #E0E0E0;` is a temporary visual placeholder.
+            -->
+        </div>
+    </main>
+</body>
+</html>

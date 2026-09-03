@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand-Specific Homepage Designs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0; / Fallback background color /
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .background-container {
+            position: relative;
+            width: 100%;
+            max-width: 1920px; / Example max width for desktop fidelity /
+            padding-bottom: 56.25%; / 16:9 aspect ratio (1080/1920 = 0.5625) /
+            background-image: url('background.jpg'); / Replace 'background.jpg' with the actual URL of the provided screenshot image /
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            box-sizing: border-box;
+        }
+
+        .content-area {
+            position: absolute;
+            top: 19.5%; / Adjusted for visual alignment /
+            left: 8.5%; / Adjusted for visual alignment /
+            width: 32%; / Adjusted for visual alignment /
+            height: auto;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 3.5vw; / Responsive font size /
+            line-height: 1.05;
+            font-weight: 800;
+            color: #16305A;
+            margin-top: 0;
+            margin-bottom: 2.5vw; / Responsive margin /
+            letter-spacing: -0.03em;
+            word-break: break-word; / Ensure words break if needed /
+        }
+
+        .stats-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .stats-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2vw; / Responsive margin /
+        }
+
+        .checkmark-icon {
+            color: #2494E3;
+            font-size: 1.5vw; / Responsive font size /
+            margin-right: 0.8vw; / Responsive margin /
+            position: relative;
+            top: 0.1vw; / Fine-tune vertical alignment /
+            flex-shrink: 0; / Prevent icon from shrinking /
+        }
+
+        .stat-text {
+            font-size: 1.05vw; / Responsive font size /
+            color: #4D4D4D;
+            line-height: 1.3;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .highlight {
+            font-weight: 700;
+            border-bottom: 0.1vw solid #2494E3; / Responsive border thickness /
+            padding-bottom: 0.1vw; / Responsive padding /
+            line-height: 1.5; / Adjust line-height to make underline not too close to text /
+            display: inline-block; / Required for padding-bottom on span /
+        }
+
+        .brand-info {
+            margin-top: 4vw; / Responsive margin /
+        }
+
+        .brand-name {
+            font-size: 1.7vw; / Responsive font size /
+            font-weight: 600;
+            color: #2494E3;
+            line-height: 1;
+            margin: 0;
+        }
+
+        .brand-tagline {
+            font-size: 0.85vw; / Responsive font size /
+            font-weight: 400;
+            color: #666666;
+            margin: 0.2vw 0 0 0; / Responsive margin /
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <main class="content-area">
+            <h1>Brand-Specific<br>Homepage Designs</h1>
+            <ul class="stats-list">
+                <li>
+                    <i class="fas fa-check-circle checkmark-icon"></i>
+                    <span class="stat-text">THE AVERAGE USER VISITS<br>UP TO <span class="highlight">130 WEBSITES DAILY</span></span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle checkmark-icon"></i>
+                    <span class="stat-text">38% OF USERS NOTICE A<br>WEBSITE'S <span class="highlight">LAYOUT AND<br>NAVIGATION</span></span>
+                </li>
+            </ul>
+            <div class="brand-info">
+                <p class="brand-name">DIGITALSILK</p>
+                <p class="brand-tagline">We Grow Brands Online</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

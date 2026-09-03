@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        :root {
+            --primary-blue: #2e77e6;
+            --white: #ffffff;
+            --gray-light: #e0e0e0;
+            --gray-dark: #757575;
+            --overlay-blue: rgba(46, 119, 230, 0.2);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f7f6;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            height: 600px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue) 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 80px;
+            color: var(--white);
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 300px;
+            height: 300px;
+            background-color: var(--overlay-blue);
+            border-radius: 50%;
+            filter: blur(50px);
+            z-index: -1;
+        }
+
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: 50px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--overlay-blue);
+            border-radius: 50%;
+            filter: blur(50px);
+            z-index: -1;
+        }
+
+        .welcome-text {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .headline-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .description-text {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 400px;
+        }
+
+        .right-panel {
+            width: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 20px 0 0 20px;
+            padding: 40px;
+            box-sizing: border-box;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .sign-in-form {
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sign-in-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--gray-dark);
+            margin-bottom: 30px;
+            align-self: flex-start;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        .input-group input::placeholder {
+            color: var(--gray-dark);
+        }
+
+        .input-group .show-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        .options {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            accent-color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: var(--primary-blue);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .signin-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, #4a90e2 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(46, 119, 230, 0.3);
+        }
+
+        .signin-button:hover {
+            background: linear-gradient(90deg, #4a90e2 0%, var(--primary-blue) 100%);
+            box-shadow: 0 6px 20px rgba(46, 119, 230, 0.4);
+        }
+
+        .signup-prompt {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .signup-prompt a {
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h1 class="welcome-text">WELCOME</h1>
+            <h2 class="headline-text">YOUR HEADLINE NAME</h2>
+            <p class="description-text">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.
+            </p>
+        </div>
+        <div class="right-panel">
+            <div class="sign-in-form">
+                <h3 class="sign-in-title">Sign in</h3>
+                <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
+                <div class="input-group">
+                    <label for="username">User name</label>
+                    <input type="text" id="username" placeholder="Enter your user name">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                    <span class="show-password">SHOW</span>
+                </div>
+                <div class="options">
+                    <label class="remember-me">
+                        <input type="checkbox">Remember me
+                    </label>
+                    <span class="forgot-password">Forgot Password?</span>
+                </div>
+                <button class="signin-button">Sign In</button>
+                <p class="signup-prompt">Don't have an account? <a href="#">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

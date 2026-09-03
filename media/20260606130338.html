@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #141E27;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('dummy-background.jpg'); / Placeholder for background image /
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background-color: rgba(25, 35, 47, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 40px;
+            width: 380px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text span:first-child {
+            color: #61DAFB; / Approximate blue for '2' /
+        }
+
+        .login-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .login-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background-color: #007BFF; / Approximate blue for the underline /
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            font-size: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background-color: rgba(47, 58, 73, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 16px;
+            color: #FFFFFF;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field::placeholder {
+            color: #9CA3AF;
+        }
+
+        .input-field:focus {
+            border-color: #007BFF;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007BFF; / Gradient or solid blue /
+            border: none;
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+
+        .google-signin {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(47, 58, 73, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .google-signin:hover {
+            background-color: rgba(40, 50, 60, 0.8);
+        }
+
+        .google-signin i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .signup-prompt {
+            font-size: 14px;
+            color: #9CA3AF;
+        }
+
+        .signup-prompt a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .background-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .background-elements .line {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .background-elements .line.h1 { top: 20%; left: 30%; width: 200px; height: 1px; transform: rotate(45deg); }
+        .background-elements .line.h2 { top: 50%; left: 70%; width: 150px; height: 1px; transform: rotate(-30deg); }
+        .background-elements .line.v1 { top: 10%; left: 15%; width: 1px; height: 150px; }
+        .background-elements .line.v2 { top: 60%; left: 85%; width: 1px; height: 180px; }
+
+        .background-elements .dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .background-elements .dot.d1 { top: 10%; left: 10%; }
+        .background-elements .dot.d2 { top: 25%; left: 40%; }
+        .background-elements .dot.d3 { top: 70%; left: 75%; }
+        .background-elements .dot.d4 { top: 85%; left: 20%; }
+        .background-elements .dot.d5 { top: 45%; left: 60%; }
+        .background-elements .dot.d6 { top: 30%; left: 80%; }
+
+        .background-elements .hexagon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(rgba(0, 123, 255, 0.1), rgba(255, 255, 255, 0.05));
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-sizing: border-box;
+        }
+
+        .background-elements .hexagon.h-top-left { top: 5%; left: 5%; }
+        .background-elements .hexagon.h-middle-right { top: 40%; right: 10%; }
+        .background-elements .hexagon.h-bottom-left { bottom: 10%; left: 25%; }
+    </style>
+</head>
+<body>
+
+    <div class="background-elements">
+        <div class="line h1"></div>
+        <div class="line h2"></div>
+        <div class="line v1"></div>
+        <div class="line v2"></div>
+        <div class="dot d1"></div>
+        <div class="dot d2"></div>
+        <div class="dot d3"></div>
+        <div class="dot d4"></div>
+        <div class="dot d5"></div>
+        <div class="dot d6"></div>
+        <div class="hexagon h-top-left"></div>
+        <div class="hexagon h-middle-right"></div>
+        <div class="hexagon h-bottom-left"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                <path fill="currentColor" d="M288 32C134.1 32 14.9 146.8 14.9 275.1C14.9 334.5 32.9 388.6 62.2 430.1C84.7 461 116.7 484.5 153 500C195.5 517.8 240.6 512 288 512s92.5 17.8 135-12c36.3-15.5 68.3-39 90.8-70.8c29.3-41.5 47.3-95.6 47.3-155C561.1 146.8 441.9 32 288 32zM242.2 179.9L150.7 271.5C149.1 273.1 148.3 275.3 148.3 277.5s.8 4.4 2.4 6l91.5 91.6c5.8 5.8 15.3 5.8 21.1 0c5.8-5.8 5.8-15.3 0-21.1L192.1 288l141.4-141.4c5.8-5.8 5.8-15.3 0-21.1c-5.8-5.8-15.3-5.8-21.1 0zM349.8 277.5c0 2.2-.8 4.4-2.4 6L256.1 375.1c-5.8 5.8-15.3 5.8-21.1 0c-5.8-5.8-5.8-15.3 0-21.1L327.9 288l-91.5-91.6c-5.8-5.8-5.8-15.3 0-21.1c5.8-5.8 15.3-5.8 21.1 0l91.5 91.6c1.6 1.6 2.4 3.8 2.4 6z"/>
+            </svg>
+        </div>
+        <div class="logo-text">Vision <span>2</span> Code</div>
+        <div class="login-title">Login</div>
+
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" class="input-field" placeholder="Enter Username">
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" class="input-field" placeholder="Enter Password">
+        </div>
+
+        <button class="login-button">Login</button>
+
+        <button class="google-signin">
+            <i class="fab fa-google"></i> Sign up with Google
+        </button>
+
+        <div class="signup-prompt">
+            Not signed up yet? <a href="#">Sign up now</a>
+        </div>
+    </div>
+
+</body>
+</html>

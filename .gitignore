@@ -1,0 +1,121 @@
+# =========================
+# Python
+# =========================
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# =========================
+# Environment / Secrets
+# =========================
+
+.env
+.env.*
+!.env.example
+
+# =========================
+# IDEs / Editors
+# =========================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# OS files
+# =========================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Logs
+# =========================
+
+*.log
+logs/
+
+# =========================
+# Local databases
+# =========================
+
+*.sqlite
+*.sqlite3
+*.db
+
+# =========================
+# Temporary files
+# =========================
+
+*.tmp
+*.temp
+*.bak
+
+# =========================
+# Type checkers
+# =========================
+
+.dmypy.json
+dmypy.json
+
+# =========================
+# PyInstaller
+# =========================
+
+*.manifest
+*.spec
+
+# =========================
+# Poetry
+# =========================
+
+# Poetry virtual environments are usually stored outside the project.
+# Uncomment if you configure Poetry to create them locally:
+# .venv/
+
+# =========================
+# Project-specific
+# =========================
+
+# Add project-specific files/directories below
+# data/
+# models/
+# checkpoints/

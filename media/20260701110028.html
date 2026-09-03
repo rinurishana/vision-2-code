@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision2Code Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a2035;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('dummy-background.jpg'); / Placeholder for background image /
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 18, 40, 0.8);
+            z-index: 1;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(27, 37, 58, 0.7);
+            border-radius: 16px;
+            padding: 40px;
+            width: 370px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .vision-text {
+            font-size: 30px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .code-text {
+            color: #28e9ff;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            font-weight: 500;
+            color: #a0aedc;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            color: #a0aedc;
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 45px;
+            background-color: rgba(44, 57, 82, 0.5);
+            border: 1px solid rgba(160, 174, 220, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: #a0aedc;
+            opacity: 0.8;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #28e9ff 0%, #0079ff 100%);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn-login:hover {
+            opacity: 0.9;
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(44, 57, 82, 0.5);
+            border: 1px solid rgba(160, 174, 220, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+            margin-bottom: 25px;
+        }
+
+        .btn-google:hover {
+            opacity: 0.9;
+        }
+
+        .google-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .signup-text {
+            font-size: 14px;
+            color: #a0aedc;
+            letter-spacing: 0.5px;
+        }
+
+        .signup-link {
+            color: #28e9ff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+
+        .date-space {
+            font-size: 12px;
+            color: #a0aedc;
+            margin-top: 5px;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="login-container">
+        <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 0C22.39 0 0 22.39 0 50s22.39 50 50 50 50-22.39 50-50S77.61 0 50 0z" fill="#0079FF"/>
+            <path d="M75 50l-25 25V25z" fill="#28E9FF"/>
+            <path d="M25 50l25-25v50z" fill="#28E9FF"/>
+        </svg>
+        <div class="logo-text">
+            <span class="vision-text">Vision</span><span class="code-text">2</span><span class="vision-text">Code</span>
+        </div>
+        <div class="subtitle">Login</div>
+        <div class="input-group">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                <path d="M12 12a3 3 0 100-6 3 3 0 000 6z"/>
+                <path fill-rule="evenodd" d="M1.5 12C1.5 6.716 5.716 2.5 11.001 2.5c5.285 0 9.5 4.216 9.5 9.5 0 5.285-4.215 9.5-9.5 9.5-5.284 0-9.5-4.215-9.5-9.5zm11.001-11c-4.915 0-8.999 4.084-8.999 9.001s4.084 8.999 8.999 8.999 8.999-4.084 8.999-8.999-4.084-9-8.999-9z" clip-rule="evenodd"/>
+            </svg>
+            <input type="text" class="input-field" placeholder="Enter Username">
+        </div>
+        <div class="input-group">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                <path d="M10 17a1 1 0 001-1v-3a1 1 0 00-2 0v3a1 1 0 001 1z"/>
+                <path fill-rule="evenodd" d="M12 2.5c5.285 0 9.5 4.216 9.5 9.5 0 5.285-4.215 9.5-9.5 9.5-5.284 0-9.5-4.215-9.5-9.5 0-5.284 4.216-9.5 9.5-9.5zm0-1.5c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11z" clip-rule="evenodd"/>
+            </svg>
+            <input type="password" class="input-field" placeholder="Enter Password">
+        </div>
+        <button class="btn-login">Login</button>
+        <div class="date-space">Date: 2023-10-27</div>
+        <button class="btn-google">
+            <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Icon" class="google-icon">
+            Sign up with Google
+        </button>
+        <div class="signup-text">
+            Not signed up yet? <a href="#" class="signup-link">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>

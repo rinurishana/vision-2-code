@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Home Screen</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: #f7ebc8; / Main background color /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .iphone-screen {
+            width: 375px; / Standard iPhone X/XS/11 Pro width /
+            height: 812px; / Standard iPhone X/XS/11 Pro height /
+            background-color: #f7ebc8; / Main background color /
+            border-radius: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px 5px 20px;
+            color: black;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-bar .airplane-mode {
+            width: 12px;
+            height: 12px;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" stroke="none"%3E%3Cpath d="M21 10.01h-7.01V3a1 1 0 00-2 0v7.01H3a1 1 0 000 2h7.01V21a1 1 0 002 0v-7.01H21a1 1 0 000-2z" transform="rotate(-45 12 12)"/%3E%3C/svg%3E'); / Simple rotated cross for airplane /
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+        }
+
+        .status-bar .battery-status {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-bar .moon-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            box-shadow: 2px 0 0 0 black inset; / Quarter moon effect /
+            margin-right: 5px;
+            transform: rotate(-45deg); / To align it visually /
+            opacity: 0.7;
+        }
+
+        .status-bar .battery-icon {
+            width: 20px;
+            height: 10px;
+            border: 1px solid black;
+            border-radius: 2px;
+            position: relative;
+            margin-right: 4px;
+        }
+        .status-bar .battery-icon::after { / The small nub on the right /
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: -3px;
+            width: 2px;
+            height: 6px;
+            background-color: black;
+            border-radius: 1px;
+        }
+        .status-bar .battery-icon::before { / The fill level /
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            width: 3px; / Simulating 18% fill /
+            height: 8px;
+            background-color: black;
+            border-radius: 1px;
+        }
+
+        .app-grid {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px 0; / Vertical gap, no horizontal gap /
+            padding: 20px;
+            justify-items: center;
+            align-content: start;
+            padding-bottom: 0;
+        }
+
+        .app-icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            max-width: 70px; / Max width for icons /
+        }
+
+        .app-icon {
+            width: 58px;
+            height: 58px;
+            background-color: lightgray;
+            border-radius: 13px; / App icon rounded corners /
+            position: relative;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .app-label {
+            font-size: 11px;
+            color: black;
+            font-weight: 500;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+            line-height: 1.2;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #f93150; / Red /
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1.5px solid #f7ebc8; / Match background color /
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .pagination-dots {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0 10px 0;
+            height: 10px;
+        }
+        .pagination-dots span {
+            width: 5px;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            margin: 0 3px;
+        }
+        .pagination-dots span:nth-child(2) { / The active dot /
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .dock {
+            width: calc(100% - 40px); / 20px padding on each side /
+            height: 90px;
+            background: rgba(255, 255, 255, 0.3); / Translucent white /
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            justify-items: center;
+            align-items: center;
+            padding: 0 10px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+                        0 5px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .dock .app-icon-wrapper {
+            margin-bottom: 0;
+        }
+        .dock .app-label {
+            display: none;
+        }
+        .dock .app-icon {
+            width: 60px; / Slightly larger icons in dock /
+            height: 60px;
+            margin-bottom: 0;
+        }
+
+        / Specific App Icon Styles /
+
+        / Calendar /
+        .app-icon.calendar {
+            background-color: white;
+            flex-direction: column;
+            padding-top: 5px;
+            color: black;
+            font-weight: bold;
+        }
+        .app-icon.calendar .month {
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #f93150; / Red /
+        }
+        .app-icon.calendar .day {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        / Clock /
+        .app-icon.clock {
+            background-color: black;
+            display: block;
+            position: relative;
+        }
+        .app-icon.clock .face {
+            background-color: black;
+            color: white;
+            font-size: 7px;
+            font-weight: 600;
+            border-radius: 13px;
+            position: static;
+            width: 100%;
+            height: 100%;
+        }
+        .app-icon.clock .face .numbers span {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 7px;
+        }
+        .app-icon.clock .face .numbers span:nth-child(1) { top: 15%; left: 50%; } / 12 /
+        .app-icon.clock .face .numbers span:nth-child(2) { top: 22%; left: 70%; } / 1 /
+        .app-icon.clock .face .numbers span:nth-child(3) { top: 35%; left: 85%; } / 2 /
+        .app-icon.clock .face .numbers span:nth-child(4) { top: 50%; left: 90%; } / 3 /
+        .app-icon.clock .face .numbers span:nth-child(5) { top: 65%; left: 85%; } / 4 /
+        .app

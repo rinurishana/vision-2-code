@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iOS Home Screen</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    overflow: hidden;
+    background-color: #ffe6a7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .status-bar {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+    color: black;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .status-bar .left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .status-bar .right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .battery-icon {
+    width: 20px;
+    height: 10px;
+    border: 1px solid black;
+    border-radius: 2px;
+    position: relative;
+    padding: 1px;
+    box-sizing: border-box;
+  }
+  .battery-icon::after {
+    content: "";
+    position: absolute;
+    right: -3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 4px;
+    background-color: black;
+    border-radius: 0 1px 1px 0;
+  }
+  .battery-fill {
+    width: 20%;
+    height: 100%;
+    background-color: black;
+    border-radius: 1px;
+  }
+
+  .app-grid-container {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px 10px 0;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 18px 0px;
+    justify-items: center;
+    align-content: flex-start;
+  }
+
+  .app-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 60px;
+  }
+
+  .app-icon-square {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 6px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05),
+                0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .app-label {
+    font-size: 10px;
+    color: black;
+    text-align: center;
+    line-height: 1.2;
+    font-weight: 400;
+  }
+
+  .notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #f34c58;
+    color: white;
+    font-size: 9px;
+    font-weight: 600;
+    border-radius: 50%;
+    padding: 2px 5px;
+    min-width: 12px;
+    height: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+
+  .icon-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .app-icon-square svg {
+    width: 40px;
+    height: 40px;
+  }
+  .app-icon-square svg path, .app-icon-square svg polygon {
+    fill: white;
+  }
+  .app-icon-square svg g {
+    fill: white;
+  }
+  .app-icon-square i {
+    color: white;
+    font-size: 35px;
+    line-height: 1;
+  }
+
+  / Calendar /
+  .app-calendar .app-icon-square { background-color: white; }
+  .app-calendar .day { font-size: 30px; font-weight: 500; color: black; line-height: 1; }
+  .app-calendar .month { font-size: 9px; font-weight: 600; color: #eb4f6d; text-transform: uppercase; line-height: 1; }
+  .app-calendar .icon-content {
+    flex-direction: column;
+    gap: 3px;
+    position: relative;
+    top: -2px;
+  }
+
+  / Clock /
+  .app-clock .app-icon-square { background-color: black; }
+  .app-clock .clock-face {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid white;
+    position: relative;
+  }
+  .app-clock .center-dot {
+    width: 4px;
+    height: 4px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+  .app-clock .hour-hand, .app-clock .minute-hand, .app-clock .second-hand {
+    position: absolute;
+    background-color: white;
+    transform-origin: bottom center;
+    left: 50%;
+    bottom: 50%;
+    transform: translateX(-50%) rotate(0deg);
+    z-index: 1;
+  }
+  .app-clock .hour-hand { width: 2px; height: 15px; top: 18px; transform: translateX(-50%) rotate(20deg); }
+  .app-clock .minute-hand { width: 2px; height: 22px; top: 12px; transform: translateX(-50%) rotate(130deg); }
+  .app-clock .second-hand { width: 1px; height: 24px; top: 10px; background-color: #ff3b30; transform: translateX(-50%) rotate(200deg); }
+  .app-clock .num {
+    position: absolute;
+    color: white;
+    font-size: 7px;
+    font-weight: 500;
+  }
+  .app-clock .num.n12 { top: 3px; left: 50%; transform: translateX(-50%); }
+  .app-clock .num.n3 { right: 3px; top: 50%; transform: translateY(-50%); }
+  .app-clock .num.n6 { bottom: 3px; left: 50%; transform: translateX(-50%); }
+  .app-clock .num.n9 { left: 3px; top: 50%; transform: translateY(-50%); }
+
+  / Camera /
+  .app-camera .app-icon-square { background-color: #eaeaea; }
+  .app-camera .icon-content {
+    background-color: #333;
+    width: 40px;
+    height: 30px;
+    border-radius: 6px;
+    position: relative;
+  }
+  .app-camera .lens {
+    width: 20px;
+    height: 20px;
+    background-color: #444;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #555;
+    box-sizing: border-box;
+  }
+  .app-camera .lens::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background-color: #555;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .app-camera .shutter {
+    width: 10px;
+    height: 6px;
+    background-color: #333;
+    border-radius: 3px 3px 0 0;
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    border: 1px solid #555;
+    border-bottom: none;
+  }
+
+  / Photos /
+  .app-photos .app-icon-square { background-color: #eaeaea; }
+  .app-photos .icon-content {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #ff5722, #f44336, #e91e63, #9c27b0, #673ab7, #3f51b5, #2196f3, #03a9f4, #00bcd4, #009688, #4caf50, #8bc34a, #cddc39, #ffeb3b,

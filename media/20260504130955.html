@@ -1,0 +1,1123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Home Screen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+VU/hE8iFJau/gfrw7LihvQY7OWQ+Jlyt2bRjXh0JMjw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .iphone-container {
+            width: 375px;
+            height: 667px;
+            background-color: #F8E9B1;
+            border-radius: 35px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 15px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            height: 20px;
+        }
+
+        .status-bar .left-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .status-bar .left-status .fa-plane {
+            font-size: 11px;
+            transform: rotate(-45deg);
+        }
+
+        .status-bar .right-status {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .status-bar .right-status .fa-battery-half {
+            font-size: 14px;
+            transform: rotate(90deg);
+            position: relative;
+            top: 1px;
+            margin-right: -2px;
+        }
+
+        .status-bar .right-status span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px 0;
+            padding: 10px 18px 0;
+            flex-grow: 1;
+            align-content: start;
+        }
+
+        .app-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .app-item:nth-child(-n + 4) {
+             padding-top: 16px;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                        0 1px 3px rgba(0, 0, 0, 0.08);
+            background-color: #fff;
+        }
+
+        .app-icon i {
+            font-size: 32px;
+            color: #333;
+        }
+
+        .app-name {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #333;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: #D63949;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 50%;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1px 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+        .badge.long {
+            border-radius: 10px;
+            padding: 1px 6px;
+        }
+
+        .app-icon.calendar {
+            background-color: #fff;
+            padding-top: 5px;
+            flex-direction: column;
+        }
+        .app-icon.calendar .month {
+            font-size: 9px;
+            color: #D63949;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .app-icon.calendar .day {
+            font-size: 36px;
+            font-weight: 500;
+            color: #333;
+            line-height: 1;
+        }
+
+        .app-icon.clock {
+            background-color: #333;
+            overflow: hidden;
+            position: relative;
+        }
+        .app-icon.clock::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .app-icon.clock .center-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 50%;
+            z-index: 3;
+        }
+        .app-icon.clock .hour-hand,
+        .app-icon.clock .minute-hand,
+        .app-icon.clock .second-hand {
+            position: absolute;
+            background-color: #fff;
+            transform-origin: bottom center;
+            z-index: 2;
+            border-radius: 1px;
+        }
+        .app-icon.clock .hour-hand {
+            width: 2px;
+            height: 15px;
+            top: 20px;
+            left: 29px;
+            transform: rotate(190deg);
+            background-color: #fff;
+        }
+        .app-icon.clock .minute-hand {
+            width: 2px;
+            height: 25px;
+            top: 15px;
+            left: 29px;
+            transform: rotate(320deg);
+            background-color: #fff;
+        }
+        .app-icon.clock .second-hand {
+            width: 1px;
+            height: 28px;
+            top: 13px;
+            left: 29px;
+            background-color: #D63949;
+            transform: rotate(120deg);
+            z-index: 2;
+        }
+
+        .app-icon.camera {
+            background-color: #E0E0E0;
+        }
+        .app-icon.camera i {
+            color: #444;
+            position: relative;
+        }
+        .app-icon.camera i::before {
+            content: "\f030";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+        .app-icon.camera::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: #333;
+            border-radius: 50%;
+            border: 3px solid #555;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+        .app-icon.camera .flash {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 8px;
+            height: 8px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 3px rgba(255,255,255,0.8);
+        }
+
+        .app-icon.photos {
+            position: relative;
+            overflow: hidden;
+        }
+        .app-icon.photos .petal {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+        .app-icon.photos .petal:nth-child(1) { background-color: #e62057; top: 10px; left: 18px; }
+        .app-icon.photos .petal:nth-child(2) { background-color: #a020e6; top: 18px; left: 10px; }
+        .app-icon.photos .petal:nth-child(3) { background-color: #2057e6; top: 30px; left: 18px; }
+        .app-icon.photos .petal:nth-child(4) { background-color: #20e6a0; top: 30px; left: 30px; }
+        .app-icon.photos .petal:nth-child(5) { background-color: #e6a020; top: 18px; left: 38px; }
+        .app-icon.photos .petal:nth-child(6) { background-color: #e6e620; top: 10px; left: 30px; }
+        .app-icon.photos::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 25px;
+            left: 25px;
+            z-index: 1;
+        }
+
+        .app-icon.weather {
+            background: linear-gradient(to bottom, #50BBE5, #2F92D7);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08), inset 0 2px 0 rgba(255,255,255,0.2);
+        }
+        .app-icon.weather .sun-circle {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: #FFDE00;
+            border-radius: 50%;
+            left: 28px;
+            top: 15px;
+            box-shadow: 0 0 5px rgba(255,255,0,0.5);
+        }
+        .app-icon.weather .cloud-shape {
+            position: absolute;
+            width: 40px;
+            height: 25px;
+            background-color: #fff;
+            border-radius: 12px;
+            top: 28px;
+            left: 10px;
+        }
+        .app-icon.weather .cloud-shape::before,
+        .app-icon.weather .cloud-shape::after {
+            content: '';
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+        .app-icon.weather .cloud-shape::before {
+            width: 25px;
+            height: 25px;
+            top: -10px;
+            left: 5px;
+        }
+        .app-icon.weather .cloud-shape::after {
+            width: 30px;
+            height: 30px;
+            top: -15px;
+            left: 18px;
+        }
+
+        .app-icon.settings {
+            background-color: #E0E0E0;
+        }
+        .app-icon.settings i {
+            color: #777;
+            font-size: 40px;
+        }
+
+        .app-icon.calculator {
+            background-color: #E0E0E0;
+            flex-direction: column;
+            padding-top: 5px;
+        }
+        .app-icon.calculator .digit {
+            width: 10px;
+            height: 10px;
+            background-color: #333;
+            border-radius: 2px;
+        }
+        .app-icon.calculator .row {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .app-icon.calculator .digit.orange {
+            background-color: #FF9500;
+        }
+        .app-icon.calculator .zero {
+            width: 25px;
+        }
+
+        .app-icon.facebook {
+            background-color: #1877F2;
+        }
+        .app-icon.facebook i {
+            color: #fff;
+            font-size: 38px;
+        }
+
+        .app-icon.messenger {
+            background: linear-gradient(135deg, #0078FF, #00C6FF);
+        }
+        .app-icon.messenger .messenger-bolt-svg {
+            width: 38px;
+            height: 38px;
+            fill: #fff;
+        }
+
+        .app-icon.whatsapp {
+            background-color: #25D366;
+        }
+        .app-icon.whatsapp i {
+            color: #fff;
+            font-size: 38px;
+        }
+
+        .app-icon.twitter {
+            background-color: #1DA1F2;
+        }
+        .app-icon.twitter i {
+            color: #fff;
+            font-size: 30px;
+        }
+
+        .app-icon.instagram {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            position: relative;
+        }
+        .app-icon.instagram .camera-icon {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            border: 3px solid #fff;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app-icon.instagram .camera-icon::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: relative;
+        }
+        .app-icon.instagram .camera-icon::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 7px;
+            right: 7px;
+        }
+
+        .app-icon.facetime {
+            background-color: #33C759;
+            overflow: hidden;
+        }
+        .app-icon.facetime .facetime-video-camera-svg {
+            width: 45px;
+            height: 45px;
+            fill: #fff;
+        }
+
+        .app-icon.maps {
+            position: relative;
+            overflow: hidden;
+        }
+        .app-icon.maps .maps-background-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 0;
+            overflow: hidden;
+            border-radius: inherit;
+        }
+        .maps-background-shapes .ocean {
+            fill: #b3d9ff;
+        }
+        .maps-background-shapes .land {
+            fill: #e6e6e6;
+        }
+        .maps-background-shapes .road-line {
+            fill: #cccccc;
+        }
+        .maps-background-shapes .map-pin {
+            fill: #007AFF;
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+        .maps-background-shapes .pin-dot {
+            fill: #fff;
+        }
+        .maps-background-shapes .interstate-sign {
+            fill: #003366;
+        }
+        .maps-background-shapes .interstate-text {
+            fill: #fff;
+            font-size: 8px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+
+        .app-icon.youtube {
+            background-color: #FF0000;
+        }
+        .app-icon.youtube i {
+            color: #fff;
+            font-size: 38px;
+            padding-left: 5px;
+        }
+
+        .app-icon.tv {
+            background-color: #000;
+        }
+        .app-icon.tv .apple-logo-svg {
+            width: 35px;
+            height: 35px;
+            fill: #fff;
+        }
+
+        .app-icon.reminders {
+            background-color: #fff;
+            flex-direction: column;
+            padding: 8px 0;
+            gap: 4px;
+        }
+        .app-icon.reminders .reminder-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            width: 80%;
+            height: 12px;
+            border-radius: 4px;
+            background-color: #F5F5F5;
+            position: relative;
+        }
+        .app-icon.reminders .reminder-item::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            position: absolute;
+            left: 5px;
+        }
+        .app-icon.reminders .reminder-item:nth-child(1)::before { background-color: #FF3B30; }
+        .app-icon.reminders .reminder-item:nth-child(2)::before { background-color: #FF9500; }
+        .app-icon.reminders .reminder-item:nth-child(3)::before { background-color: #007AFF; }
+
+        .app-icon.stocks {
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+        .app-icon.stocks .graph-line-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .app-icon.stocks .graph-line-svg polyline {
+            fill: none;
+            stroke: #007AFF;
+            stroke-width: 2;
+        }
+        .app-icon.stocks .graph-fill-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        .app-icon.stocks .graph-fill-svg polygon {
+            fill: rgba(0, 122, 255, 0.3);
+        }
+        .app-icon.stocks .current-marker {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #007AFF;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            top: 15px;
+            right: 15px;
+            z-index: 2;
+        }
+
+        .app-icon.books {
+            background-color: #EB7C00;
+            overflow: hidden;
+            position: relative;
+        }
+        .app-icon.books .book-spine {
+            position: absolute;
+            width: 8px;
+            height: 50px;
+            background-color: #D36C00;
+            left: 10px;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        .app-icon.books .book-cover {
+            position: absolute;
+            width: 35px;
+            height: 50px;
+            background-color: #FF8F00;
+            right: 10px;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+        .app-icon.books .book-page {
+            position: absolute;
+            width: 30px;
+            height: 48px;
+            background-color: #fff;
+            left: 15px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            transform: rotateY(10deg);
+        }
+
+        .app-icon.mail {
+            background-color: #007AFF;
+        }
+        .app-icon.mail i {
+            color: #fff;
+            font-size: 38px;
+        }
+        .app-icon.podcasts {
+            background: linear-gradient(135deg, #A833E6, #C745F0);
+        }
+        .app-icon.podcasts .podcast-mic-svg {
+            width: 40px;
+            height: 40px;
+            fill: #fff;
+        }
+
+        .app-icon.appstore {
+            background: linear-gradient(135deg, #007AFF, #00C6FF);
+            position: relative;
+        }
+        .app-icon.appstore .appstore-triangle-svg {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            fill: #fff;
+            transform: scaleX(0.9);
+        }
+
+        .app-icon.shortcuts {
+            background-color: #1A1A1A;
+            position: relative;
+            overflow: hidden;
+        }
+        .app-icon.shortcuts .square-blue,
+        .app-icon.shortcuts .square-pink {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+        .app-icon.shortcuts .square-blue {
+            background-color: #007AFF;
+            top: 8px;
+            left: 8px;
+            transform: rotate(-10deg);
+            z-index: 1;
+        }
+        .app-icon.shortcuts .square-pink {
+            background-color: #FF2D55;
+            bottom: 8px;
+            right: 8px;
+            transform: rotate(10deg);
+            z-index: 2;
+        }
+
+        .app-icon.notes {
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .app-icon.notes .note-paper {
+            width: 40px;
+            height: 45px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            position: relative;
+        }
+        .app-icon.notes .note-header {
+            width: 100%;
+            height: 10px;
+            background-color: #F8D740;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+        .app-icon.notes .note-line {
+            width: 80%;
+            height: 2px;
+            background-color: #eee;
+            margin-top: 5px;
+            margin-left: 10%;
+        }
+        .app-icon.notes .note-line:last-child {
+            width: 60%;
+        }
+
+        .page-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .page-indicator .dot {
+            width: 5px;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            margin: 0 3px;
+        }
+        .page-indicator .dot.active {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .dock {
+            background-color: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 10px 18px 25px;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            height: 70px;
+            box-sizing: border-box;
+        }
+
+        .dock .app-item {
+            padding: 0;
+        }
+        .dock .app-name {
+            display: none;
+        }
+        .dock .app-icon {
+            width: 65px;
+            height: 65px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                        0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .app-icon.compass {
+            background: linear-gradient(to bottom, #4A90E2, #3F7CCF);
+            position: relative;
+        }
+        .app-icon.compass .circle-border {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .app-icon.compass .needle {
+            position: absolute;
+            width: 4px;
+            height: 40px;
+            background-color: #fff;
+            transform-origin: bottom center;
+            border-radius: 2px;
+            z-index: 2;
+            top: 10px;
+            transform: rotate(-30deg);
+        }
+        .app-icon.compass .needle::before,
+        .app-icon.compass .needle::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        .app-icon.compass .needle::before {
+            border-width: 0 5px 8px 5px;
+            border-color: transparent transparent #D63949 transparent;
+            top: -8px;
+            left: -3px;
+        }
+        .app-icon.compass .needle::after {
+            border-width: 8px 5px 0 5px;
+            border-color: #fff transparent transparent transparent;
+            bottom: -8px;
+            left: -3px;
+        }
+        .app-icon.compass .center-pin {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            z-index: 3;
+        }
+
+        .app-icon.phone {
+            background-color: #33C759;
+        }
+        .app-icon.phone i {
+            color: #fff;
+            font-size: 38px;
+        }
+
+        .app-icon.contacts {
+            background-color: #E0E0E0;
+            position: relative;
+        }
+        .app-icon.contacts .head {
+            width: 25px;
+            height: 25px;
+            background-color: #666;
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+            z-index: 2;
+        }
+        .app-icon.contacts .body {
+            width: 40px;
+            height: 25px;
+            background-color: #666;
+            border-radius: 20px 20px 0 0;
+            position: absolute;
+            bottom: 15px;
+            z-index: 1;
+        }
+
+        .app-icon.music {
+            background: linear-gradient(135deg, #FF2D55, #FF5C5C);
+            position: relative;
+        }
+        .app-icon.music .note-icon {
+            font-size: 38px;
+            color: #fff;
+            position: relative;
+            transform: rotate(15deg);
+            top: 5px;
+            left: -5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="iphone-container">
+        <header class="status-bar">
+            <div class="left-status">
+                <i class="fa-solid fa-plane"></i>
+            </div>
+            <div class="time">6:48 AM</div>
+            <div class="right-status">
+                <i class="fa-solid fa-signal"></i>
+                <i class="fa-solid fa-wifi"></i>
+                <span>18%</span>
+                <i class="fa-solid fa-battery-half"></i>
+            </div>
+        </header>
+
+        <main class="app-grid">
+            <div class="app-item">
+                <div class="app-icon calendar">
+                    <span class="month">Thursday</span>
+                    <span class="day">31</span>
+                </div>
+                <span class="app-name">Calendar</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon clock">
+                    <div class="center-dot"></div>
+                    <div class="hour-hand"></div>
+                    <div class="minute-hand"></div>
+                    <div class="second-hand"></div>
+                </div>
+                <span class="app-name">Clock</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon camera">
+                    <div class="flash"></div>
+                </div>
+                <span class="app-name">Camera</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon photos">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+                <span class="app-name">Photos</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon weather">
+                    <div class="sun-circle"></div>
+                    <div class="cloud-shape"></div>
+                </div>
+                <span class="app-name">Weather</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon settings">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+                <span class="app-name">Settings</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon calculator">
+                    <div class="row">
+                        <div class="digit"></div>
+                        <div class="digit"></div>
+                        <div class="digit"></div>
+                        <div class="digit orange"></div>
+                    </div>
+                    <div class="row">
+                        <div class="digit"></div>
+                        <div class="digit"></div>
+                        <div class="digit"></div>
+                        <div class="digit orange"></div>
+                    </div>
+                    <div class="row">
+                        <div class="digit"></div>
+                        <div class="digit"></div>
+                        <div class="digit"></div>
+                        <div class="digit orange"></div>
+                    </div>
+                    <div class="row">
+                        <div class="digit zero"></div>
+                        <div class="digit"></div>
+                        <div class="digit orange"></div>
+                    </div>
+                </div>
+                <span class="app-name">Calculator</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <span class="badge">5</span>
+                </div>
+                <span class="app-name">Facebook</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon messenger">
+                    <svg class="messenger-bolt-svg" viewBox="0 0 512 512">
+                        <path d="M480 256c0 123.4-100.5 224-224 224-22.9 0-45.2-3.1-66.5-9.1C184 487 149.2 504 112 512c-15.5 2.8-30.8-5-37.9-18.7S68.9 467.4 75 452.9c3.1-7.8 8-15.3 14-22.1 4.5-4.8 9.5-9.2 14.8-13.3 22.1-17.1 38.6-38.3 49.8-63.5C136.9 313 128 285.6 128 256c0-123.4 100.5-224 224-224S480 132.6 480 256zM288 352h-64c-8.8 0-16-7.2-16-16v-64h-64c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16h64v-64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v64h64c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16h-64v64c0 8.8-7.2 16-16 16z"/>
+                    </svg>
+                    <span class="badge">1</span>
+                </div>
+                <span class="app-name">Messenger</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <span class="app-name">WhatsApp</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon twitter">
+                    <i class="fa-brands fa-twitter"></i>
+                    <span class="badge">20</span>
+                </div>
+                <span class="app-name">Twitter</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon instagram">
+                    <div class="camera-icon"></div>
+                </div>
+                <span class="app-name">Instagram</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon facetime">
+                    <svg class="facetime-video-camera-svg" viewBox="0 0 576 512">
+                        <path d="M0 128C0 92.7 28.7 64 64 64H512c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM416 96L288 192V320L416 416V96z"/>
+                    </svg>
+                </div>
+                <span class="app-name">FaceTime</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon maps">
+                    <div class="maps-background-shapes">
+                        <svg viewBox="0 0 60 60" style="width:100%; height:100%;">
+                            <rect x="0" y="0" width="60" height="60" class="ocean"/>
+                            <path class="land" d="M0,0 L60,0 L60,40 L30,60 L0,40 Z"/>
+                            <path class="road-line" d="M10,0 L50,0 L50,60 L10,60 Z" transform="rotate(-30 30 30)"/>
+                            <path class="road-line" d="M0,10 L0,50 L60,50 L60,10 Z" transform="rotate(20 30 30)"/>
+                            <g transform="translate(15,15)">
+                                <path class="map-pin" d="M15 0c-8.284 0-15 6.716-15 15 0 8.284 15 25 15 25s15-16.716 15-25c0-8.284-6.716-15-15-15z"/>
+                                <circle class="pin-dot" cx="15" cy="15" r="5"/>
+                            </g>
+                            <g transform="translate(30,38)">
+                                <rect class="interstate-sign" x="0" y="0" width="28" height="18" rx="4"/>
+                                <text class="interstate-text" x="14" y="9">280</text>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <span class="app-name">Maps</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon youtube">
+                    <i class="fa-brands fa-youtube"></i>
+                    <span class="badge">118</span>
+                </div>
+                <span class="app-name">YouTube</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon tv">
+                    <svg class="apple-logo-svg" viewBox="0 0 448 512">
+                        <path d="M192.3 50.7c15.6-26.6 48.5-35.8 74.1-20.2 26.6 15.6 35.8 48.5 20.2 74.1-15.6 26.6-48.5 35.8-74.1 20.2-26.6-15.6-35.8-48.5-20.2-74.1zM113.8 214.2c-5.7-31.5-31.5-56-62-56-30.5 0-56 24.5-56 56 0 31.5 25.5 56 56 56h37.5c21.8 0 40-18.2 40-40s-18.2-40-40-40zm334.7-72.2c-5.7-31.5-31.5-56-62-56-30.5 0-56 24.5-56 56 0 31.5 25.5 56 56 56h37.5c21.8 0 40-18.2 40-40s-18.2-40-40-40zM224 0c-85.7 0-155.1 70.8-155.1 158.1C68.9 261 146.5 316.3 192.3 352.2c-15.6 26.6-48.5 35.8-74.1 20.2-26.6-15.6-35.8-48.5-20.2-74.1 1.7-2.6 3.5-5.2 5.5-7.7C105.7 267.7 76.5 211 76.5 158.1c0-45.6 37.1-82.7 82.7-82.7h123.8c45.6 0 82.7 37.1 82.7 82.7 0 52.9-29.2 109.6-76.8 155.2 2 2.5 3.8 5.1 5.5 7.7 15.6 26.6 48.5 35.8 74.1 20.2 26.6-15.6 35.8-48.5 20.2-74.1C375.5 316.3 448 261 448 158.1 448 70.8 378.6 0 292.3 0H224zM224 448c-85.7 0-155.1 70.8-155.1 158.1C68.9 651 146.5 706.3 192.3 742.2c-15.6 26.6-48.5 35.8-74.1 20.2-26.6-15.6-35.8-48.5-20.2-74.1 1.7-2.6 3.5-5.2 5.5-7.7C105.7 657.7 76.5 601 76.5 548.1c0-45.6 37.1-82.7 82.7-82.7h123.8c45.6 0 82.7 37.1 82.7 82.7 0 52.9-29.2 109.6-76.8 155.2 2 2.5 3.8 5.1 5.5 7.7 15.6 26.6 48.5 35.8 74.1 20.2 26.6-15.6 35.8-48.5 20.2-74.1C375.5 706.3 448 651 448 548.1 448 460.8 378.6 390 292.3 390H224z" transform="translate(0 -128)"/>
+                    </svg>
+                </div>
+                <span class="app-name">TV</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon reminders">
+                    <div class="reminder-item"></div>
+                    <div class="reminder-item"></div>
+                    <div class="reminder-item"></div>
+                </div>
+                <span class="app-name">Reminders</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon stocks">
+                    <svg class="graph-line-svg" viewBox="0 0 60 60" preserveAspectRatio="none">
+                        <polyline points="0,50 10,40 20,30 30,45 40,25 50,35 60,15"/>
+                    </svg>
+                    <svg class="graph-fill-svg" viewBox="0 0 60 60" preserveAspectRatio="none">
+                        <polygon points="0,50 10,40 20,30 30,45 40,25 50,35 60,15 60,60 0,60"/>
+                    </svg>
+                    <div class="current-marker"></div>
+                </div>
+                <span class="app-name">Stocks</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon books">
+                    <div class="book-spine"></div>
+                    <div class="book-cover"></div>
+                    <div class="book-page"></div>
+                </div>
+                <span class="app-name">Books</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon mail">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span class="badge long">218,882</span>
+                </div>
+                <span class="app-name">Mail</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon podcasts">
+                    <svg class="podcast-mic-svg" viewBox="0 0 384 512">
+                        <path d="M192 0C86 0 0 86 0 192V480c0 17.7 14.3 32 32 32s32-14.3 32-32V192c0-70.7 57.3-128 128-128s128 57.3 128 128V480c0 17.7 14.3 32 32 32s32-14.3 32-32V192C384 86 298 0 192 0zM128 352a64 64 0 1 0 128 0 64 64 0 1 0 -128 0z"/>
+                    </svg>
+                </div>
+                <span class="app-name">Podcasts</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon appstore">
+                    <svg class="appstore-triangle-svg" viewBox="0 0 384 512">
+                        <path d="M214.6 41.9c-11.4-13.7-31.2-13.7-42.6 0l-128 153.6c-11.4 13.7-4.4 34.1 14.3 34.1h256c18.7 0 25.7-20.4 14.3-34.1l-128-153.6zM288 288c0 105.9-86.1 192-192 192S0 393.9 0 288s86.1-192 192-192 192 86.1 192 192zM128 352a64 64 0 1 0 128 0 64 64 0 1 0 -128 0z"/>
+                    </svg>
+                </div>
+                <span class="app-name">App Store</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon shortcuts">
+                    <div class="square-blue"></div>
+                    <div class="square-pink"></div>
+                </div>
+                <span class="app-name">Shortcuts</span>
+            </div>
+
+            <div class="app-item">
+                <div class="app-icon notes">
+                    <div class="note-paper">
+                        <div class="note-header"></div>
+                        <div class="note-line"></div>
+                        <div class="note-line"></div>
+                        <div class="note-line"></div>
+                    </div>
+                </div>
+                <span class="app-name">Notes</span>
+            </div>
+        </main>
+
+        <nav class="page-indicator">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </nav>
+
+        <footer class="dock">
+            <div class="app-item">
+                <div class="app-icon compass">
+                    <div class="circle-border"></div>
+                    <div class="needle"></div>
+                    <div class="center-pin"></div>
+                </div>
+                <span class="app-name">Compass</span>
+            </div>
+            <div class="app-item">
+                <div class="app-icon phone">
+                    <i class="fa-solid fa-phone-volume"></i>
+                </div>
+                <span class="app-name">Phone</span>
+            </div>
+            <div class="app-item">
+                <div class="app-icon contacts">
+                    <div class="head"></div>
+                    <div class="body"></div>
+                </div>
+                <span class="app-name">Contacts</span>
+            </div>
+            <div class="app-item">
+                <div class="app-icon music">
+                    <i class="fa-solid fa-music note-icon"></i>
+                </div>
+                <span class="app-name">Music</span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

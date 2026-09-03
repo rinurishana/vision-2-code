@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Business</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        .header {
+            background-color: #007bff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .header .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        .hero-section {
+            position: relative;
+            background-image: url('dummy-hero-background.jpg'); / Replace with actual image path /
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .hero-content h1 {
+            font-size: 50px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+
+        .cta-button {
+            background-color: #ff7f50;
+            color: #ffffff;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #e67145;
+        }
+
+        .services-section {
+            padding: 60px 30px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        .services-section h2 {
+            font-size: 32px;
+            color: #333333;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        .service-cards {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .service-card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            text-align: left;
+        }
+
+        .service-card h3 {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .service-card p {
+            font-size: 16px;
+            color: #666666;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <span>My Business</span>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+            <a href="#">about</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-overlay">
+                <div class="hero-content">
+                    <h1>Grow Your Business With Us</h1>
+                    <p>We provide the best solutions to boost your business online and offline</p>
+                    <a href="#" class="cta-button">Get in Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-section">
+            <h2>Our Services</h2>
+            <div class="service-cards">
+                <article class="service-card">
+                    <h3>Web Development</h3>
+                    <p>We build modern and responsive websites for your business needs.</p>
+                </article>
+                <article class="service-card">
+                    <h3>Digital Marketing</h3>
+                    <p>Grow your brand visibility and reach new customers worldwide.</p>
+                </article>
+                <article class="service-card">
+                    <h3>Consulting</h3>
+                    <p>Get expert advice to scale and optimize your business strategies.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

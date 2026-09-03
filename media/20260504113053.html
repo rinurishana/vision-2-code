@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Vision 2 Code</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2kTjkGEk/infoMDwzQoFRGgKFAY/A4Wsh+bIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Fonts for a clean sans-serif font (like Poppins) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --dark-blue-bg: #1A232F; / A dark blue for the overall body background /
+            --card-bg: #1C2634; / Darker blue-gray for the login card /
+            --input-bg: #263344; / Slightly lighter dark blue-gray for input fields /
+            --text-white: #E0E6EF; / Off-white for general text /
+            --text-light-gray: #96A0AA; / Light gray for placeholders and secondary text /
+            --accent-blue: #0096FF; / Bright blue for accents /
+            --accent-blue-dark: #007ACC; / Darker blue for button gradient end /
+            --google-button-bg: #FFFFFF;
+            --google-button-text: #323C46;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--dark-blue-bg);
+            background-image: url('https://images.unsplash.com/photo-1607799279861-4ddf88705862?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); / Placeholder for the background image /
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-white);
+            position: relative;
+            / Overlay to darken background slightly /
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); / Darken the background image /
+            z-index: 0;
+        }
+
+        .login-container {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 100%;
+            max-width: 400px; / Adjust max-width as needed /
+            position: relative; / To bring it above the overlay /
+            z-index: 1;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-icon {
+            font-size: 3rem; / Adjust icon size /
+            color: var(--accent-blue);
+            margin-right: 15px;
+            / Custom styling for the eye-like icon to mimic the image /
+            position: relative;
+            width: 40px; / Width of the eye shape /
+            height: 25px; / Height of the eye shape /
+            border: 3px solid var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-icon::before { / Pupil /
+            content: '';
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        / The < /> part /
+        .logo-icon i {
+            font-size: 1.5rem;
+            color: var(--text-white);
+            position: absolute;
+            z-index: 2; / Ensure the code icon is above the eye pupil /
+        }
+
+
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--text-white);
+            line-height: 1; / Adjust line-height to fit /
+        }
+
+        .logo-text span {
+            color: var(--accent-blue);
+        }
+
+        .login-heading {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--text-white);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px; / Space for the underline /
+        }
+
+        .login-heading::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px; / Width of the underline /
+            height: 3px;
+            background-color: var(--accent-blue);
+            border-radius: 2px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background-color: var(--input-bg);
+            border-radius: var(--border-radius-sm);
+            padding: 12px 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group i {
+            color: var(--text-light-gray);
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+
+        .input-group input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-white);
+            font-size: 1rem;
+            padding: 0;
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-light-gray);
+            opacity: 0.8;
+        }
+
+        .login-button {
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-blue-dark));
+            color: var(--text-white);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            padding: 15px;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        .login-button:hover {
+            background: linear-gradient(to right, var(--accent-blue-dark), var(--accent-blue));
+            transform: translateY(-2px);
+        }
+
+        .google-button {
+            background-color: var(--google-button-bg);
+            color: var(--google-button-text);
+            border: 1px solid #D8D8D8;
+            border-radius: var(--border-radius-sm);
+            padding: 12px;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .google-button:hover {
+            background-color: #F0F0F0;
+        }
+
+        .google-button i { / For Font Awesome Google icon /
+            font-size: 1.2rem;
+            margin-right: 10px;
+            color: var(--google-button-text); / Default color, Font Awesome usually renders its own colors for brands /
+        }
+        / Override specific Google icon color if needed /
+        .google-button .fa-google {
+            background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 110deg 220deg, #34a853 220deg 330deg, #fbbc05 330deg);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .signup-text {
+            color: var(--text-light-gray);
+            font-size: 0.95rem;
+        }
+
+        .signup-text a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: text-decoration 0.2s ease;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fa-solid fa-code"></i>
+            </div>
+            <div class="logo-text">
+                Vision<span style="font-weight: 700;">2</span>Code
+            </div>
+        </div>
+
+        <h2 class="login-heading">Login</h2>
+
+        <form>
+            <div class="input-group">
+                <i class="fa-regular fa-user"></i>
+                <input type="text" placeholder="Enter Username">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Enter Password">
+            </div>
+            <button type="submit" class="login-button">Login</button>
+        </form>
+
+        <button type="button" class="google-button">
+            <i class="fa-brands fa-google"></i>
+            Sign up with Google
+        </button>
+
+        <p class="signup-text">
+            Not signed up yet? <a href="#">Sign up now</a>
+        </p>
+    </div>
+</body>
+</html>

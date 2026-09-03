@@ -1,0 +1,25 @@
+dart
+import 'package:flutter/material.dart';
+
+class HlooWorldPage extends StatelessWidget {
+  const HlooWorldPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Hloo World'),
+        centerTitle: true,
+      ),
+      body: const Center(
+        child: Text(
+          'hloo world',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}

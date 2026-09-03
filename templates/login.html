@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vision2Code </title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",sans-serif;
+}
+
+/* Background */
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background-image:url("img/lgnimg.jpg");
+background:linear-gradient(135deg,#000000,#0a1f44);
+}
+
+/* Login Container */
+
+.login-container{
+
+width:380px;
+padding:40px;
+
+background:#0b132b;
+
+border-radius:14px;
+
+box-shadow:0 0 25px rgba(0,0,0,0.8);
+
+text-align:center;
+color:white;
+
+}
+
+/* Logo */
+
+.logo{
+font-size:28px;
+margin-bottom:10px;
+font-weight:bold;
+}
+
+.logo span{
+color:#3cb6ff;
+}
+
+/* Title */
+
+.login-title{
+margin:10px 0 5px;
+font-size:22px;
+letter-spacing:1px;
+}
+
+.line{
+width:70px;
+height:3px;
+background:#3cb6ff;
+margin:10px auto 25px;
+border-radius:3px;
+}
+
+/* Input Box */
+
+.input-box{
+
+width:100%;
+background:#1c2541;
+border-radius:8px;
+margin-bottom:15px;
+
+display:flex;
+align-items:center;
+
+padding:12px;
+transition:0.3s;
+
+}
+
+.input-box:hover{
+background:#24345a;
+}
+
+.input-box i{
+margin-right:10px;
+color:#3cb6ff;
+}
+
+.input-box input{
+
+background:none;
+border:none;
+outline:none;
+color:white;
+
+width:100%;
+font-size:15px;
+
+}
+/* CONTAINER */
+.container{
+position:relative;   /* IMPORTANT */
+}
+
+/* FORGOT PASSWORD LINK */
+.forgot-link{
+position:absolute;
+bottom:15px;         /* distance from bottom */
+left:50%;
+transform:translateX(-50%);  /* center horizontally */
+
+font-size:14px;
+color:#4da6ff;
+text-decoration:none;
+}
+
+.forgot-link:hover{
+color:#80c1ff;
+text-decoration:underline;
+}
+/* Login Button */
+
+.login-btn{
+
+width:100%;
+padding:12px;
+
+border:none;
+border-radius:8px;
+
+background:#142850;
+
+color:white;
+
+font-size:16px;
+cursor:pointer;
+
+margin-top:8px;
+
+transition:0.3s;
+
+}
+
+.login-btn:hover{
+background:#274690;
+}
+
+/* Google Button */
+
+.google-btn{
+
+margin-top:15px;
+
+width:100%;
+padding:10px;
+
+border-radius:8px;
+
+border:none;
+
+background:#1c2541;
+
+color:white;
+
+cursor:pointer;
+
+font-size:14px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+
+transition:0.3s;
+
+}
+
+.google-btn:hover{
+background:#274690;
+}
+
+.google-btn img{
+width:18px;
+}
+
+/* Signup */
+
+.signup{
+
+margin-top:20px;
+font-size:14px;
+
+}
+
+.signup a{
+color:#3cb6ff;
+text-decoration:none;
+font-weight:500;
+}
+
+.signup a:hover{
+text-decoration:underline;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="login-container">
+
+<div class="logo">
+<i class="fa-solid fa-code"></i>Vision<span>2</span>Code
+</div>
+
+<div class="login-title">Login</div>
+<div class="line"></div>
+
+<form method="post">
+ {% csrf_token %}
+
+<div class="input-box">
+<i class="fa-regular fa-user"></i>
+<input type="text" placeholder="Enter Username" name="username">
+</div>
+
+<div class="input-box">
+<i class="fa-solid fa-lock"></i>
+<input type="password" placeholder="Enter Password" name="password">
+</div>
+
+
+<button class="login-btn">Login</button>
+
+
+</form>
+<div class="signup">
+    <a href="/myapp/forgot_get">Forgot Password?</a>
+</div>
+<div class="signup">
+Not signed up yet? <a href="/myapp/user_signup">Sign up now</a>
+</div>
+
+</div>
+
+</body>
+</html>
+

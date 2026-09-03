@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio Design</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        / Basic Reset and Global Styles /
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            overflow: hidden;
+            background-color: #333; / Fallback for browsers without gradient support /
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #00a9bd 0%, #004d66 30%, #660099 70%, #9600ff 100%);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        / Base styles for absolutely positioned elements /
+        .laptop, .phone, .floating-ui, .lang-label, [class^="icon-"], .deco-line, .deco-dot {
+            position: absolute;
+            box-sizing: border-box;
+        }
+
+        / Laptop Styling /
+        .laptop {
+            width: 650px;
+            height: 400px;
+            top: 50%;
+            left: 35%; / Position in the left half /
+            margin-left: -325px; / Center horizontally /
+            margin-top: -200px; / Center vertically /
+            transform: perspective(1000px) rotateX(-15deg) rotateY(18deg) rotateZ(3deg);
+            transform-origin: center center;
+            z-index: 10;
+        }
+
+        .laptop-screen {
+            width: 95%;
+            height: 60%;
+            border-radius: 10px;
+            position: relative;
+            left: 2.5%; / Center screen within laptop /
+            transform-origin: bottom center;
+            transform: rotateX(-30deg); / Tilt screen back /
+            background: linear-gradient(to bottom right, #001f3f, #000000); / Dark screen gradient /
+            border: 3px solid #002e4d;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4); / Cyan glow /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .code-icon {
+            font-size: 8rem;
+            color: transparent;
+            background: linear-gradient(to right, #ffffff, #ff00b7); / White to magenta gradient /
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); / Soft white glow /
+        }
+
+        .laptop-base {
+            width: 100%;
+            height: 40%;
+            background: #1c1c1c; / Dark grey for base /
+            border-radius: 0 0 15px 15px;
+            position: absolute;
+            bottom: -5px; / Slight overlap with screen /
+            left: 0;
+            border-top: 3px solid #002e4d;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+
+        .keyboard-area {
+            width: 90%;
+            height: 60%;
+            background: #2b2b2b; / Slightly lighter grey for keyboard /
+            border-radius: 5px;
+            position: relative;
+            padding: 10px;
+            box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.1);
+        }
+        / Grid lines for keyboard visual effect /
+        .keyboard-area::before, .keyboard-area::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+        .keyboard-area::before {
+            background: repeating-linear-gradient(90deg, #00ffff 0px, #00ffff 2px, transparent 2px, transparent 15px);
+        }
+        .keyboard-area::after {
+            background: repeating-linear-gradient(0deg, #00ffff 0px, #00ffff 2px, transparent 2px, transparent 15px);
+        }
+
+        .trackpad-area {
+            width: 40%;
+            height: 20%;
+            background: #3a3a3a; / Even lighter grey for trackpad /
+            border-radius: 5px;
+            margin-top: 15px;
+            box-shadow: inset 0 0 3px rgba(0, 255, 255, 0.1);
+        }
+
+        .fingerprint-icon {
+            font-size: 3rem;
+            color: #ff00b7; / Magenta /
+            right: 120px; / Position relative to laptop /
+            bottom: 40px;
+            opacity: 0.7;
+            z-index: 11;
+            filter: drop-shadow(0 0 5px #ff00b7); / Magenta glow /
+            transform: perspective(500px) rotateX(-10deg) rotateY(10deg); / Match keyboard perspective /
+        }
+
+        / Phone Styling /
+        .phone {
+            width: 160px;
+            height: 300px;
+            background: #0d1a26;
+            border: 2px solid #00ffff; / Cyan border /
+            border-radius: 25px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); / Cyan glow /
+            top: -120px; / Position above keyboard /
+            left: 55%; / Shift right on keyboard /
+            transform: translateX(-50%) perspective(500px) rotateX(-8deg) rotateY(-5deg) rotateZ(2deg); / Phone's own perspective /
+            z-index: 12;
+            overflow: hidden;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-screen {
+            flex-grow: 1;
+            background: #001f3f; / Dark screen background /
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            color: #00ffff; / Cyan text /
+            opacity: 0.8;
+        }
+
+        .phone-content {
+            flex-grow: 1;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .profile-card, .image-card {
+            background: rgba(0, 255, 255, 0.1); / Semi-transparent cyan background /
+            border: 1px solid #00ffff; / Cyan border /
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            color: #00ffff; / Cyan icons and lines /
+        }
+
+        .profile-card .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #00ffff;
+            margin-right: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .image-card .image-placeholder {
+            width: 60px;
+            height: 40px;
+            border: 2px solid #00ffff;
+            margin-right: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .profile-card .lines, .image-card .lines {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .profile-card .lines span, .image-card .lines span {
+            height: 4px;
+            background: #00ffff; / Cyan lines /
+            border-radius: 2px;
+        }
+        .profile-card .lines span:nth-child(1) { width: 80%; }
+        .profile-card .lines span:nth-child(2) { width: 60%; }
+        .profile-card .lines span:nth-child(3) { width: 70%; }
+        .image-card .lines span:nth-child(1) { width: 90%; }
+        .image-card .lines span:nth-child(2) { width: 70%; }
+        .image-card .lines span:nth-child(3) { width: 50%; }
+
+        / Programming Language Labels /
+        .lang-label {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        .php { top: 25%; left: 35%; color: #00ffff; text-shadow: 0 0 10px #00ffff; }
+        .html5 { top: 20%; right: 25%; color: #ff00b7; text-shadow: 0 0 10px #ff00b7; }
+        .css { bottom: 25%; right: 20%; color: #ff00b7; text-shadow: 0 0 10px #ff00b7; }
+        .sql { top: 40%; left: 10%; color: #00ffff; text-shadow: 0 0 10px #00ffff; }
+        .java { bottom: 20%; left: 30%; color: #00ffff; text-shadow: 0 0 10px #00ffff; }
+
+        / Floating UI Elements /
+        .floating-ui {
+            background: rgba(0, 0, 0, 0.4); / Semi-transparent dark background /
+            border: 1px solid;
+            border-image: linear-gradient(to right, #00ffff, #ff00b7) 1; / Gradient border /
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 10px rgba(255, 0, 183, 0.5); / Dual color glow /
+            padding: 10px;
+            border-radius: 8px;
+            transform-origin: center center;
+            perspective: 1000px;
+            transform: rotateX(-5deg) rotateY(5deg) rotateZ(-2deg); / General skew for floating effect /
+        }
+
+        .ui-header {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .ui-header .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ffff; / Cyan dot /
+            opacity: 0.7;
+        }
+
+        .ui-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        / Specific Floating UIs /
+        .ui-sql-left {
+            width: 250px;
+            height: 180px;
+            top: 35%;
+            left: 15%;
+            transform: perspective(1000px) rotateX(-10deg) rotateY(-10deg) rotateZ(5deg);
+            border-image: linear-gradient(to right, #00ffff, #ff00b7) 1;
+        }
+        .ui-sql-left .profile-row, .ui-sql-left .image-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        .ui-sql-left .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #00ffff;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem;
+            color: #00ffff;
+        }
+        .ui-sql-left .profile-details span {
+            display: block;
+            height: 6px;
+            background: #00ffff;
+            border-radius: 3px;
+            margin-bottom: 4px;
+        }
+        .ui-sql-left .profile-details span:first-child { width: 100px; }
+        .ui-sql-left .profile-details span:last-child { width: 70px; }
+
+        .ui-sql-left .image-box {
+            width: 80px;
+            height: 60px;
+            border: 2px solid #00ffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #00ffff;
+        }
+        .ui-sql-left .image-caption span {
+            display: block;
+            height: 6px;
+            background: #00ffff;
+            border-radius: 3px;
+            width: 120px;
+        }
+
+        .ui-code-snippet {
+            width: 200px;
+            height: 150px;
+            top: 25%;
+            left: 60%;
+            transform: perspective(1000px) rotateX(-5deg) rotateY(15deg) rotateZ(5deg);
+            border-image: linear-gradient(to right, #ff00b7, #00ffff) 1;
+        }
+        .ui-code-snippet .ui-content span {
+            display: block;
+            height: 5px;
+            background: #ff00b7; / Magenta lines /
+            border-radius: 3px;
+            margin-bottom: 4px;
+        }
+        .ui-code-snippet .ui-content span:nth-child(odd) { width: 80%; }
+        .ui-code-snippet .ui-content span:nth-child(even) { width: 60%; }
+        .ui-code-snippet .ui-content span:nth-child(5) { width: 90%; }
+        .ui-code-snippet .ui-content span:nth-child(6) { width: 70%; }
+        .ui-code-snippet .ui-content span:nth-child(7) { width: 50%; }
+
+        .ui-browser-left-bottom {
+            width: 350px;
+            height: 200px;
+            bottom: 10%;
+            left: 5%;
+            transform: perspective(1000px) rotateX(-5deg) rotateY(-5deg) rotateZ(-2deg);
+            border-image: linear-gradient(to right, #00ffff, #ff00b7) 1;
+        }
+        .ui-browser-left-bottom .ui-header {
+            justify-content: flex-start;
+        }
+        .ui-browser-left-bottom .ui-header .search-bar {
+            flex-grow: 1;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 8px;
+            margin-left: 10px;
+        }
+        .ui-browser-left-bottom .ui-content {
+            flex-direction: row;
+            gap: 20px;
+        }
+        .ui-browser-left-bottom .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 8px;
+            width: 50%;
+        }
+        .ui-browser-left-bottom .grid-item {
+            width: 60px;
+            height: 40px;
+            border: 2px solid #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        .ui-browser-left-bottom .text-block {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 50%;
+        }
+        .ui-browser-left-bottom .text-block span {
+            height: 5px;
+            background: #00ffff;
+            border-radius: 3px;
+        }
+        .ui-browser-left-bottom .text-block span:nth-child(1) { width: 90%; }
+        .ui-browser-left-bottom .text-block span:nth-child(2) { width: 70%; }
+        .ui-browser-left-bottom .text-block span:nth-child(3) { width: 85%; }
+        .ui-browser-left-bottom .text-block span:nth-child(4) { width: 60%; }
+
+        .ui-browser-right-bottom {
+            width: 300px;
+            height: 180px;
+            bottom: 15%;
+            right: 5%;
+            transform: perspective(1000px) rotateX(-5deg) rotateY(10deg) rotateZ(2deg);
+            border-image: linear-gradient(to right, #ff00b7, #00ffff) 1;
+        }
+        .ui-browser-right-bottom .ui-header {
+            justify-content: flex-start;
+        }
+        .ui-browser-right-bottom .ui-header .search-bar {
+            flex-grow: 1;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ff00b7;
+            border-radius: 8px;
+            margin-left: 10px;
+        }
+        .ui-browser-right-bottom .ui-content {
+            flex-direction: row;
+            gap: 15px;
+        }
+        .ui-browser-right-bottom .graph-area {
+            width: 50%;
+            height: 100px;
+            border: 2px solid #ff00b7;
+            background: rgba(255, 0, 183, 0.1);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        .ui-browser-right-bottom .graph-area::before { / Simple graph line /
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(to top right, transparent 0%, transparent 50%, #ff00b7 50%, #ff00b7 100%);
+            transform: skewX(-30deg);
+            transform-origin: bottom left;
+            opacity: 0.3;
+        }
+
+        .ui-browser-right-bottom .data-list {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .ui-browser-right-bottom .list-item {
+            height: 5px;
+            background: #ff00b7;
+            border-radius: 3px;
+        }
+        .ui-browser-right-bottom .list-item:nth-child(1) { width: 90%; }
+        .ui-browser-right-bottom .list-item:nth-child(2) { width: 70%; }
+        .ui-browser-right-bottom .list-item:nth-child(3) { width: 85%; }
+        .ui-browser-right-bottom .list-item:nth-child(4) { width: 60%; }
+        .ui-browser-right-bottom .list-item:nth-child(5) { width: 75%; }
+
+        / Standalone Icons /
+        [class^="icon-"] {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 8px); / General glow /
+            z-index: 10;
+        }
+
+        .icon-wifi {
+            top: 25%;
+            left: 20%;
+            color: #ff00b7; / Magenta /
+            filter: drop-shadow(0 0 8px #ff00b7);
+        }
+
+        .icon-gear {
+            bottom: 10%;
+            left: 25%;
+            color: #ff00b7; / Magenta /
+            filter: drop-shadow(0 0 8px #ff00b7);
+        }
+
+        .icon-search {
+            top: 30%;
+            right: 20%;
+            color: #ff00b7; / Magenta /
+            filter: drop-shadow(0 0 8px #ff00b7);
+        }
+
+        / Decorative Lines & Dots (simplified representation) /
+        .deco-line, .deco-dot {
+            position: absolute;
+            background: linear-gradient(to right, #00ffff, #ff00b7); / Gradient for lines /
+            filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.7)); / Cyan glow as primary /
+            z-index: 9;
+        }
+        .deco-line {
+            height: 2px; / Default thin line /
+            transform-origin: center center;
+        }
+        .deco-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ffff; / Default dot color /
+            filter: drop-shadow(0 0 5px #00ffff);
+        }
+
+        / Specific line and dot placements - approximate from image /
+        .line-1 { top: 28%; left: 22%; width: 50px; transform: rotate(10deg); } / Wifi to SQL area /
+        .line-2 { top: 31%; left: 25%; height: 60px; width: 2px; transform: rotate(-5deg); }
+        .line-3 { top: 45%; left: 28%; width: 30px; transform: rotate(10deg); } / SQL UI to Laptop /
+
+        .line-4 { top: 28%; right: 28%; width: 40px; transform: rotate(-10deg); background: linear-gradient(to right, #ff00b7, #9600ff); filter: drop-shadow(0 0 5px #ff00b7); } / HTML5 to code snippet /
+        .line-5 { top: 35%; right: 26%; height: 50px; width: 2px; transform: rotate(5deg); background: linear-gradient(to bottom, #ff00b7, #9600ff); filter: drop-shadow(0 0 5px #ff00b7); }
+
+        .line-6 { bottom: 20%; right: 25%; width: 40px; transform: rotate(5deg); background: linear-gradient(to right, #ff00b7, #00ffff); filter: drop-shadow(0 0 5px #ff00b7); } / CSS to browser UI /
+        .line-7 { bottom: 25%; right: 28%; height: 30px; width: 2px; transform: rotate(-10deg); background: linear-gradient(to bottom, #ff00b7, #00ffff); filter: drop-shadow(0 0 5px #ff00b7); }
+
+        .line-8 { bottom: 15%; left: 35%; width: 60px; transform: rotate(-5deg); background: linear-gradient(to right, #00ffff, #ff00b7); filter: drop-shadow(0 0 5px #00ffff); } / Java to browser UI /
+        .line-9 { bottom: 20%; left: 38%; height: 40px; width: 2px; transform: rotate(8deg); background: linear-gradient(to bottom, #00ffff, #ff00b7); filter: drop-shadow(0 0 5px #00ffff); }
+
+        .line-10 { top: 40%; left: 55%; width: 80px; transform: rotate(15deg); background: linear-gradient(to right, #00ffff, #ff00b7); filter: drop-shadow(0 0 5px #00ffff); } / From laptop to right UI /
+
+        .dot-1 { top: 28%; left: 21%; background: #ff00b7; filter: drop-shadow(0 0 5px #ff00b7); } / near Wifi icon /
+        .dot-2 { top: 31%; left: 25.5%; background: #ff00b7; filter: drop-shadow(0 0 5px #ff00b7); } / Intersection /
+        .dot-3 { top: 45%; left: 27%; background: #00ffff; filter: drop-shadow(0 0 5px #00ffff); } / near SQL UI /
+
+        .dot-4 { top: 28%; right: 27%; background: #ff00b7; filter: drop-shadow(0 0 5px #ff00b7); } / near search icon /
+        .dot-5 { top: 30%; right: 29%; background: #ff00b7; filter: drop-shadow(0 0 5px #ff00b7); }
+
+        .dot-6 { bottom: 10%; left: 26%; background: #00ffff; filter: drop-shadow(0 0 5px #00ffff); } / near gear icon /
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Laptop Illustration -->
+        <div class="laptop">
+            <div class="laptop-screen">
+                <div class="code-icon"><i class="fa-solid fa-code"></i></div>
+            </div>
+            <div class="laptop-base">
+                <div class="keyboard-area"></div>
+                <div class="trackpad-area"></div>
+                <div class="phone">
+                    <div class="phone-screen">
+                        <div class="phone-status-bar">
+                            <span class="signal-bars">|||</span>
+                            <span>5G</span>
+                            <span>&#9776;</span>
+                        </div>
+                        <div class="phone-content">
+                            <div class="profile-card">
+                                <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                                <div class="lines">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="image-card">
+                                <div class="image-placeholder"><i class="fa-solid fa-image"></i></div>
+                                <div class="lines">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fingerprint-icon"><i class="fa-solid fa-fingerprint"></i></div>
+        </div>
+
+        <!-- Programming Language Labels -->
+        <div class="lang-label php">PHP</div>
+        <div class="lang-label html5">HTML5</div>
+        <div class="lang-label css">CSS</div>
+        <div class="lang-label sql">SQL</div>
+        <div class="lang-label java">JAVA</div>
+
+        <!-- Floating UI Elements -->
+        <div class="floating-ui ui-sql-left">
+            <div class="ui-header">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <div class="ui-content">
+                <div class="profile-row">
+                    <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="profile-details">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="image-row">
+                    <div class="image-box"><i class="fa-solid fa-image"></i></div>
+                    <div class="image-caption">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-ui ui-code-snippet">
+            <div class="ui-header">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <div class="ui-content">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="floating-ui ui-browser-left-bottom">
+            <div class="ui-header">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <div class="search-bar"></div>
+            </div>
+            <div class="ui-content">
+                <div class="image-grid">
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                </div>
+                <div class="text-block">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-ui ui-browser-right-bottom">
+            <div class="ui-header">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <div class="search-bar"></div>
+            </div>
+            <div class="ui-content">
+                <div class="graph-area"></div>
+                <div class="data-list">
+                    <div class="list-item"></div>
+                    <div class="list-item"></div>
+                    <div class="list-item"></div>
+                    <div class="list-item"></div>
+                    <div class="list-item"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Standalone Icons -->
+        <div class="icon-wifi"><i class="fa-solid fa-wifi"></i></div>
+        <div class="icon-gear"><i class="fa-solid fa-gear"></i></div>
+        <div class="icon-search"><i class="fa-solid fa-magnifying-glass"></i></div>
+
+        <!-- Decorative Lines & Dots (simplified representation) -->
+        <div class="deco-line line-1"></div>
+        <div class="deco-line line-2"></div>
+        <div class="deco-line line-3"></div>
+        <div class="deco-line line-4"></div>
+        <div class="deco-line line-5"></div>
+        <div class="deco-line line-6"></div>
+        <div class="deco-line line-7"></div>
+        <div class="deco-line line-8"></div>
+        <div class="deco-line line-9"></div>
+        <div class="deco-line line-10"></div>
+        <div class="deco-dot dot-1"></div>
+        <div class="deco-dot dot-2"></div>
+        <div class="deco-dot dot-3"></div>
+        <div class="deco-dot dot-4"></div>
+        <div class="deco-dot dot-5"></div>
+        <div class="deco-dot dot-6"></div>
+    </div>
+</body>
+</html>

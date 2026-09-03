@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 1000px;
+            height: 600px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #e60073, #ff4d94);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            filter: blur(50px);
+        }
+
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            filter: blur(60px);
+        }
+
+        .welcome-text {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .headline-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .description-text {
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 80%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            background-color: #ffffff;
+            border-radius: 0 20px 20px 0;
+        }
+
+        .sign-in-form {
+            width: 380px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .sign-in-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #999;
+            font-size: 14px;
+            transition: 0.2s ease all;
+            pointer-events: none;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #ff4d94;
+            box-shadow: 0 0 0 2px rgba(255, 77, 148, 0.2);
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            background-color: #ffffff;
+            padding: 0 5px;
+            color: #ff4d94;
+        }
+
+        .password-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            accent-color: #ff4d94;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: #ff4d94;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .sign-in-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #e60073, #ff4d94);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sign-in-button:hover {
+            background: linear-gradient(90deg, #cc0066, #e6458a);
+        }
+
+        .signup-link {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .signup-link a {
+            color: #ff4d94;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="welcome-text">WELCOME</div>
+            <div class="headline-text">YOUR HEADLINE NAME</div>
+            <div class="description-text">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="sign-in-form">
+                <div class="sign-in-title">Sign in</div>
+                <div class="form-subtitle">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+
+                <div class="input-group">
+                    <input type="text" id="username" placeholder=" ">
+                    <label for="username">User name</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" placeholder=" ">
+                    <label for="password">Password</label>
+                </div>
+
+                <div class="password-container">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button class="sign-in-button">Sign In</button>
+
+                <div class="signup-link">
+                    Don't have an account? <a href="#">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

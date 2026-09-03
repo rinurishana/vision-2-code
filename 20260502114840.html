@@ -1,0 +1,306 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2260ff;
+            --secondary-blue: #4079ff;
+            --dark-text: #333;
+            --light-text: #666;
+            --white: #fff;
+            --border-color: #ddd;
+            --background-grey: #f0f2f5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-grey);
+            box-sizing: border-box;
+        }
+
+        .login-container {
+            display: flex;
+            background-color: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before,
+        .welcome-section::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .welcome-section::before {
+            width: 250px;
+            height: 250px;
+            top: -80px;
+            left: -80px;
+            transform: rotate(45deg);
+        }
+        .welcome-section::after {
+            width: 180px;
+            height: 180px;
+            bottom: -60px;
+            right: -60px;
+            opacity: 0.6;
+            transform: rotate(-30deg);
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .welcome-section h2 {
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 500;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .welcome-section p {
+            font-size: 0.9em;
+            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 300px;
+        }
+
+        .signin-section {
+            flex: 1;
+            background-color: var(--white);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .signin-section h2 {
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+            font-weight: 600;
+        }
+
+        .signin-section .subtitle {
+            font-size: 0.85em;
+            color: var(--light-text);
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-field {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            color: var(--dark-text);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary-blue);
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            color: var(--dark-text);
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin-right: 8px;
+            accent-color: var(--primary-blue);
+        }
+
+        .forgot-password {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signin-button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .signin-button:hover {
+            background-color: var(--secondary-blue);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: var(--light-text);
+        }
+
+        .signup-link a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 400px;
+            }
+
+            .welcome-section {
+                padding: 30px;
+                text-align: center;
+                align-items: center;
+            }
+            .welcome-section h1 {
+                font-size: 2em;
+            }
+            .welcome-section h2 {
+                font-size: 1em;
+            }
+            .welcome-section p {
+                font-size: 0.8em;
+                max-width: none;
+            }
+
+            .signin-section {
+                padding: 30px;
+            }
+
+            .welcome-section::before, .welcome-section::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>WELCOME</h1>
+                <h2>YOUR HEADLINE NAME</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.</p>
+            </div>
+        </div>
+        <div class="signin-section">
+            <h2>Sign in</h2>
+            <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+
+            <form>
+                <div class="form-group">
+                    <label for="username">User name</label>
+                    <input type="text" id="username" class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="input-field">
+                        <button type="button" class="password-toggle">SHOW</button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="signin-button">Sing In</button>
+            </form>
+
+            <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
+        </div>
+    </div>
+</body>
+</html>
+```

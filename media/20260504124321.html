@@ -1,0 +1,28 @@
+java
+import javax.swing.*;
+import java.awt.*;
+
+public class HlooWorldBlueGlass {
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Hloo World");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(500, 250);
+            frame.setLocationRelativeTo(null);
+
+            JPanel panel = new JPanel(new GridBagLayout());
+            panel.setBackground(new Color(25, 25, 112)); // Midnight Blue
+
+            JLabel label = new JLabel("hloo world");
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("SansSerif", Font.BOLD, 50));
+
+            panel.add(label);
+
+            frame.getContentPane().add(panel, BorderLayout.CENTER);
+
+            frame.setVisible(true);
+        });
+    }
+}

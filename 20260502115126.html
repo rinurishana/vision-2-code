@@ -1,0 +1,242 @@
+Here is the HTML and CSS code to recreate the design from the image.
+
+<br>
+
+## HTML Code (`index.html`)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision 2 Code Login</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts for Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-eye eye-icon"></i>
+                    <span class="code-icon">&lt;/&gt;</span>
+                </div>
+                <h1>Vision <span>2</span>Code</h1>
+            </div>
+            <h2 class="login-title">Login</h2>
+            <form>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Enter Username">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Enter Password">
+                </div>
+                <button type="submit" class="btn primary-btn">Login</button>
+            </form>
+            <button type="button" class="btn google-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" alt="Google logo">
+                Sign up with Google
+            </button>
+            <p class="signup-link">Not signed up yet? <a href="#">Sign up now</a></p>
+        </div>
+    </div>
+</body>
+</html>
+```
+
+<br>
+
+## CSS Code (`style.css`)
+
+```css
+:root {
+    --primary-blue: #1a81e3;
+    --dark-blue-card: #1a2b3f;
+    --dark-blue-bg: #0d1b2a;
+    --white-text: #ffffff;
+    --light-grey-text: #a0a0a0;
+    --google-btn-text: #333333;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: url('https://i.imgur.com/eQ9J20Z.jpg') no-repeat center center fixed; / Placeholder image URL for background /
+    background-size: cover;
+    color: var(--white-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.login-container {
+    padding: 20px;
+    width: 100%;
+    max-width: 420px; / Adjust as needed /
+}
+
+.login-card {
+    background-color: var(--dark-blue-card);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.logo-section {
+    margin-bottom: 30px;
+}
+
+.logo-icon {
+    position: relative;
+    width: 60px; / Size of the container for the icon /
+    height: 60px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-blue);
+    font-size: 45px; / Size of the eye icon /
+}
+
+.eye-icon {
+    position: absolute;
+    z-index: 1;
+}
+
+.code-icon {
+    position: absolute;
+    font-family: monospace; / For generic angle bracket style /
+    font-size: 28px; / Size of the code tags /
+    font-weight: bold;
+    color: var(--white-text);
+    z-index: 2;
+    transform: translateY(0px); / Adjust positioning slightly if needed /
+}
+
+h1 {
+    font-size: 2.2em;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+}
+
+h1 span {
+    color: var(--primary-blue);
+}
+
+.login-title {
+    font-size: 1.8em;
+    font-weight: 500;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.login-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-blue);
+    border-radius: 2px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.08); / Slightly lighter than card background /
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    color: var(--light-grey-text);
+    margin-right: 15px;
+    font-size: 1.2em;
+}
+
+.input-group input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--white-text);
+    font-size: 1em;
+    padding: 5px 0;
+}
+
+.input-group input::placeholder {
+    color: var(--light-grey-text);
+    opacity: 0.7;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.primary-btn {
+    background-color: var(--primary-blue);
+    color: var(--white-text);
+}
+
+.primary-btn:hover {
+    background-color: #1670cb; / Slightly darker blue /
+}
+
+.google-btn {
+    background-color: var(--white-text);
+    color: var(--google-btn-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.google-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.google-btn img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.signup-link {
+    font-size: 0.95em;
+    color: var(--light-grey-text);
+    margin-top: 25px;
+}
+
+.signup-link a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+```

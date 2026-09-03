@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image to Code - Preview & Generate</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI", sans-serif;
+}
+
+/* PAGE BACKGROUND */
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#020024,#001f4d,#000000);
+}
+
+/* CONTAINER */
+
+.container{
+max-width:500px;
+width:100%;
+padding:35px;
+border-radius:14px;
+
+background:linear-gradient(145deg,#0a1f44,#000000);
+
+box-shadow:0 0 30px rgba(0,0,0,0.7);
+color:white;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+/* TITLE */
+
+h2{
+text-align:center;
+color:#4da6ff;
+margin-bottom:25px;
+}
+
+/* PREVIEW BOX */
+
+.preview-box{
+width:100%;
+height:200px;
+border:2px dashed #4da6ff;
+margin:20px 0;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+
+background:#08142e;
+border-radius:10px;
+color:#aaa;
+}
+
+.preview-box img{
+max-width:100%;
+max-height:100%;
+}
+
+/* LABEL */
+
+label{
+display:block;
+font-weight:bold;
+margin-top:15px;
+color:#4da6ff;
+}
+
+/* INPUTS */
+
+input[type="file"],
+select{
+margin-top:10px;
+padding:10px 15px;
+font-size:15px;
+width:100%;
+border-radius:8px;
+border:none;
+
+background:#08142e;
+color:cornflowerblue;
+outline:none;
+}
+textarea{
+width:100%;
+height:100px;
+padding:12px;
+margin-top:8px;
+border:none;
+border-radius:8px;
+resize:none;
+
+background:#08142e;
+color:white;
+outline:none;
+}
+
+/* BUTTON */
+
+button{
+background:linear-gradient(90deg,#0d6efd,#003c9e);
+color:white;
+border:none;
+cursor:pointer;
+margin-top:20px;
+padding:12px;
+font-size:16px;
+width:100%;
+border-radius:8px;
+transition:0.3s;
+}
+.back-link{
+color:white;
+text-decoration:none;
+font-weight:500;
+}
+
+.back-link:hover{
+color:#4da6ff;
+}
+
+button:hover{
+background:linear-gradient(90deg,#0b5ed7,#002e7a);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Image to Code</h2>
+<form action="/myapp/user_img_to_code_post" method="post" enctype="multipart/form-data">
+<!-- Image Preview Box -->
+<div class="preview-box" id="previewBox">
+<span id="previewText">Image Preview</span>
+</div>
+
+
+<!-- Browse Image -->
+<input type="file" id="imageInput" name="imageInput" accept="image/*">
+
+
+<label>Type Your Specifications</label>
+<textarea placeholder="Specifications if any..." name="specification"></textarea>
+
+<!-- Output Type -->
+<label for="outputType">Select Output Type</label>
+
+<select id="outputType" name="type" required>
+<option value="">--Select Output Type--</option>
+<option value="html">HTML</option>
+<option value="flutter">Flutter</option>
+<option value="react">React</option>
+</select>
+
+<!-- Generate Button -->
+<button id="generateBtn">Generate</button>
+    <a href="/myapp/user_home" class="back-link">← Back to Dashboard</a>
+</div>
+
+<script>
+
+const imageInput = document.getElementById('imageInput');
+const previewBox = document.getElementById('previewBox');
+const previewText = document.getElementById('previewText');
+const outputType = document.getElementById('outputType');
+const generateBtn = document.getElementById('generateBtn');
+
+/* IMAGE PREVIEW */
+
+imageInput.addEventListener('change', function(){
+
+const file = this.files[0];
+
+if(file){
+
+const reader = new FileReader();
+
+reader.addEventListener('load', function(){
+
+previewText.style.display='none';
+
+let img = previewBox.querySelector('img');
+
+if(!img){
+img=document.createElement('img');
+previewBox.appendChild(img);
+}
+
+img.src=this.result;
+
+});
+
+reader.readAsDataURL(file);
+
+}else{
+
+previewText.style.display='block';
+
+const img=previewBox.querySelector('img');
+
+if(img) previewBox.removeChild(img);
+
+}
+
+});
+
+/* GENERATE BUTTON */
+
+generateBtn.addEventListener('click', function(){
+
+const selectedType = outputType.value;
+
+alert(`Generating ${selectedType.toUpperCase()} code for the uploaded image!`);
+
+});
+
+</script>
+
+</body>
+</html>
+

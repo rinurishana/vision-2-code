@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>View Tips</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    font-family:"Segoe UI",sans-serif;
+    background:linear-gradient(135deg,#0a0f2c,#050816,#000000);
+    min-height:100vh;
+    color:white;
+}
+
+/* Container */
+
+.tips-container{
+    width:85%;
+    margin:60px auto;
+    padding:30px;
+    border-radius:15px;
+    backdrop-filter: blur(12px);
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.15);
+    box-shadow:0 0 25px rgba(0,0,0,0.6);
+}
+
+/* Heading */
+
+.page-title{
+    text-align:center;
+    font-size:28px;
+    margin-bottom:25px;
+    font-weight:600;
+    letter-spacing:1px;
+}
+
+/* Table */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+    border-radius:10px;
+}
+
+thead{
+    background:#0c1b5e;
+}
+
+thead th{
+    padding:14px;
+    text-align:left;
+    font-size:15px;
+}
+
+tbody tr{
+    background:rgba(255,255,255,0.04);
+    transition:0.3s;
+}
+
+tbody tr:hover{
+    background:rgba(0,102,255,0.15);
+}
+
+tbody td{
+    padding:14px;
+    font-size:14px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* Back Button Section */
+
+.back-section{
+    text-align:center;
+    margin-top:30px;
+}
+
+.back-btn{
+    display:inline-block;
+    padding:10px 20px;
+    border-radius:8px;
+    text-decoration:none;
+    background:#1e3a8a;
+    color:white;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.back-btn:hover{
+    background:#2563eb;
+}
+
+</style>
+
+
+<div class="tips-container">
+
+<h2 class="page-title">Helpful Tips from Admin</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Tip Title</th>
+<th>Tip Description</th>
+<th>Date</th>
+</tr>
+</thead>
+{% for i in tips %}
+    <tr>
+    <td>{{ i.title }}</td>
+    <td>{{ i.tipdetails }}</td>
+    <td>{{ i.date }}</td>
+
+    </tr>
+    {% endfor %}
+
+
+</table>
+
+
+<!-- Back Button at Bottom -->
+
+<div class="back-section">
+<a href="/myapp/user_home" class="back-btn">← Back to Dashboard</a>
+</div>
+</div>
+</html>

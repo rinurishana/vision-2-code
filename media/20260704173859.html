@@ -1,0 +1,443 @@
+<html>
+<head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.header {
+    background-color: #ffffff;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    margin-left: 100px;
+}
+
+.header-logo {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20fill%3D%22%230056b3%22%20d%3D%22M50%200C22.4%200%200%2022.4%200%2050s22.4%2050%2050%2050%2050-22.4%2050-50S77.6%200%2050%200zm-2.2%2021.4c-1.6%201.4-3.6%202.2-5.8%202.2-2.2%200-4.2-0.8-5.8-2.2-1.6-1.4-2.5-3.3-2.5-5.4%200-2.1%200.9-4%202.5-5.4%201.6-1.4%203.6-2.2%205.8-2.2%202.2%200%204.2%200.8%205.8%202.2%201.6%201.4%202.5%203.3%202.5%205.4%200%202.1-0.9%204-2.5%205.4zM68.4%2078.6c-2.7%202.7-5.9%204-9.6%204-3.7%200-6.9-1.3-9.6-4-2.7-2.7-4-5.9-4-9.6%200-3.7%201.3-6.9%204-9.6%202.7-2.7%205.9-4%209.6-4%203.7%200%206.9%201.3%209.6%204%202.7%202.7%204%205.9%204%209.6%200%203.7-1.3%206.9-4%209.6z%22%2F%3E%3C%2Fsvg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.header-titles {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.header-title-top {
+    font-size: 12px;
+    color: #444444;
+    font-weight: bold;
+}
+
+.header-title-bottom {
+    font-size: 16px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+}
+
+.header-icon {
+    margin-left: 15px;
+    font-size: 20px;
+    color: #757575;
+    cursor: pointer;
+}
+
+.header-search-icon {
+    margin-left: 25px;
+    font-size: 20px;
+    color: #757575;
+    cursor: pointer;
+}
+
+.header-verify-icon {
+    font-size: 20px;
+    color: #007bff;
+    margin-left: 25px;
+    cursor: pointer;
+}
+
+.header-dots-icon {
+    font-size: 20px;
+    color: #757575;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.header-chat-icon {
+    font-size: 20px;
+    color: #757575;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.main-header {
+    background-color: #0056b3;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.main-header-title {
+    font-size: 22px;
+    color: #ffffff;
+    font-weight: bold;
+    margin-right: 50px;
+}
+
+.main-header-subtitle {
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.main-header-right-icons {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.main-header-icon {
+    font-size: 18px;
+    color: #ffffff;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.navigation {
+    background-color: #004085;
+    padding: 10px 0;
+    border-bottom: 1px solid #003366;
+}
+
+.navigation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.nav-item {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 0 15px;
+    padding: 8px 5px;
+    transition: background-color 0.3s ease;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-item:hover {
+    background-color: #003366;
+    border-radius: 4px;
+}
+
+.nav-item i {
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+.latest-news-section {
+    background-color: #004085;
+    padding: 10px 0;
+    border-bottom: 1px solid #003366;
+}
+
+.latest-news-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.latest-news-label {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.latest-news-text {
+    font-size: 14px;
+    color: #ffffff;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.latest-news-icons {
+    display: flex;
+    align-items: center;
+}
+
+.latest-news-icon {
+    font-size: 16px;
+    color: #ffffff;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.content-section {
+    max-width: 1200px;
+    margin: 30px auto 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 30px;
+}
+
+.left-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.sidebar-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.sidebar-tab {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #757575;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom-color 0.3s ease;
+}
+
+.sidebar-tab.active {
+    color: #0056b3;
+    border-bottom-color: #0056b3;
+}
+
+.notice-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notice-item {
+    margin-bottom: 15px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.notice-item::before {
+    content: '\\2022';
+    color: #0056b3;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+    position: absolute;
+    left: 0;
+}
+
+.notice-link {
+    color: #0056b3;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.notice-link:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    flex-grow: 1;
+}
+
+.introduction-title {
+    font-size: 28px;
+    color: #000000;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.introduction-text {
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.introduction-text strong {
+    font-weight: bold;
+}
+
+.read-more-button {
+    background-color: #ffc107;
+    color: #000000;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+
+.read-more-button:hover {
+    background-color: #e0a800;
+}
+
+.footer {
+    background-color: #f8f9fa;
+    padding: 30px 0;
+    margin-top: 50px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    color: #757575;
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <div class="header-logo"></div>
+        <div class="header-titles">
+            <span class="header-title-top">GOVERNMENT OF INDIA</span>
+            <span class="header-title-bottom">MINISTRY OF EDUCATION</span>
+        </div>
+    </div>
+    <div class="header-right">
+        <i class="header-icon fas fa-star"></i>
+        <span class="header-verify-icon">Verify it's you</span>
+        <i class="header-icon fas fa-ellipsis-h"></i>
+        <i class="header-chat-icon fas fa-comment-alt"></i>
+    </div>
+</header>
+
+<header class="main-header">
+    <div class="main-header-container">
+        <div class="main-header-titles">
+            <span class="main-header-title">राष्ट्रीय पात्रता परीक्षा (यूजीसी) - नेट</span>
+            <span class="main-header-subtitle">University Grants Commission (UGC)-NET</span>
+        </div>
+        <div class="main-header-right-icons">
+            <div class="main-header-logo-container" style="display: flex; align-items: center;">
+                <div class="main-header-logo" style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20fill%3D%22%2328a745%22%20d%3D%22M75.1%2044.3L50%200l-25.1%2044.3c-4.4%208.6-5.8%2018.7-4.1%2028.9%201.7%2010.2%205.8%2019.7%2011.6%2027.6L50%20100l27.6-29.2c5.8-7.9%209.9-17.4%2011.6-27.6%201.7-10.2-2.7-20.3-7.1-28.9zM50%2064.1c-7.8%200-14.1-6.3-14.1-14.1s6.3-14.1%2014.1-14.1%2014.1%206.3%2014.1%2014.1-6.3%2014.1-14.1%2014.1z%22%2F%3E%3C%2Fsvg%3E'); background-size: contain; background-repeat: no-repeat; width: 50px; height: 50px; margin-left: 20px;"></div>
+                <div style="display: flex; flex-direction: column; margin-left: 10px;">
+                    <span style="font-size: 14px; color: #ffffff; font-weight: bold;">राष्ट्रीय परीक्षा एजेंसी</span>
+                    <span style="font-size: 12px; color: #ffffff;">National Testing Agency</span>
+                    <span style="font-size: 8px; color: #ffffff; font-style: italic;">Excellence in Assessment</span>
+                </div>
+            </div>
+            <i class="main-header-icon fas fa-search"></i>
+            <i class="main-header-icon fas fa-user-friends"></i>
+            <i class="main-header-icon fas fa-font"></i>
+        </div>
+    </div>
+</header>
+
+<nav class="navigation">
+    <div class="navigation-container">
+        <a href="#" class="nav-item">Home</a>
+        <a href="#" class="nav-item">About Us <i class="fas fa-caret-down"></i></a>
+        <a href="#" class="nav-item">Information <i class="fas fa-caret-down"></i></a>
+        <a href="#" class="nav-item">e Services <i class="fas fa-caret-down"></i></a>
+        <a href="#" class="nav-item">Archive <i class="fas fa-caret-down"></i></a>
+        <a href="#" class="nav-item">FAQ</a>
+        <a href="#" class="nav-item">Contact Us</a>
+    </div>
+</nav>
+
+<section class="latest-news-section">
+    <div class="latest-news-container">
+        <span class="latest-news-label">LATEST NEWS</span>
+        <span class="latest-news-text">Portal for Submitting Scribe Details by the PwDPwBD Candidates of UGC-NET June 2026 exam</span>
+        <div class="latest-news-icons">
+            <i class="latest-news-icon fas fa-square"></i>
+            <i class="latest-news-icon fas fa-square"></i>
+            <i class="latest-news-icon fas fa-square"></i>
+        </div>
+    </div>
+</section>
+
+<main class="content-section">
+    <aside class="left-sidebar">
+        <div class="sidebar-tabs">
+            <div class="sidebar-tab active">Public Notices</div>
+            <div class="sidebar-tab">News & Events</div>
+        </div>
+        <ul class="notice-list">
+            <li class="notice-item"><a href="#" class="notice-link">Public Notice dated: 22.06.2026</a></li>
+            <li class="notice-item"><a href="#" class="notice-link">Public Notice regarding opening of Portal for Submitting Scribe Details by the PwDPwBD Candidates of UGC-NET June 2026 exam</a></li>
+            <li class="notice-item"><a href="#" class="notice-link">Public Notice regarding the release of Admit Card for the UGC-NET June 2026 examination</a></li>
+            <li class="notice-item"><a href="#" class="notice-link">Public Notice for Advance City Intimation of UGC-NET June 2026</a></li>
+            <li class="notice-item"><a href="#" class="notice-link">Public Notice regarding Subject-wise Scheduled of UGC-NET June 2026 Examination</a></li>
+            <li class="notice-item"><a href="#" class="notice-link">Public Notice regarding Addition of Examination Cities and Expansion of City Choice Options for UGC-NET June 2026 Examination</a></li>
+            <li class="notice-item"><a href="#" class="notice-link">Public Notice regarding Correction in particulars of the Online Application Form for UGC-NET June 2026</a></li>
+            <li class="notice-item"><a href="#" class="notice-link">Further Extension of Last Date for submission of online application form for UGC-NET June 2026 examination</a></li>
+        </ul>
+    </aside>
+    <section class="main-content">
+        <h2 class="introduction-title">Introduction</h2>
+        <p class="introduction-text">The National Testing Agency (NTA) has been entrusted by the University Grants Commission (UGC) with the task of conducting UGC-NET, which is a Test to determine the eligibility of Indian nationals for <strong>'Award of Junior Research Fellowship'</strong>, <strong>'Appointment as Assistant Professor'</strong> and <strong>'Admission to Ph.D.'</strong> and <strong>'Admission to Ph.D. only'</strong> in Indian Universities and Colleges. The UGC-NET is being conducted by the National Testing Agency (NTA) in Computer Based Test (CBT) mode w.e.f. December 2018 onwards.</p>
+        <p class="introduction-text">Awarding Junior Research Fellowship (JRF) and/or Eligibility for Assistant Professorship and/or Admission to Ph.D only depends on the aggregate performance of the candidate in Part-I and Part-II of UGC-NET. The candidates qualifying under the <strong>'appointment as Assistant Professor and admission to Ph.D.'</strong> category will be eligible for appointment as Assistant Professor and admission to Ph.D. but not for the award of JRF. The candidates qualifying under the <strong>'admission to Ph.D. only'</strong> category will be eligible for admission to Ph.D. only but not for the award of JRF and/or appointment as Assistant Professor.</p>
+        <a href="#" class="read-more-button">Read More</a>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <p>© 2023 National Testing Agency. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

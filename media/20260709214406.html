@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision 2 Code</title>
+    <style>
+        :root {
+            --primary-color: #FF0000;
+            --secondary-color: #e70000;
+            --background-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --text-muted: #cccccc;
+            --accent-blue: #007bff;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-light);
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(26, 26, 26, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .logo-icon {
+            width: 100%;
+            height: auto;
+        }
+        .brand-name {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .brand-name .part-one {
+            color: var(--text-light);
+        }
+        .brand-name .part-two {
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 150 90" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#007bff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#00c6ff;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M10 30 L40 0 L110 0 L140 30 L110 60 L40 60 Z" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+                <path d="M30 25 L60 5 L90 5 L120 25 L90 45 L60 45 Z" fill="url(#grad1)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" transform="translate(10, 15)"/>
+                <path d="M60 15 L80 10 L100 15 L80 20 Z" fill="rgba(255,255,255,0.8)" transform="translate(10, 15)"/>
+                <path d="M50 25 L70 20 L90 25 L70 30 Z" fill="rgba(255,255,255,0.7)" transform="translate(10, 15)"/>
+                <path d="M70 20 L90 15 L110 20 L90 25 Z" fill="rgba(255,255,255,0.6)" transform="translate(10, 15)"/>
+            </svg>
+        </div>
+        <div class="brand-name">
+            <span class="part-one">Vision</span>
+            <span class="part-two">2Code</span>
+        </div>
+    </div>
+</body>
+</html>

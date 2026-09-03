@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OTP Verification</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI", sans-serif;
+}
+
+/* BACKGROUND */
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#020024,#001f4d,#000000);
+}
+
+/* CONTAINER */
+
+.otp-container{
+width:100%;
+max-width:420px;
+padding:30px;
+
+background:linear-gradient(145deg, rgba(10,31,68,0.9), rgba(0,0,0,0.95));
+backdrop-filter:blur(10px);
+
+border-radius:16px;
+
+box-shadow:0 0 30px rgba(0,0,0,0.8),
+           0 0 10px rgba(77,166,255,0.2);
+
+border:1px solid rgba(255,255,255,0.08);
+color:white;
+
+transition:0.3s;
+}
+
+/* HOVER EFFECT */
+
+.otp-container:hover{
+transform:translateY(-4px);
+}
+
+/* TITLE */
+
+.otp-container h2{
+text-align:center;
+margin-bottom:20px;
+color:#4da6ff;
+}
+
+/* LABEL */
+
+label{
+display:block;
+margin-bottom:8px;
+color:#4da6ff;
+font-size:14px;
+}
+
+/* INPUT */
+
+input[type="number"]{
+width:100%;
+padding:12px;
+margin-bottom:20px;
+border-radius:8px;
+border:1px solid rgba(255,255,255,0.1);
+background:#08142e;
+color:#fff;
+outline:none;
+font-size:16px;
+}
+
+input[type="number"]:focus{
+border:1px solid #4da6ff;
+box-shadow:0 0 8px rgba(77,166,255,0.4);
+}
+
+/* BUTTON */
+
+input[type="submit"]{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+
+background:linear-gradient(90deg,#0d6efd,#003c9e);
+color:white;
+transition:0.3s;
+}
+
+input[type="submit"]:hover{
+background:linear-gradient(90deg,#1a75ff,#0052cc);
+box-shadow:0 0 10px rgba(77,166,255,0.5);
+}
+
+/* MESSAGE */
+
+.message{
+margin-top:10px;
+padding:10px;
+border-radius:6px;
+text-align:center;
+font-size:14px;
+}
+
+.success{
+background:rgba(0,200,83,0.15);
+border:1px solid #00c853;
+color:#00e676;
+}
+
+.error{
+background:rgba(255,0,0,0.15);
+border:1px solid #ff1744;
+color:#ff5252;
+}
+
+/* FOOTER (optional) */
+
+.footer-text{
+text-align:center;
+margin-top:12px;
+font-size:13px;
+color:#aaa;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="otp-container">
+
+<h2>OTP Verification</h2>
+
+<form action="/myapp/verifyOtpPost" method="post">
+{% csrf_token %}
+
+<label for="otp">Enter the OTP sent to your email</label>
+
+<input type="number" name="entered_otp" id="otp" required>
+
+<input type="submit" value="Verify">
+
+</form>
+
+<!-- DJANGO MESSAGES -->
+{% if messages %}
+{% for message in messages %}
+<div class="message {{ message.tags }}">{{ message }}</div>
+{% endfor %}
+{% endif %}
+
+<p class="footer-text">Please check your email for the OTP.</p>
+
+{% include 'msgalert.html' %}
+{% block content %}{% endblock %}
+
+</div>
+
+</body>
+</html>

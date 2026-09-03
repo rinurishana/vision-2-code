@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChicThreads - Your Style, Unveiled</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e91e63; /* A vibrant pink for accents */
+            --secondary-color: #673ab7; /* A deep purple for contrast */
+            --text-light: #f8f8f8;
+            --text-dark: #333;
+            --glass-bg-light: rgba(255, 255, 255, 0.15);
+            --glass-bg-dark: rgba(0, 0, 0, 0.1);
+            --glass-border-light: rgba(255, 255, 255, 0.3);
+            --glass-border-dark: rgba(255, 255, 255, 0.1);
+            --glass-shadow: rgba(0, 0, 0, 0.2);
+            --blur-amount: 12px;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-light);
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f0e6ef, #d4e0e5, #f5eef0); /* Soft, dreamy background */
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            margin-bottom: 0.5em;
+            color: var(--text-dark); /* Headings stand out more */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-effect {
+            background: var(--glass-bg-light);
+            backdrop-filter: blur(var(--blur-amount));
+            -webkit-backdrop-filter: blur(var(--blur-amount)); /* For Safari */
+            border: 1px solid var(--glass-border-light);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 var(--glass-shadow);
+            padding: 1.5rem;
+            transform: translateZ(0); /* Improve rendering on some browsers */
+        }
+        
+        .glass-dark {
+             background: var(--glass-bg-dark);
+             border: 1px solid var(--glass-border-dark);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--glass-border-light);
+        }
+        
+        header.glass-effect {
+            border-radius: 0 0 15px 15px; /* Round bottom edges */
+            padding: 1rem 0;
+        }
+
+        header .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-left: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        header nav a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        header nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s ease;
+        }
+
+        header nav a:hover::after,
+        header nav a.active::after {
+            width: 100%;
+        }
+        
+        header nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1.5rem;
+            margin-right: 2rem;
+        }
+
+        .header-actions .icon-btn {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+        .header-actions .icon-btn:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 0;
+            background: url('https://images.unsplash.com/photo-1551632731-89745e65636b?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+            background-attachment: fixed;
+            color: var(--text-light);
+            margin-top: -1px; /* To prevent gap with sticky header */
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Dark overlay */
+            z-index: 1;
+        }
+
+        .hero .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 3rem;
+            color: var(--text-light); /* Ensure text is light */
+        }
+
+        .hero .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+            color: var(--text-light); /* Override heading color */
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .hero .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+
+        /* Sections Styling */
+        section {
+            padding: 6rem 0;
+            position: relative;
+            z-index: 5; /* Ensure sections are above background animation if any */
+        }
+
+        section h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        section p {
+            color: var(--text-dark); /* Default paragraph color in sections */
+        }
+
+        /* Featured Categories/Products */
+        .featured-items .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .item-card {
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: var(--text-dark);
+            height: 450px; /* Fixed height for consistency */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px 0 var(--glass-shadow);
+        }
+
+        .item-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .item-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .item-card h3 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-card p {
+            font-size: 1rem;
+            flex-grow: 1; /* Allows paragraph to take up available space */
+            color: var(--text-dark);
+        }
+
+        .item-card .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-top: 1rem;
+        }
+        
+        .item-card .btn {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.5rem;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background: linear-gradient(45deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-light);
+            text-align: center;
+            padding: 6rem 0;
+            margin: 4rem 0; /* Add some margin for visual separation */
+        }
+        
+        .cta-section .glass-effect {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+
+        .cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cta-section p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--glass-bg-dark); /* Darker glass effect for footer */
+            backdrop-filter: blur(var(--blur-amount));
+            -webkit-backdrop-filter: blur(var(--blur-amount));
+            border-top: 1px solid var(--glass-border-dark);
+            color: var(--text-dark);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: auto; /* Pushes footer to the bottom */
+            border-radius: 15px 15px 0 0; /* Round top edges */
+        }
+
+        footer .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            text-align: left;
+            padding: 0 1.5rem;
+        }
+
+        footer .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 2rem;
+        }
+
+        footer .footer-section h4 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        footer .footer-section ul {
+            list-style: none;
+        }
+
+        footer .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        footer .footer-section ul li a {
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+        footer .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        footer .social-icons {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        footer .social-icons a {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        footer .social-icons a:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        footer .copyright {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+            width: 100%;
+            text-align: center;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            .hero .hero-content p {
+                font-size: 1.1rem;
+            }
+            section h2 {
+                font-size: 2.5rem;
+            }
+            .featured-items .grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+            }
+            header.glass-effect {
+                border-radius: 0;
+            }
+            header .logo {
+                margin: 0;
+                margin-bottom: 1rem;
+            }
+            header nav ul {
+                gap: 1rem;
+                margin-bottom: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header-actions {
+                margin: 0;
+                gap: 1rem;
+            }
+            .hero {
+                min-height: 70vh;
+            }
+            .hero .hero-content {
+                padding: 2rem;
+            }
+            .hero .hero-content h1 {
+                font-size: 3rem;
+            }
+            .hero .hero-content p {
+                font-size: 1rem;
+            }
+            section {
+                padding: 4rem 0;
+            }
+            section h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            .featured-items .grid {
+                grid-template-columns: 1fr;
+            }
+            .item-card {
+                height: auto;
+            }
+            .item-card img {
+                height: 250px;
+            }
+            .cta-section .glass-effect {
+                padding: 2.5rem;
+            }
+            .cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .cta-section p {
+                font-size: 1.1rem;
+            }
+            footer .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            footer .footer-section {
+                min-width: unset;
+            }
+            footer .footer-section h4 {
+                text-align: center;
+            }
+            footer .footer-section ul {
+                padding-left: 0;
+            }
+            footer .social-icons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero .hero-content p {
+                font-size: 0.9rem;
+            }
+            .btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            header nav ul {
+                gap: 0.8rem;
+            }
+            header nav a {
+                font-size: 0.9rem;
+            }
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+            .cta-section p {
+                font-size: 1rem;
+            }
+            footer .footer-content {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="glass-effect">
+        <div class="logo"><a href="#">ChicThreads</a></div>
+        <nav>
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="#" class="icon-btn"><i class="fas fa-search"></i></a>
+            <a href="#" class="icon-btn"><i class="fas fa-user"></i></a>
+            <a href="#" class="icon-btn"><i class="fas fa-shopping-bag"></i></a>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content glass-effect">
+                <h1>Unveil Your Perfect Style</h1>
+                <p>Discover exquisite dresses for every occasion, crafted with passion and elegance. Your journey to impeccable fashion starts here.</p>
+                <a href="#shop" class="btn">Shop Now</a>
+            </div>
+        </section>
+
+        <section id="categories" class="featured-items">
+            <div class="container">
+                <h2>Trending Collections</h2>
+                <div class="grid">
+                    <div class="item-card glass-effect">
+                        <img src="https://images.unsplash.com/photo-1579298245780-60b135d1059b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Evening Gowns">
+                        <h3>Evening Gowns</h3>
+                        <p>Dazzle at any event with our luxurious evening gowns. Elegance redefined.</p>
+                        <span class="price">From $199</span>
+                        <a href="#" class="btn">View Collection</a>
+                    </div>
+                    <div class="item-card glass-effect">
+                        <img src="https://images.unsplash.com/photo-1620241830219-53e7f918991b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Casual Dresses">
+                        <h3>Casual Chic</h3>
+                        <p>Comfort meets style in our collection of everyday casual dresses.</p>
+                        <span class="price">From $59</span>
+                        <a href="#" class="btn">View Collection</a>
+                    </div>
+                    <div class="item-card glass-effect">
+                        <img src="https://images.unsplash.com/photo-1549419149-a67878486cf2?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Wedding Dresses">
+                        <h3>Bridal Collection</h3>
+                        <p>Say "I do" in style with our breathtaking wedding and bridesmaid dresses.</p>
+                        <span class="price">From $499</span>
+                        <a href="#" class="btn">View Collection</a>
+                    </div>
+                    <div class="item-card glass-effect">
+                        <img src="https://images.unsplash.com/photo-1572097478061-f4f72675d038?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Summer Dresses">
+                        <h3>Summer Styles</h3>
+                        <p>Light, airy, and vibrant dresses perfect for sunny days and warm nights.</p>
+                        <span class="price">From $45</span>
+                        <a href="#" class="btn">View Collection</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="shop" class="cta-section">
+            <div class="container">
+                <div class="glass-effect glass-dark">
+                    <h2>Your Dream Dress Awaits</h2>
+                    <p>Explore our extensive catalog and find the dress that speaks to your unique style. Quality, comfort, and elegance – all in one place.</p>
+                    <a href="#" class="btn">Start Shopping Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-us">
+            <div class="container">
+                <h2>About ChicThreads</h2>
+                <div class="glass-effect" style="max-width: 900px; margin: 0 auto; text-align: center; color: var(--text-dark);">
+                    <p>At ChicThreads, we believe that every woman deserves to feel beautiful and confident. Our passion for fashion drives us to curate a stunning collection of dresses that cater to diverse tastes and occasions. From elegant evening wear to comfortable daily attire, we focus on quality fabrics, timeless designs, and the latest trends.</p>
+                    <p style="margin-top: 1rem;">We are committed to providing an exceptional shopping experience, ensuring that you find the perfect dress with ease and joy. Join the ChicThreads family and let us help you unveil your perfect style.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contact">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h4>ChicThreads</h4>
+                <p>Fashion forward, always.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#shop">Shop All</a></li>
+                    <li><a href="#categories">Collections</a></li>
+                    <li><a href="#">Sale</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: support@chicthreads.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 123 Fashion Lane, Style City, ST 98765</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 ChicThreads. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

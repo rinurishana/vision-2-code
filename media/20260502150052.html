@@ -1,0 +1,1188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Home Screen</title>
+    <!-- Using Apple's system font (SF Pro Text) if available, with fallbacks -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+            background-color: #f7f7f7; / Light gray background for the overall page /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .iphone-screen {
+            width: 375px; / Standard iPhone X/XS/11 Pro width /
+            height: 812px; / Standard iPhone X/XS/11 Pro height /
+            background-color: #fcefdc; / Light beige background for the screen itself /
+            border-radius: 40px;
+            box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.1),
+                        0 0 0 16px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            user-select: none; / Prevent text selection /
+        }
+
+        / Status Bar /
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            height: 40px;
+        }
+
+        .status-bar .left {
+            display: flex;
+            align-items: center;
+        }
+        .status-bar .airplane {
+            font-size: 15px;
+            margin-right: 5px;
+        }
+
+        .status-bar .center {
+            font-weight: bold;
+        }
+
+        .status-bar .right {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-bar .wifi {
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .status-bar .battery {
+            width: 25px;
+            height: 12px;
+            border: 1px solid #333;
+            border-radius: 3px;
+            position: relative;
+            margin-left: 5px;
+        }
+
+        .status-bar .battery-level {
+            height: 100%;
+            width: 18%; / Example level /
+            background-color: #333;
+            border-radius: 2px;
+        }
+
+        .status-bar .battery-tip {
+            width: 2px;
+            height: 6px;
+            background-color: #333;
+            position: absolute;
+            right: -4px;
+            top: 3px;
+            border-radius: 0 1px 1px 0;
+        }
+
+        / App Grid /
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+            flex-grow: 1;
+            align-content: flex-start;
+        }
+
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .app-icon .icon-container {
+            width: 60px;
+            height: 60px;
+            border-radius: 13px; / iOS icon rounded corners /
+            background-color: #eee; / Default background /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-icon .icon-label {
+            font-size: 11px;
+            color: #333;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        / Notification Badge /
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff3b30; / Red /
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 10px;
+            padding: 2px 6px;
+            min-width: 10px;
+            text-align: center;
+            line-height: 1;
+            border: 1px solid white; / White border as seen in iOS /
+        }
+
+        / Specific Icon Styles /
+
+        / Row 1 /
+        .calendar .icon-container { background-color: white; }
+        .calendar .day { font-size: 32px; font-weight: 600; color: #333; line-height: 1; margin-top: -5px; }
+        .calendar .month { font-size: 10px; font-weight: bold; color: #ff3b30; text-transform: uppercase; margin-bottom: -5px;}
+        .calendar .icon-container > div {display: flex; flex-direction: column; align-items: center;}
+
+        .clock .icon-container { background-color: black; }
+        .clock .clock-face {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid white;
+            position: relative;
+            background-color: white;
+        }
+        .clock .hour-hand, .clock .minute-hand, .clock .second-hand {
+            background-color: black;
+            position: absolute;
+            transform-origin: bottom center;
+            border-radius: 1px;
+        }
+        .clock .hour-hand { width: 2px; height: 18px; top: 7px; left: 50%; margin-left: -1px; transform: rotate(150deg); }
+        .clock .minute-hand { width: 2px; height: 24px; top: 3px; left: 50%; margin-left: -1px; transform: rotate(30deg); }
+        .clock .second-hand { width: 1px; height: 26px; top: 2px; left: 50%; margin-left: -0.5px; background-color: #ff3b30; transform: rotate(270deg); }
+        .clock .center-dot { width: 4px; height: 4px; background-color: black; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; }
+
+        .camera .icon-container { background-color: #dddddd; }
+        .camera .camera-body {
+            width: 45px;
+            height: 35px;
+            background-color: #6d6d6d;
+            border-radius: 5px;
+            position: relative;
+        }
+        .camera .camera-lens {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #222;
+            border: 2px solid #aaa;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .camera .camera-flash {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #fff;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+        }
+
+        .photos .icon-container { background-color: white; }
+        .photos .color-flower {
+            width: 45px;
+            height: 45px;
+            position: relative;
+            transform: rotate(45deg);
+        }
+        .photos .petal {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        .photos .petal:nth-child(1) { background-color: #f72c67; top: 0; left: 0; }
+        .photos .petal:nth-child(2) { background-color: #fca82d; top: 0; right: 0; }
+        .photos .petal:nth-child(3) { background-color: #6edb54; bottom: 0; right: 0; }
+        .photos .petal:nth-child(4) { background-color: #2e8af6; bottom: 0; left: 0; }
+        .photos .petal:nth-child(5) { background-color: #d12df7; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); width: 15px; height: 15px; }
+
+        / Row 2 /
+        .weather .icon-container { background-image: linear-gradient(to bottom, #4cb0ec, #2a81c4); }
+        .weather .sun { width: 25px; height: 25px; border-radius: 50%; background-color: #fce152; position: absolute; top: 10px; left: 10px; }
+        .weather .cloud { width: 35px; height: 20px; background-color: white; border-radius: 10px; position: absolute; bottom: 10px; right: 10px; }
+        .weather .cloud::before { content: ""; position: absolute; width: 15px; height: 15px; background-color: white; border-radius: 50%; bottom: 5px; left: 5px; }
+        .weather .cloud::after { content: ""; position: absolute; width: 20px; height: 20px; background-color: white; border-radius: 50%; bottom: 0; right: 5px; }
+
+        .settings .icon-container { background-color: #bbb; }
+        .settings .gear {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            border-radius: 50%;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .settings .gear::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            z-index: 1;
+        }
+        .settings .gear-tooth {
+            position: absolute;
+            width: 8px;
+            height: 10px;
+            background-color: #222;
+            transform-origin: bottom center;
+            z-index: 0;
+        }
+        .settings .gear-tooth:nth-child(1) { top: 0; left: 50%; margin-left: -4px; transform: rotate(0deg); }
+        .settings .gear-tooth:nth-child(2) { top: 50%; left: 0; margin-top: -5px; transform: rotate(-90deg); }
+        .settings .gear-tooth:nth-child(3) { top: 50%; right: 0; margin-top: -5px; transform: rotate(90deg); }
+        .settings .gear-tooth:nth-child(4) { bottom: 0; left: 50%; margin-left: -4px; transform: rotate(180deg); }
+        .settings .gear-tooth:nth-child(5) { top: 8px; left: 8px; transform: rotate(-45deg); }
+        .settings .gear-tooth:nth-child(6) { top: 8px; right: 8px; transform: rotate(45deg); }
+        .settings .gear-tooth:nth-child(7) { bottom: 8px; left: 8px; transform: rotate(-135deg); }
+        .settings .gear-tooth:nth-child(8) { bottom: 8px; right: 8px; transform: rotate(135deg); }
+
+        .calculator .icon-container { background-color: #999; }
+        .calculator .calc-body { width: 45px; height: 50px; background-color: #555; border-radius: 5px; padding: 3px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .calculator .calc-btn { background-color: #777; border-radius: 2px; }
+        .calculator .calc-btn.display { background-color: #aaa; grid-column: span 3; height: 12px; margin-bottom: 2px;}
+        .calculator .calc-btn:nth-child(5), .calculator .calc-btn:nth-child(6), .calculator .calc-btn:nth-child(7) { background-color: #f7a23b; }
+
+        .facebook .icon-container { background-color: #1877f2; }
+        .facebook .f-logo { font-size: 40px; font-weight: bold; color: white; transform: translateX(5px); }
+
+        / Row 3 /
+        .messenger .icon-container { background-image: linear-gradient(to bottom right, #0084ff, #00c6ff); }
+        .messenger .lightning-bolt {
+            width: 25px;
+            height: 35px;
+            background-color: white;
+            clip-path: polygon(15% 0%, 15% 40%, 0% 40%, 40% 100%, 65% 100%, 65% 60%, 100% 60%, 60% 0%);
+            transform: rotate(-10deg);
+        }
+
+        .whatsapp .icon-container { background-color: #25d366; }
+        .whatsapp .phone-icon {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 2px solid white;
+            position: relative;
+        }
+        .whatsapp .phone-icon::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 2px;
+            background-color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+        .whatsapp .phone-icon::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 12px;
+            background-color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .twitter .icon-container { background-color: #1da1f2; }
+        .twitter .bird-icon {
+            width: 30px;
+            height: 25px;
+            background-color: white;
+            clip-path: polygon(25% 65%, 0% 80%, 10% 85%, 35% 75%, 30% 100%, 50% 80%, 60% 90%, 80% 80%, 100% 50%, 80% 30%, 70% 40%, 60% 20%, 50% 0%, 40% 20%, 30% 10%, 20% 30%, 25% 65%);
+            transform: rotate(-10deg);
+        }
+
+        .instagram .icon-container {
+            background-image: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+        }
+        .instagram .camera-outline {
+            width: 38px;
+            height: 38px;
+            border: 3px solid white;
+            border-radius: 10px;
+            position: relative;
+        }
+        .instagram .camera-lens-outer {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .instagram .camera-lens-inner {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+        }
+
+        / Row 4 /
+        .facetime .icon-container { background-color: #30d158; }
+        .facetime .camera-video {
+            width: 40px;
+            height: 30px;
+            background-color: white;
+            border-radius: 5px;
+            position: relative;
+        }
+        .facetime .camera-video::before {
+            content: '';
+            width: 15px;
+            height: 10px;
+            background-color: #30d158;
+            border-radius: 2px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .facetime .camera-video::after {
+            content: '';
+            width: 12px;
+            height: 10px;
+            background-color: #30d158;
+            border-radius: 2px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            transform: rotate(20deg);
+            z-index: 1;
+        }
+
+        .maps .icon-container { background-image: linear-gradient(to bottom, #7dd48e, #5dbb6f); }
+        .maps .map-pointer {
+            width: 35px;
+            height: 35px;
+            border-radius: 50% 50% 50% 0;
+            background-color: #4c87c4; / Blue pointer /
+            transform: rotate(-45deg);
+            position: relative;
+            z-index: 2;
+        }
+        .maps .map-pointer::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .maps .road-sign {
+            width: 30px;
+            height: 15px;
+            background-color: #e53935; / Red sign /
+            border-radius: 3px;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            transform: rotate(20deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8px;
+            font-weight: bold;
+            color: white;
+            z-index: 1;
+        }
+        .maps .road-sign span { transform: rotate(-20deg); } / Counter rotate text /
+        .maps .highway {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            position: absolute;
+            clip-path: polygon(0 0, 100% 0, 100% 30%, 0 70%);
+            transform: scale(0.8) rotate(15deg);
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .youtube .icon-container { background-color: #ff0000; }
+        .youtube .play-button {
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+
+        .tv .icon-container { background-color: black; }
+        .tv .apple-tv-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1;
+        }
+        .tv .apple-tv-logo .apple-symbol {
+            position: relative;
+            width: 18px;
+            height: 22px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            background-color: white;
+            transform: rotate(-10deg);
+            margin-bottom: -5px;
+        }
+        .tv .apple-tv-logo .apple-symbol::before { / Leaf /
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            border-radius: 50%;
+            top: -2px;
+            right: 0px;
+            transform: rotate(45deg);
+        }
+
+        / Row 5 /
+        .reminders .icon-container { background-color: white; }
+        .reminders .dot-list { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+        .reminders .dot-item { display: flex; align-items: center; }
+        .reminders .dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+        .reminders .dot-line { width: 30px; height: 3px; background-color: #eee; border-radius: 1.5px; }
+        .reminders .dot.red { background-color: #ff3b30; }
+        .reminders .dot.blue { background-color: #007aff; }
+        .reminders .dot.orange { background-color: #ff9500; }
+
+        .stocks .icon-container { background-color: black; }
+        .stocks .chart-fill {
+            width: 50px;
+            height: 35px;
+            position: relative;
+            transform: translateY(5px);
+            clip-path: polygon(
+                0% 80%, 10% 70%, 20% 90%, 30% 60%, 40% 75%, 50% 50%, 60% 65%, 70% 30%, 80% 45%, 90% 20%, 100% 0%,
+                100% 100%, 0% 100%
+            );
+            background-color: rgba(0, 122, 255, 0.3);
+        }
+        .stocks .chart-line {
+            position: absolute;
+            width: 50px;
+            height: 35px;
+            top: 10px; / Align with fill /
+            left: 5px; / Adjust position /
+            clip-path: polygon(
+                0% 80%, 10% 70%, 20% 90%, 30% 60%, 40% 75%, 50% 50%, 60% 65%, 70% 30%, 80% 45%, 90% 20%, 100% 0%
+            );
+            background-color: #007aff;
+            transform: translateY(5px);
+        }
+        .stocks .chart-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #007aff;
+            position: absolute;
+            top: 10px; / Adjust to match the last point on the line /
+            right: 5px;
+            transform: translateY(5px);
+        }
+        .stocks .icon-container > div {position: absolute;}
+
+
+        .books .icon-container { background-color: #ff9500; }
+        .books .book-icon {
+            width: 45px;
+            height: 45px;
+            background-color: white;
+            border-radius: 5px;
+            position: relative;
+            transform: rotate(5deg);
+        }
+        .books .book-icon::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 40px;
+            background-color: #eee;
+            border-radius: 2px;
+            top: 2px;
+            left: 5px;
+        }
+        .books .book-icon::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 1px;
+            top: 2px;
+            left: 20px;
+        }
+
+        .mail .icon-container { background-image: linear-gradient(to bottom, #007aff, #005ce6); }
+        .mail .envelope {
+            width: 50px;
+            height: 35px;
+            background-color: white;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        .mail .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 17.5px solid #e0e0e0;
+            box-sizing: border-box;
+        }
+        .mail .envelope::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 17.5px solid white;
+            box-sizing: border-box;
+        }
+        .mail .envelope-center {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background-color: #ccc;
+        }
+
+        / Row 6 /
+        .podcasts .icon-container { background-color: #9333ea; }
+        .podcasts .podcast-mic {
+            width: 35px;
+            height: 35px;
+            border: 2px solid white;
+            border-radius: 50%;
+            position: relative;
+        }
+        .podcasts .podcast-mic::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background-color: white;
+            border-radius: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .podcasts .podcast-mic::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background-color: white;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .app-store .icon-container { background-image: linear-gradient(to bottom right, #34aadc, #5856d6); }
+        .app-store .a-logo {
+            font-size: 40px;
+            font-weight: 900;
+            color: white;
+            letter-spacing: -2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .app-store .a-logo::before {
+            content: 'A';
+        }
+
+        .shortcuts .icon-container { background-image: linear-gradient(to bottom right, #ff2d55, #ffcc00); }
+        .shortcuts .shortcut-symbol {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            transform: rotate(-10deg);
+        }
+        .shortcuts .shortcut-square {
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            position: absolute;
+            border-radius: 5px;
+        }
+        .shortcuts .shortcut-square.top { top: 0; left: 0; transform: rotate(10deg); background-color: #ff2d55; }
+        .shortcuts .shortcut-square.bottom { bottom: 0; right: 0; transform: rotate(10deg); background-color: #ffcc00; }
+        .shortcuts .shortcut-square.middle { top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-20deg); background-color: #007aff; width: 20px; height: 20px; }
+
+
+        .notes .icon-container { background-color: white; }
+        .notes .note-lines {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
+        }
+        .notes .note-lines::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background-image: linear-gradient(to bottom, #ffea80, #ffc000);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .notes .note-line {
+            width: 80%;
+            height: 2px;
+            background-color: #eee;
+            position: absolute;
+            left: 10%;
+            border-radius: 1px;
+        }
+        .notes .note-line:nth-of-type(1) { top: 18px; }
+        .notes .note-line:nth-of-type(2) { top: 25px; }
+        .notes .note-line:nth-of-type(3) { top: 32px; }
+        .notes .note-line:nth-of-type(4) { top: 39px; }
+        .notes .note-line:nth-of-type(5) { top: 46px; }
+
+        / Page indicator /
+        .page-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            gap: 5px;
+        }
+        .page-indicator .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        .page-indicator .dot.active {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        / Dock /
+        .dock {
+            width: 90%;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dock .app-icon .icon-container {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            box-shadow: none;
+        }
+        .dock .app-icon .icon-label {
+            display: none;
+        }
+
+        / Dock Icon Specifics /
+        .safari .icon-container { background-image: linear-gradient(to bottom, #50b6f9, #2b7cf4); }
+        .safari .compass {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: white;
+            position: relative;
+            border: 1px solid #ddd;
+        }
+        .safari .compass::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #ff3b30; / Red needle /
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-20deg);
+        }
+        .safari .compass::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid #007aff; / Blue needle /
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-20deg);
+        }
+        .safari .compass-center {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #333;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .phone .icon-container { background-color: #30d158; }
+        .phone .phone-receiver {
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
+            transform: rotate(-45deg) scale(0.9);
+            border-radius: 3px;
+        }
+        .phone .phone-receiver::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 2px;
+            background-color: #30d158;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .messages .icon-container { background-image: linear-gradient(to bottom, #4cd964, #28a745); }
+        .messages .message-bubble {
+            width: 38px;
+            height: 30px;
+            background-color: white;
+            border-radius: 10px;
+            position: relative;
+        }
+        .messages .message-bubble::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+            bottom: -5px;
+            left: 5px;
+            transform: rotate(-10deg);
+            z-index: -1;
+        }
+        .messages .message-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #ccc;
+            position: absolute;
+        }
+        .messages .message-dot:nth-child(1) { top: 12px; left: 10px; }
+        .messages .message-dot:nth-child(2) { top: 12px; left: 18px; }
+        .messages .message-dot:nth-child(3) { top: 12px; left: 26px; }
+
+        .music .icon-container { background-image: linear-gradient(to bottom right, #ff2d55, #a32df7); }
+        .music .note-icon {
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+        .music .note-head {
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .music .note-stem {
+            width: 3px;
+            height: 20px;
+            background-color: white;
+            position: absolute;
+            top: 0;
+            left: 12px;
+        }
+        .music .note-flag {
+            width: 12px;
+            height: 10px;
+            background-color: white;
+            position: absolute;
+            top: 0;
+            left: 15px;
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="iphone-screen">
+        <div class="status-bar">
+            <div class="left">
+                <span class="airplane">&#9992;</span> <!-- Airplane icon -->
+            </div>
+            <div class="center">
+                6:48 AM
+            </div>
+            <div class="right">
+                <span class="wifi">&#128246;</span> <!-- Wi-Fi icon -->
+                <span>18%</span>
+                <div class="battery">
+                    <div class="battery-level"></div>
+                    <div class="battery-tip"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-grid">
+            <!-- Row 1 -->
+            <div class="app-icon calendar">
+                <div class="icon-container">
+                    <div>
+                        <div class="month">Thursday</div>
+                        <div class="day">31</div>
+                    </div>
+                </div>
+                <div class="icon-label">Calendar</div>
+            </div>
+
+            <div class="app-icon clock">
+                <div class="icon-container">
+                    <div class="clock-face">
+                        <div class="hour-hand"></div>
+                        <div class="minute-hand"></div>
+                        <div class="second-hand"></div>
+                        <div class="center-dot"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Clock</div>
+            </div>
+
+            <div class="app-icon camera">
+                <div class="icon-container">
+                    <div class="camera-body">
+                        <div class="camera-flash"></div>
+                        <div class="camera-lens"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Camera</div>
+            </div>
+
+            <div class="app-icon photos">
+                <div class="icon-container">
+                    <div class="color-flower">
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Photos</div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="app-icon weather">
+                <div class="icon-container">
+                    <div class="sun"></div>
+                    <div class="cloud"></div>
+                </div>
+                <div class="icon-label">Weather</div>
+            </div>
+
+            <div class="app-icon settings">
+                <div class="icon-container">
+                    <div class="gear">
+                        <div class="gear-tooth"></div>
+                        <div class="gear-tooth"></div>
+                        <div class="gear-tooth"></div>
+                        <div class="gear-tooth"></div>
+                        <div class="gear-tooth"></div>
+                        <div class="gear-tooth"></div>
+                        <div class="gear-tooth"></div>
+                        <div class="gear-tooth"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Settings</div>
+            </div>
+
+            <div class="app-icon calculator">
+                <div class="icon-container">
+                    <div class="calc-body">
+                        <div class="calc-btn display"></div>
+                        <div class="calc-btn"></div>
+                        <div class="calc-btn"></div>
+                        <div class="calc-btn"></div>
+                        <div class="calc-btn"></div>
+                        <div class="calc-btn"></div>
+                        <div class="calc-btn"></div>
+                        <div class="calc-btn"></div>
+                        <div class="calc-btn"></div>
+                        <div class="calc-btn"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Calculator</div>
+            </div>
+
+            <div class="app-icon facebook">
+                <div class="icon-container">
+                    <span class="f-logo">f</span>
+                    <span class="notification-badge">5</span>
+                </div>
+                <div class="icon-label">Facebook</div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="app-icon messenger">
+                <div class="icon-container">
+                    <div class="lightning-bolt"></div>
+                    <span class="notification-badge">1</span>
+                </div>
+                <div class="icon-label">Messenger</div>
+            </div>
+
+            <div class="app-icon whatsapp">
+                <div class="icon-container">
+                    <div class="phone-icon"></div>
+                </div>
+                <div class="icon-label">WhatsApp</div>
+            </div>
+
+            <div class="app-icon twitter">
+                <div class="icon-container">
+                    <div class="bird-icon"></div>
+                    <span class="notification-badge">20</span>
+                </div>
+                <div class="icon-label">Twitter</div>
+            </div>
+
+            <div class="app-icon instagram">
+                <div class="icon-container">
+                    <div class="camera-outline">
+                        <div class="camera-lens-outer"></div>
+                        <div class="camera-lens-inner"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Instagram</div>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="app-icon facetime">
+                <div class="icon-container">
+                    <div class="camera-video"></div>
+                </div>
+                <div class="icon-label">FaceTime</div>
+            </div>
+
+            <div class="app-icon maps">
+                <div class="icon-container">
+                    <div class="highway"></div>
+                    <div class="road-sign"><span>280</span></div>
+                    <div class="map-pointer"></div>
+                </div>
+                <div class="icon-label">Maps</div>
+            </div>
+
+            <div class="app-icon youtube">
+                <div class="icon-container">
+                    <div class="play-button"></div>
+                    <span class="notification-badge">118</span>
+                </div>
+                <div class="icon-label">YouTube</div>
+            </div>
+
+            <div class="app-icon tv">
+                <div class="icon-container">
+                    <div class="apple-tv-logo">
+                        <div class="apple-symbol"></div>
+                        TV
+                    </div>
+                </div>
+                <div class="icon-label">TV</div>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="app-icon reminders">
+                <div class="icon-container">
+                    <div class="dot-list">
+                        <div class="dot-item"><div class="dot red"></div><div class="dot-line"></div></div>
+                        <div class="dot-item"><div class="dot blue"></div><div class="dot-line"></div></div>
+                        <div class="dot-item"><div class="dot orange"></div><div class="dot-line"></div></div>
+                    </div>
+                </div>
+                <div class="icon-label">Reminders</div>
+            </div>
+
+            <div class="app-icon stocks">
+                <div class="icon-container">
+                    <div class="chart-fill"></div>
+                    <div class="chart-line"></div>
+                    <div class="chart-dot"></div>
+                </div>
+                <div class="icon-label">Stocks</div>
+            </div>
+
+            <div class="app-icon books">
+                <div class="icon-container">
+                    <div class="book-icon"></div>
+                </div>
+                <div class="icon-label">Books</div>
+            </div>
+
+            <div class="app-icon mail">
+                <div class="icon-container">
+                    <div class="envelope"></div>
+                    <span class="notification-badge">218,882</span>
+                </div>
+                <div class="icon-label">Mail</div>
+            </div>
+
+            <!-- Row 6 -->
+            <div class="app-icon podcasts">
+                <div class="icon-container">
+                    <div class="podcast-mic"></div>
+                </div>
+                <div class="icon-label">Podcasts</div>
+            </div>
+
+            <div class="app-icon app-store">
+                <div class="icon-container">
+                    <span class="a-logo"></span>
+                </div>
+                <div class="icon-label">App Store</div>
+            </div>
+
+            <div class="app-icon shortcuts">
+                <div class="icon-container">
+                    <div class="shortcut-symbol">
+                        <div class="shortcut-square top"></div>
+                        <div class="shortcut-square bottom"></div>
+                        <div class="shortcut-square middle"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Shortcuts</div>
+            </div>
+
+            <div class="app-icon notes">
+                <div class="icon-container">
+                    <div class="note-lines">
+                        <div class="note-line"></div>
+                        <div class="note-line"></div>
+                        <div class="note-line"></div>
+                        <div class="note-line"></div>
+                        <div class="note-line"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Notes</div>
+            </div>
+        </div>
+
+        <div class="page-indicator">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="dock">
+            <div class="app-icon safari">
+                <div class="icon-container">
+                    <div class="compass">
+                        <div class="compass-center"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Safari</div>
+            </div>
+
+            <div class="app-icon phone">
+                <div class="icon-container">
+                    <div class="phone-receiver"></div>
+                </div>
+                <div class="icon-label">Phone</div>
+            </div>
+
+            <div class="app-icon messages">
+                <div class="icon-container">
+                    <div class="message-bubble">
+                        <div class="message-dot"></div>
+                        <div class="message-dot"></div>
+                        <div class="message-dot"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Messages</div>
+            </div>
+
+            <div class="app-icon music">
+                <div class="icon-container">
+                    <div class="note-icon">
+                        <div class="note-head"></div>
+                        <div class="note-stem"></div>
+                        <div class="note-flag"></div>
+                    </div>
+                </div>
+                <div class="icon-label">Music</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

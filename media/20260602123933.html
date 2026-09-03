@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Science Department - University Name</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        :root {
+            --primary-color: #0056b3; /* Darker blue */
+            --secondary-color: #f8f9fa; /* Light grey for sections */
+            --accent-color: #007bff; /* Lighter, vibrant blue for links/buttons */
+            --text-color: #333;
+            --light-text-color: #666;
+            --white-color: #fff;
+            --font-family-sans: 'Roboto', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family-sans);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--white-color);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-family-sans);
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h1 { font-size: 2.5em; }
+        h2 { font-size: 2.2em; color: var(--accent-color); }
+        h3 { font-size: 1.8em; }
+        h4 { font-size: 1.4em; }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: var(--primary-color);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--white-color);
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            color: var(--white-color);
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 500;
+        }
+
+        header nav ul {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        header nav a {
+            color: var(--white-color);
+            font-weight: 500;
+            padding: 5px 0;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        header nav a:hover {
+            color: var(--secondary-color);
+            text-decoration: none;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 86, 179, 0.75), rgba(0, 86, 179, 0.75)), url('https://via.placeholder.com/1500x500/0056b3/ffffff?text=Innovating+the+Future') no-repeat center center/cover;
+            color: var(--white-color);
+            text-align: center;
+            padding: 100px 20px;
+            display: flex;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: var(--white-color);
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            font-weight: 300;
+        }
+
+        /* Section Styling */
+        .section-padded {
+            padding: 80px 0;
+        }
+
+        .section-alt {
+            background-color: var(--secondary-color);
+            padding: 80px 0;
+        }
+
+        .section-padded h3, .section-alt h3 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2em;
+            color: var(--primary-color);
+        }
+
+        /* Program Grid */
+        .program-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .program-card {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .program-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .program-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .program-card ul {
+            margin-bottom: 20px;
+            text-align: left;
+            padding-left: 20px;
+            list-style: disc;
+            color: var(--light-text-color);
+        }
+
+        .program-card li {
+            margin-bottom: 5px;
+        }
+
+        /* Faculty Grid */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .faculty-member {
+            background-color: var(--white-color);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .faculty-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .faculty-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--accent-color);
+        }
+
+        .faculty-member h4 {
+            margin-bottom: 5px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .faculty-member p {
+            font-size: 0.9em;
+            color: var(--light-text-color);
+            margin-bottom: 15px;
+        }
+
+        /* Admissions Info */
+        .admissions-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .admissions-card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 45%;
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .admissions-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .admissions-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Research Section */
+        #research ul {
+            list-style: disc;
+            padding-left: 25px;
+            margin-top: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+
+        #research li {
+            margin-bottom: 10px;
+        }
+
+        #research .btn {
+            margin-top: 30px;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* News & Events */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .news-item {
+            background-color: var(--white-color);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .news-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .news-item .date {
+            font-size: 0.85em;
+            color: var(--light-text-color);
+            margin-bottom: 10px;
+        }
+
+        .news-item p {
+            font-size: 0.95em;
+            color: var(--text-color);
+            flex-grow: 1; /* Allows paragraph to take available space */
+        }
+
+        .news-item a {
+            font-size: 0.9em;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 15px; /* Add space between text and link */
+        }
+
+        /* Contact Section */
+        #contact address {
+            font-style: normal;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+
+        #contact address p {
+            margin-bottom: 5px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .map-placeholder iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: var(--secondary-color);
+            margin: 0 5px;
+        }
+
+        footer a:hover {
+            color: var(--white-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                padding: 80px 15px;
+            }
+            .hero h2 {
+                font-size: 2.5em;
+            }
+            .section-padded, .section-alt {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            header h1 {
+                margin-bottom: 15px;
+            }
+
+            header nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero {
+                padding: 60px 15px;
+                min-height: 280px;
+            }
+
+            .hero h2 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .section-padded, .section-alt {
+                padding: 40px 0;
+            }
+
+            .section-padded h3, .section-alt h3 {
+                font-size: 1.8em;
+                margin-bottom: 30px;
+            }
+
+            .program-card, .admissions-card {
+                max-width: 100%;
+            }
+
+            .admissions-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .faculty-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.5em; }
+
+            header h1 { font-size: 1.5em; }
+            header nav ul { padding: 0; }
+
+            .hero { padding: 50px 10px; }
+            .hero h2 { font-size: 1.6em; }
+            .hero p { font-size: 1em; }
+
+            .btn { padding: 10px 20px; font-size: 0.9em; }
+            .btn-small { padding: 6px 12px; font-size: 0.8em; }
+
+            .map-placeholder { height: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Department of Computer Science</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#faculty">Faculty</a></li>
+                    <li><a href="#research">Research</a></li>
+                    <li><a href="#admissions">Admissions</a></li>
+                    <li><a href="#news">News & Events</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h2>Innovating the Future of Technology</h2>
+                <p>Welcome to the Department of Computer Science, where we foster critical thinking, problem-solving, and groundbreaking research.</p>
+                <a href="#programs" class="btn">Explore Programs</a>
+            </div>
+        </section>
+
+        <section id="about" class="section-padded">
+            <div class="container">
+                <h3>About Our Department</h3>
+                <p>The Department of Computer Science at [University Name] is a leading center for education and research in the field of computing. Our faculty are experts in diverse areas, including artificial intelligence, cybersecurity, software engineering, data science, and theoretical computer science. We are committed to providing our students with a rigorous curriculum, hands-on experience, and opportunities for collaborative research.</p>
+                <p>Our mission is to educate the next generation of innovators, researchers, and industry leaders, equipping them with the knowledge and skills to tackle complex challenges and make significant contributions to the technological landscape.</p>
+            </div>
+        </section>
+
+        <section id="programs" class="section-alt">
+            <div class="container">
+                <h3>Academic Programs</h3>
+                <div class="program-grid">
+                    <article class="program-card">
+                        <h4>Undergraduate Programs</h4>
+                        <ul>
+                            <li>B.S. in Computer Science</li>
+                            <li>B.A. in Computer Science</li>
+                            <li>Minor in Computer Science</li>
+                        </ul>
+                        <a href="#" class="btn-small">Learn More</a>
+                    </article>
+                    <article class="program-card">
+                        <h4>Graduate Programs</h4>
+                        <ul>
+                            <li>M.S. in Computer Science</li>
+                            <li>Ph.D. in Computer Science</li>
+                            <li>M.Eng. in Software Engineering</li>
+                        </ul>
+                        <a href="#" class="btn-small">Learn More</a>
+                    </article>
+                    <article class="program-card">
+                        <h4>Specializations</h4>
+                        <ul>
+                            <li>Artificial Intelligence</li>
+                            <li>Cybersecurity</li>
+                            <li>Data Science</li>
+                            <li>Software Development</li>
+                        </ul>
+                        <a href="#" class="btn-small">Learn More</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="faculty" class="section-padded">
+            <div class="container">
+                <h3>Our Esteemed Faculty</h3>
+                <p>Our faculty members are at the forefront of computer science research and education. They bring a wealth of knowledge and experience to the classroom, mentoring students and driving innovation.</p>
+                <div class="faculty-grid">
+                    <div class="faculty-member">
+                        <img src="https://via.placeholder.com/100x100?text=Prof+Jane" alt="Professor Jane Doe">
+                        <h4>Dr. Jane Doe</h4>
+                        <p>Specialization: Artificial Intelligence</p>
+                        <a href="#">Profile</a>
+                    </div>
+                    <div class="faculty-member">
+                        <img src="https://via.placeholder.com/100x100?text=Prof+John" alt="Professor John Smith">
+                        <h4>Dr. John Smith</h4>
+                        <p>Specialization: Cybersecurity</p>
+                        <a href="#">Profile</a>
+                    </div>
+                    <div class="faculty-member">
+                        <img src="https://via.placeholder.com/100x100?text=Prof+Emily" alt="Professor Emily White">
+                        <h4>Dr. Emily White</h4>
+                        <p>Specialization: Data Science</p>
+                        <a href="#">Profile</a>
+                    </div>
+                </div>
+                <p class="text-center"><a href="#" class="btn">View All Faculty</a></p>
+            </div>
+        </section>
+
+        <section id="research" class="section-alt">
+            <div class="container">
+                <h3>Cutting-Edge Research</h3>
+                <p>Our department is actively engaged in a wide range of research areas that address fundamental and applied problems in computing.</p>
+                <ul>
+                    <li>Machine Learning & Deep Learning</li>
+                    <li>Network Security & Privacy</li>
+                    <li>Human-Computer Interaction</li>
+                    <li>Theoretical Computer Science</li>
+                    <li>Software Engineering & Systems</li>
+                </ul>
+                <a href="#" class="btn">Explore Research Areas</a>
+            </div>
+        </section>
+
+        <section id="admissions" class="section-padded">
+            <div class="container">
+                <h3>Admissions</h3>
+                <p>Interested in joining our vibrant community of learners and researchers? We welcome applications from motivated students worldwide.</p>
+                <div class="admissions-info">
+                    <div class="admissions-card">
+                        <h4>Undergraduate Admissions</h4>
+                        <p>Find information on application requirements, deadlines, and financial aid for our Bachelor's programs.</p>
+                        <a href="#" class="btn-small">Apply Now</a>
+                    </div>
+                    <div class="admissions-card">
+                        <h4>Graduate Admissions</h4>
+                        <p>Discover details about our Master's and Ph.D. programs, including prerequisites and application process.</p>
+                        <a href="#" class="btn-small">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="news" class="section-alt">
+            <div class="container">
+                <h3>News & Events</h3>
+                <div class="news-grid">
+                    <article class="news-item">
+                        <h4>Student Project Wins National Award</h4>
+                        <p class="date">October 26, 2023</p>
+                        <p>Our team of undergraduate students secured first place at the annual National Computing Challenge for their innovative AI solution.</p>
+                        <a href="#">Read More</a>
+                    </article>
+                    <article class="news-item">
+                        <h4>Guest Lecture: Future of Quantum Computing</h4>
+                        <p class="date">October 20, 2023</p>
+                        <p>Dr. [Guest Name] from TechCorp will deliver a lecture on the advancements in quantum computing on November 10th.</p>
+                        <a href="#">Read More</a>
+                    </article>
+                    <article class="news-item">
+                        <h4>Faculty Research Published in Nature</h4>
+                        <p class="date">October 15, 2023</p>
+                        <p>Professor Doe's groundbreaking research on explainable AI has been featured in the latest issue of Nature journal.</p>
+                        <a href="#">Read More</a>
+                    </article>
+                </div>
+                <p class="text-center"><a href="#" class="btn">View All News</a></p>
+            </div>
+        </section>
+
+        <section id="contact" class="section-padded">
+            <div class="container">
+                <h3>Contact Us</h3>
+                <p>Have questions? Feel free to reach out to our department office.</p>
+                <address>
+                    <p>Department of Computer Science</p>
+                    <p>[University Name]</p>
+                    <p>[University Street Address]</p>
+                    <p>[City, State, Zip Code]</p>
+                    <p>Email: <a href="mailto:cs@university.edu">cs@university.edu</a></p>
+                    <p>Phone: <a href="tel:+11234567890">(123) 456-7890</a></p>
+                </address>
+                <div class="map-placeholder">
+                    <!-- Placeholder for a map or campus image -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.251341334645!2d144.9630573153162!3d-37.81410797975199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642b8e19c32df%3A0x6d4e5f22e8d4a9f6!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sus!4v1626027390977!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Department of Computer Science. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+        </div>
+    </footer>
+</body>
+</html>

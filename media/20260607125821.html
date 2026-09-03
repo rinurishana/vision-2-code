@@ -1,0 +1,1340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Home Screen</title>
+    <style>
+        :root {
+            --black: #1e1e1e;
+            --white: #ffffff;
+            --gray-dark: #333333;
+            --gray-medium: #666666;
+            --gray-light: #999999;
+            --yellow-light: #fff0b3;
+            --yellow-dark: #e6d8a0;
+            --red-badge: #ff3b30;
+            --blue-app-icon: #007aff;
+            --green-app-icon: #34c759;
+            --white-app-icon-bg: #f2f2f7;
+            --white-app-icon-bg-hover: #e5e5ea;
+            --gray-app-icon-bg: #d1d1d6;
+            --gray-app-icon-bg-hover: #c7c7cc;
+            --purple-gradient-start: #9562ff;
+            --purple-gradient-end: #d252ff;
+            --blue-gradient-start: #4c84ff;
+            --blue-gradient-end: #00c6ff;
+            --orange-gradient-start: #ff9500;
+            --orange-gradient-end: #ffcc00;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--yellow-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .iphone-screen {
+            width: 375px;
+            height: 812px;
+            background-color: var(--yellow-dark);
+            border-radius: 40px;
+            padding: 20px 15px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            margin-bottom: 20px;
+            color: var(--gray-medium);
+            font-size: 15px;
+            height: 20px;
+        }
+
+        .status-bar .time {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .status-bar .right-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-bar .wifi-icon {
+            width: 16px;
+            height: 16px;
+            margin-left: 5px;
+            fill: var(--gray-medium);
+        }
+        .status-bar .battery-icon {
+            width: 24px;
+            height: 14px;
+            border: 1px solid var(--gray-medium);
+            border-radius: 3px;
+            margin-left: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        .status-bar .battery-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 70%;
+            height: 100%;
+            background-color: var(--gray-medium);
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px 15px;
+            justify-content: center;
+            align-items: start;
+            padding: 0 5px;
+        }
+
+        .app-icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--white);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .app-icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            background-color: var(--white-app-icon-bg);
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .app-icon-text {
+            font-size: 12px;
+            color: var(--gray-dark);
+            font-weight: 500;
+            letter-spacing: -0.2px;
+            text-align: center;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -12px;
+            background-color: var(--red-badge);
+            color: var(--white);
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 8px;
+            line-height: 1;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .app-icon.calendar .app-icon-bg { background-color: var(--white); }
+        .app-icon.calendar .app-icon-text-large { font-size: 24px; font-weight: 600; color: var(--gray-dark); }
+        .app-icon.calendar .day { font-size: 12px; color: var(--gray-dark); margin-bottom: 2px; }
+
+        .app-icon.clock .app-icon-bg { background-color: var(--gray-dark); }
+        .app-icon.clock .clock-face {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--white);
+            border: 3px solid var(--black);
+        }
+        .app-icon.clock .clock-face::before,
+        .app-icon.clock .clock-face::after {
+            content: '';
+            position: absolute;
+            background-color: var(--black);
+            transform-origin: center;
+            border-radius: 1px;
+        }
+        .app-icon.clock .hour-hand {
+            width: 4px;
+            height: 15px;
+            top: 13px;
+            left: 23px;
+            transform: rotate(0deg);
+        }
+        .app-icon.clock .minute-hand {
+            width: 3px;
+            height: 20px;
+            top: 8px;
+            left: 23.5px;
+            transform: rotate(0deg);
+        }
+        .app-icon.clock .dot {
+            width: 4px;
+            height: 4px;
+            top: 23px;
+            left: 23px;
+            border-radius: 50%;
+            background-color: var(--black);
+        }
+
+        .app-icon.camera .app-icon-bg { background-color: var(--white-app-icon-bg-hover); }
+        .app-icon.camera .camera-lens {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--black);
+            margin-bottom: 5px;
+            border: 2px solid var(--gray-dark);
+        }
+        .app-icon.camera .camera-flash {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            background-color: var(--gray-light);
+            transform: rotate(45deg);
+            margin-top: 5px;
+        }
+
+        .app-icon.photos .app-icon-bg {
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 30%, rgba(255,255,255,0) 60%);
+            border-radius: 16px;
+        }
+        .app-icon.photos .petal {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            filter: blur(2px);
+        }
+        .app-icon.photos .petal:nth-child(1) { top: 7px; left: 18px; background-color: #ff3b30; transform: rotate(0deg); }
+        .app-icon.photos .petal:nth-child(2) { top: 18px; left: 30px; background-color: #ff9500; transform: rotate(60deg); }
+        .app-icon.photos .petal:nth-child(3) { top: 18px; left: 6px; background-color: #007aff; transform: rotate(-60deg); }
+        .app-icon.photos .petal:nth-child(4) { top: 30px; left: 18px; background-color: #34c759; transform: rotate(120deg); }
+        .app-icon.photos .center-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--white);
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        .app-icon.weather .app-icon-bg { background: linear-gradient(180deg, #87CEEB 0%, #ADD8E6 100%); }
+        .app-icon.weather .cloud {
+            width: 30px;
+            height: 20px;
+            background-color: var(--white);
+            border-radius: 15px;
+            position: absolute;
+            top: 25px;
+            left: 19px;
+        }
+        .app-icon.weather .cloud::before,
+        .app-icon.weather .cloud::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background-color: var(--white);
+            border-radius: 50%;
+            top: -10px;
+        }
+        .app-icon.weather .cloud::before { left: 5px; }
+        .app-icon.weather .cloud::after { left: 15px; top: -8px;}
+        .app-icon.weather .sun {
+            width: 15px;
+            height: 15px;
+            background-color: #FFDB58;
+            border-radius: 50%;
+            position: absolute;
+            top: 18px;
+            left: 30px;
+            box-shadow: 0 0 5px rgba(255,219,88,0.5);
+        }
+
+        .app-icon.settings .app-icon-bg { background-color: var(--white-app-icon-bg); }
+        .app-icon.settings .gear {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 4px solid var(--gray-medium);
+            position: relative;
+        }
+        .app-icon.settings .gear::before,
+        .app-icon.settings .gear::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 4px solid var(--gray-medium);
+            border-radius: 50%;
+        }
+        .app-icon.settings .gear::before { top: 10px; left: 10px; }
+        .app-icon.settings .gear::after { top: 20px; left: 20px; }
+        .app-icon.settings .gear-spoke {
+            position: absolute;
+            width: 12px;
+            height: 4px;
+            background-color: var(--gray-medium);
+            border-radius: 2px;
+        }
+        .app-icon.settings .gear-spoke:nth-child(3) { top: 18px; left: 0; transform: rotate(0deg); }
+        .app-icon.settings .gear-spoke:nth-child(4) { top: 18px; left: 28px; transform: rotate(0deg); }
+        .app-icon.settings .gear-spoke:nth-child(5) { top: 0; left: 18px; transform: rotate(90deg); }
+        .app-icon.settings .gear-spoke:nth-child(6) { top: 30px; left: 18px; transform: rotate(90deg); }
+
+        .app-icon.calculator .app-icon-bg { background-color: var(--gray-dark); }
+        .app-icon.calculator .calculator-screen {
+            width: 40px;
+            height: 15px;
+            background-color: var(--green-app-icon);
+            border-radius: 3px;
+            margin-bottom: 5px;
+            position: relative;
+        }
+        .app-icon.calculator .calculator-screen::before {
+            content: '0';
+            color: var(--black);
+            font-size: 8px;
+            font-weight: bold;
+            position: absolute;
+            top: 2px;
+            left: 4px;
+        }
+        .app-icon.calculator .buttons-row {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+        .app-icon.calculator .button {
+            width: 8px;
+            height: 8px;
+            background-color: var(--white-app-icon-bg);
+            border-radius: 2px;
+        }
+
+        .app-icon.facebook .app-icon-bg { background-color: var(--blue-app-icon); }
+        .app-icon.facebook .f-icon {
+            color: var(--white);
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 3px;
+        }
+
+        .app-icon.messenger .app-icon-bg { background: linear-gradient(135deg, var(--blue-gradient-start) 0%, var(--blue-gradient-end) 100%); }
+        .app-icon.messenger .lightning {
+            width: 15px;
+            height: 25px;
+            border: 4px solid var(--white);
+            border-radius: 3px;
+            position: relative;
+        }
+        .app-icon.messenger .lightning::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 3px;
+            width: 8px;
+            height: 8px;
+            border: 4px solid var(--white);
+            border-radius: 50%;
+        }
+
+        .app-icon.whatsapp .app-icon-bg { background-color: var(--green-app-icon); }
+        .app-icon.whatsapp .whatsapp-icon {
+            width: 30px;
+            height: 30px;
+            border: 5px solid var(--green-app-icon);
+            border-radius: 50%;
+            position: relative;
+        }
+        .app-icon.whatsapp .whatsapp-icon::before {
+            content: '';
+            position: absolute;
+            top: 7px;
+            left: 8px;
+            width: 14px;
+            height: 14px;
+            border: 4px solid var(--white);
+            border-radius: 50%;
+        }
+        .app-icon.whatsapp .whatsapp-icon::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 11px;
+            width: 10px;
+            height: 10px;
+            border: 4px solid var(--white);
+            border-radius: 50%;
+            transform: rotate(45deg);
+        }
+
+        .app-icon.twitter .app-icon-bg { background-color: var(--blue-app-icon); }
+        .app-icon.twitter .twitter-bird {
+            width: 30px;
+            height: 25px;
+            position: relative;
+            transform: scale(0.8);
+        }
+        .app-icon.twitter .twitter-bird::before,
+        .app-icon.twitter .twitter-bird::after {
+            content: '';
+            position: absolute;
+            background-color: var(--white);
+            border-radius: 50%;
+        }
+        .app-icon.twitter .twitter-bird::before {
+            width: 18px;
+            height: 18px;
+            top: 0;
+            left: 0;
+        }
+        .app-icon.twitter .twitter-bird::after {
+            width: 14px;
+            height: 14px;
+            top: 5px;
+            left: 8px;
+        }
+        .app-icon.twitter .twitter-body {
+            position: absolute;
+            bottom: 0;
+            left: 9px;
+            width: 22px;
+            height: 18px;
+            background-color: var(--white);
+            border-radius: 5px;
+        }
+
+        .app-icon.instagram .app-icon-bg {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+            border-radius: 16px;
+        }
+        .app-icon.instagram .camera-lens-outline {
+            width: 30px;
+            height: 30px;
+            border: 4px solid var(--white);
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app-icon.instagram .camera-lens-inner {
+            width: 12px;
+            height: 12px;
+            background-color: var(--white);
+            border-radius: 50%;
+        }
+        .app-icon.instagram .camera-lens-dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--white);
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+
+        .app-icon.facetime .app-icon-bg { background-color: var(--green-app-icon); }
+        .app-icon.facetime .video-camera {
+            width: 30px;
+            height: 20px;
+            border: 5px solid var(--white);
+            border-radius: 5px;
+            position: relative;
+        }
+        .app-icon.facetime .video-camera::before {
+            content: '';
+            position: absolute;
+            top: 7px;
+            left: 10px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--white);
+            border-radius: 3px;
+        }
+
+        .app-icon.maps .app-icon-bg { background: linear-gradient(180deg, #00c6ff 0%, #0072ff 100%); }
+        .app-icon.maps .map-pin {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 28px;
+            background-color: var(--white);
+            border-radius: 10px 10px 0 0;
+            border: 4px solid var(--white);
+        }
+        .app-icon.maps .map-pin::before {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background-color: var(--white);
+            border-radius: 50%;
+            border: 4px solid var(--white);
+        }
+        .app-icon.maps .road {
+            position: absolute;
+            top: 0;
+            left: 23px;
+            width: 20px;
+            height: 35px;
+            background-color: var(--white);
+            border-radius: 3px;
+            transform: rotate(-30deg);
+        }
+        .app-icon.maps .road-line {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 25px;
+            background-color: #FDBA74;
+            border-radius: 2px;
+            z-index: 1;
+        }
+        .app-icon.maps .number-bg {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 18px;
+            background-color: var(--white);
+            border-radius: 5px;
+            z-index: 1;
+        }
+        .app-icon.maps .number {
+            color: var(--blue-app-icon);
+            font-size: 10px;
+            font-weight: bold;
+            position: absolute;
+            top: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .app-icon.youtube .app-icon-bg { background-color: var(--white); }
+        .app-icon.youtube .youtube-play-button {
+            position: relative;
+            width: 0;
+            height: 0;
+            border-left: 22px solid var(--red-badge);
+            border-top: 13px solid transparent;
+            border-bottom: 13px solid transparent;
+            margin-left: 5px;
+        }
+
+        .app-icon.tv .app-icon-bg { background-color: var(--black); }
+        .app-icon.tv .tv-icon {
+            width: 30px;
+            height: 25px;
+            border: 4px solid var(--white);
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app-icon.tv .tv-icon::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: var(--white);
+            border-radius: 3px;
+        }
+        .app-icon.tv .tv-lines {
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .app-icon.tv .tv-lines span {
+            width: 3px;
+            height: 5px;
+            background-color: var(--white);
+            border-radius: 1px;
+        }
+
+        .app-icon.reminders .app-icon-bg { background-color: var(--white); }
+        .app-icon.reminders .reminder-dots {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+        .app-icon.reminders .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-bottom: 5px;
+        }
+        .app-icon.reminders .dot:nth-child(1) { background-color: #ff3b30; }
+        .app-icon.reminders .dot:nth-child(2) { background-color: #ff9500; }
+        .app-icon.reminders .dot:nth-child(3) { background-color: #34c759; }
+        .app-icon.reminders .reminder-line {
+            width: 30px;
+            height: 3px;
+            background-color: var(--gray-medium);
+            border-radius: 1px;
+            margin-left: 5px;
+        }
+
+        .app-icon.stocks .app-icon-bg { background-color: var(--black); }
+        .app-icon.stocks .stock-chart {
+            width: 45px;
+            height: 35px;
+            position: relative;
+        }
+        .app-icon.stocks .chart-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-bottom: 2px solid #34c759;
+            border-left: 2px solid #34c759;
+            box-sizing: border-box;
+            top: 0;
+            left: 0;
+        }
+        .app-icon.stocks .chart-axis {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-bottom: 1px solid var(--gray-medium);
+            border-left: 1px solid var(--gray-medium);
+            box-sizing: border-box;
+            top: 0;
+            left: 0;
+        }
+        .app-icon.stocks .chart-bar {
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            background-color: #34c759;
+        }
+        .app-icon.stocks .chart-bar:nth-child(1) { left: 5px; height: 15px; }
+        .app-icon.stocks .chart-bar:nth-child(2) { left: 12px; height: 25px; }
+        .app-icon.stocks .chart-bar:nth-child(3) { left: 19px; height: 20px; }
+        .app-icon.stocks .chart-bar:nth-child(4) { left: 26px; height: 18px; }
+        .app-icon.stocks .chart-bar:nth-child(5) { left: 33px; height: 28px; }
+
+        .app-icon.books .app-icon-bg { background: linear-gradient(180deg, var(--orange-gradient-start) 0%, var(--orange-gradient-end) 100%); }
+        .app-icon.books .book-page {
+            position: absolute;
+            width: 25px;
+            height: 35px;
+            background-color: var(--white);
+            border-radius: 3px;
+            top: 10px;
+        }
+        .app-icon.books .book-page:nth-child(1) { left: 13px; transform: rotate(-10deg); z-index: 1; }
+        .app-icon.books .book-page:nth-child(2) { left: 18px; transform: rotate(10deg); }
+        .app-icon.books .book-shadow {
+            position: absolute;
+            width: 25px;
+            height: 35px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            top: 10px;
+        }
+        .app-icon.books .book-shadow:nth-child(3) { left: 15px; transform: rotate(0deg); z-index: 0; }
+
+        .app-icon.mail .app-icon-bg { background-color: var(--blue-app-icon); }
+        .app-icon.mail .mail-envelope {
+            width: 30px;
+            height: 22px;
+            border: 4px solid var(--white);
+            border-radius: 3px;
+            position: relative;
+        }
+        .app-icon.mail .mail-envelope::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            width: 12px;
+            height: 12px;
+            background-color: var(--blue-app-icon);
+            border-bottom: 4px solid var(--white);
+            border-left: 4px solid var(--white);
+            transform: rotate(45deg);
+        }
+
+        .app-icon.podcasts .app-icon-bg {
+            background: linear-gradient(180deg, var(--purple-gradient-start) 0%, var(--purple-gradient-end) 100%);
+            border-radius: 16px;
+        }
+        .app-icon.podcasts .podcast-icon {
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+        .app-icon.podcasts .podcast-icon::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            border: 4px solid var(--white);
+            border-radius: 50%;
+        }
+        .app-icon.podcasts .podcast-icon::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: var(--white);
+            border-radius: 50%;
+        }
+
+        .app-icon.app-store .app-icon-bg { background-color: var(--white-app-icon-bg); }
+        .app-icon.app-store .app-store-icon {
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+        .app-icon.app-store .app-store-icon::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 15px;
+            border: 4px solid var(--blue-app-icon);
+            border-radius: 4px;
+        }
+        .app-icon.app-store .app-store-icon::after {
+            content: '';
+            position: absolute;
+            top: 13px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: var(--blue-app-icon);
+            border-radius: 2px;
+        }
+        .app-icon.app-store .app-store-lines {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .app-icon.app-store .app-store-lines span {
+            width: 3px;
+            height: 4px;
+            background-color: var(--blue-app-icon);
+            border-radius: 1px;
+        }
+
+        .app-icon.shortcuts .app-icon-bg {
+            background: linear-gradient(180deg, #8a2be2 0%, #0000ff 100%);
+            border-radius: 16px;
+        }
+        .app-icon.shortcuts .shortcut-box {
+            width: 20px;
+            height: 20px;
+            background-color: var(--white);
+            border-radius: 4px;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+        .app-icon.shortcuts .shortcut-box:nth-child(2) {
+            top: 20px;
+            left: 20px;
+            background-color: #9370db;
+        }
+        .app-icon.shortcuts .shortcut-box:nth-child(3) {
+            top: 25px;
+            left: 25px;
+            background-color: #4682b4;
+        }
+
+        .app-icon.notes .app-icon-bg { background-color: var(--yellow-light); }
+        .app-icon.notes .notes-lines {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 35px;
+            height: 3px;
+            background-color: var(--gray-dark);
+            border-radius: 1px;
+            margin-bottom: 5px;
+        }
+        .app-icon.notes .notes-lines:nth-child(2) { margin-left: 5px; }
+        .app-icon.notes .notes-lines:nth-child(3) { margin-left: 10px; }
+        .app-icon.notes .notes-lines:nth-child(4) { margin-left: 15px; }
+        .app-icon.notes .notes-top-strip {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            width: 35px;
+            height: 5px;
+            background-color: #f0e68c;
+            border-radius: 2px;
+        }
+
+        .app-icon.compass .app-icon-bg { background-color: var(--white); }
+        .app-icon.compass .compass-face {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid var(--blue-app-icon);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app-icon.compass .compass-needle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 20px;
+            background-color: var(--red-badge);
+            border-radius: 3px 3px 0 0;
+            z-index: 1;
+        }
+        .app-icon.compass .compass-needle::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: var(--red-badge);
+            border-radius: 50%;
+        }
+        .app-icon.compass .compass-center-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--blue-app-icon);
+            border-radius: 50%;
+            z-index: 2;
+        }
+        .app-icon.compass .compass-north {
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--red-badge);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .app-icon.phone .app-icon-bg { background-color: var(--green-app-icon); }
+        .app-icon.phone .phone-receiver {
+            width: 30px;
+            height: 25px;
+            border: 5px solid var(--white);
+            border-radius: 4px;
+            position: relative;
+        }
+        .app-icon.phone .phone-receiver::before {
+            content: '';
+            position: absolute;
+            top: 7px;
+            left: 8px;
+            width: 14px;
+            height: 14px;
+            background-color: var(--white);
+            border-radius: 50%;
+        }
+
+        .app-icon.contacts .app-icon-bg { background-color: var(--white-app-icon-bg); }
+        .app-icon.contacts .contact-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--gray-app-icon-bg);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app-icon.contacts .contact-icon::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 4px solid var(--white);
+            border-radius: 50%;
+        }
+        .app-icon.contacts .contact-icon::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: var(--white);
+            border-radius: 50%;
+        }
+
+        .app-icon.music .app-icon-bg {
+             background: linear-gradient(180deg, #f40082 0%, #f40082 30%, #ff4000 70%, #ff4000 100%);
+             border-radius: 16px;
+        }
+        .app-icon.music .music-note {
+            position: relative;
+            width: 20px;
+            height: 25px;
+        }
+        .app-icon.music .music-note::before,
+        .app-icon.music .music-note::after {
+            content: '';
+            position: absolute;
+            background-color: var(--white);
+        }
+        .app-icon.music .music-note::before {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+        }
+        .app-icon.music .music-note::after {
+            width: 12px;
+            height: 4px;
+            border-radius: 2px;
+            bottom: 0;
+            right: 0;
+        }
+        .app-icon.music .music-note-stem {
+            position: absolute;
+            width: 4px;
+            height: 15px;
+            background-color: var(--white);
+            bottom: 5px;
+            right: 6px;
+            border-radius: 2px;
+        }
+
+        .dock {
+            position: absolute;
+            bottom: 20px;
+            left: 15px;
+            right: 15px;
+            height: 90px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            backdrop-filter: blur(20px);
+            box-shadow: inset 0 2px 5px rgba(255,255,255,0.1),
+                        0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .dock .app-icon-container {
+            width: 68px;
+        }
+
+        .dock .app-icon {
+            width: 68px;
+            height: 68px;
+            background-color: rgba(255,255,255,0.8);
+        }
+
+        .dock .app-icon-text {
+            color: var(--white);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .dock .app-icon-container.phone .app-icon-bg { background-color: var(--green-app-icon); }
+        .dock .app-icon-container.phone .phone-receiver { border-color: var(--white); }
+        .dock .app-icon-container.phone .phone-receiver::before { background-color: var(--white); }
+
+        .dock .app-icon-container.compass .app-icon-bg { background-color: var(--white); }
+        .dock .app-icon-container.compass .compass-face { border-color: var(--blue-app-icon); }
+        .dock .app-icon-container.compass .compass-needle { background-color: var(--red-badge); }
+        .dock .app-icon-container.compass .compass-needle::before { background-color: var(--red-badge); }
+        .dock .app-icon-container.compass .compass-center-dot { background-color: var(--blue-app-icon); }
+        .dock .app-icon-container.compass .compass-north { color: var(--red-badge); }
+
+        .dock .app-icon-container.messages .app-icon-bg { background: linear-gradient(135deg, var(--blue-gradient-start) 0%, var(--blue-gradient-end) 100%); }
+        .dock .app-icon-container.messages .lightning { border-color: var(--white); }
+        .dock .app-icon-container.messages .lightning::before { background-color: var(--white); }
+
+        .dock .app-icon-container.photos .app-icon-bg {
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 30%, rgba(255,255,255,0) 60%);
+            border-radius: 16px;
+        }
+        .dock .app-icon-container.photos .petal { filter: blur(2px); }
+        .dock .app-icon-container.photos .petal:nth-child(1) { background-color: #ff3b30; }
+        .dock .app-icon-container.photos .petal:nth-child(2) { background-color: #ff9500; }
+        .dock .app-icon-container.photos .petal:nth-child(3) { background-color: #007aff; }
+        .dock .app-icon-container.photos .petal:nth-child(4) { background-color: #34c759; }
+        .dock .app-icon-container.photos .center-dot { background-color: var(--white); box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+
+        .dock .app-icon-container.music .app-icon-bg {
+            background: linear-gradient(180deg, #f40082 0%, #f40082 30%, #ff4000 70%, #ff4000 100%);
+            border-radius: 16px;
+        }
+        .dock .app-icon-container.music .music-note::before,
+        .dock .app-icon-container.music .music-note::after,
+        .dock .app-icon-container.music .music-note-stem { background-color: var(--white); }
+    </style>
+</head>
+<body>
+    <div class="iphone-screen">
+        <div class="status-bar">
+            <div class="time">6:48 AM</div>
+            <div class="right-icons">
+                <svg class="wifi-icon" viewBox="0 0 24 24"><path d="M12 17.5C12 18.3 11.3 19 10.5 19S9 18.3 9 17.5 9.7 16 10.5 16 12 16.7 12 17.5zM12 14.5C11.3 14.5 10.5 13.8 10.5 13S11.3 11.5 12 11.5 13.5 12.3 13.5 13 12.7 14.5 12 14.5zM12 11.5C11.3 11.5 10.5 10.8 10.5 10S11.3 8.5 12 8.5 13.5 9.3 13.5 10 12.7 11.5 12 11.5zM12 5.5C10.5 5.5 9 6.3 8.3 7.7L16.7 16c.1.1.2.1.3.1h1.7c1.1 0 2-0.9 2-2v-3c0-1.1-0.9-2-2-2h-2.3c-1.3-1.8-3.3-2.7-5.4-2.7z"></path></svg>
+                18%
+                <div class="battery-icon"></div>
+            </div>
+        </div>
+
+        <div class="app-grid">
+            <a href="#" class="app-icon-container">
+                <div class="app-icon calendar">
+                    <div class="app-icon-bg"></div>
+                    <div class="day">Thursday</div>
+                    <div class="app-icon-text-large">31</div>
+                </div>
+                <div class="app-icon-text">Calendar</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon clock">
+                    <div class="app-icon-bg"></div>
+                    <div class="clock-face">
+                        <div class="hour-hand"></div>
+                        <div class="minute-hand"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="app-icon-text">Clock</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon camera">
+                    <div class="app-icon-bg"></div>
+                    <div class="camera-lens"></div>
+                    <div class="camera-flash"></div>
+                </div>
+                <div class="app-icon-text">Camera</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon photos">
+                    <div class="app-icon-bg"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="center-dot"></div>
+                </div>
+                <div class="app-icon-text">Photos</div>
+            </a>
+
+            <a href="#" class="app-icon-container">
+                <div class="app-icon weather">
+                    <div class="app-icon-bg"></div>
+                    <div class="cloud"></div>
+                    <div class="sun"></div>
+                </div>
+                <div class="app-icon-text">Weather</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon settings">
+                    <div class="app-icon-bg"></div>
+                    <div class="gear">
+                        <div class="gear-spoke"></div>
+                        <div class="gear-spoke"></div>
+                        <div class="gear-spoke"></div>
+                        <div class="gear-spoke"></div>
+                    </div>
+                </div>
+                <div class="app-icon-text">Settings</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon calculator">
+                    <div class="app-icon-bg"></div>
+                    <div class="calculator-screen"></div>
+                    <div class="buttons-row">
+                        <div class="button"></div>
+                        <div class="button"></div>
+                        <div class="button"></div>
+                        <div class="button"></div>
+                    </div>
+                    <div class="buttons-row">
+                        <div class="button"></div>
+                        <div class="button"></div>
+                        <div class="button"></div>
+                        <div class="button"></div>
+                    </div>
+                    <div class="buttons-row">
+                        <div class="button"></div>
+                        <div class="button"></div>
+                        <div class="button"></div>
+                        <div class="button"></div>
+                    </div>
+                </div>
+                <div class="app-icon-text">Calculator</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon facebook">
+                    <div class="app-icon-bg"></div>
+                    <div class="f-icon">f</div>
+                </div>
+                <div class="app-icon-text">Facebook</div>
+                <span class="badge">5</span>
+            </a>
+
+            <a href="#" class="app-icon-container">
+                <div class="app-icon messenger">
+                    <div class="app-icon-bg"></div>
+                    <div class="lightning"></div>
+                </div>
+                <div class="app-icon-text">Messenger</div>
+                <span class="badge">1</span>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon whatsapp">
+                    <div class="app-icon-bg"></div>
+                    <div class="whatsapp-icon"></div>
+                </div>
+                <div class="app-icon-text">WhatsApp</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon twitter">
+                    <div class="app-icon-bg"></div>
+                    <div class="twitter-bird"></div>
+                    <div class="twitter-body"></div>
+                </div>
+                <div class="app-icon-text">Twitter</div>
+                <span class="badge">20</span>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon instagram">
+                    <div class="app-icon-bg"></div>
+                    <div class="camera-lens-outline">
+                        <div class="camera-lens-inner"></div>
+                        <div class="camera-lens-dot"></div>
+                    </div>
+                </div>
+                <div class="app-icon-text">Instagram</div>
+            </a>
+
+            <a href="#" class="app-icon-container">
+                <div class="app-icon facetime">
+                    <div class="app-icon-bg"></div>
+                    <div class="video-camera"></div>
+                </div>
+                <div class="app-icon-text">FaceTime</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon maps">
+                    <div class="app-icon-bg"></div>
+                    <div class="road"></div>
+                    <div class="road-line"></div>
+                    <div class="map-pin"></div>
+                    <div class="number-bg"></div>
+                    <div class="number">280</div>
+                </div>
+                <div class="app-icon-text">Maps</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon youtube">
+                    <div class="app-icon-bg"></div>
+                    <div class="youtube-play-button"></div>
+                </div>
+                <div class="app-icon-text">YouTube</div>
+                <span class="badge">118</span>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon tv">
+                    <div class="app-icon-bg"></div>
+                    <div class="tv-icon"></div>
+                    <div class="tv-lines"><span></span><span></span><span></span></div>
+                </div>
+                <div class="app-icon-text">TV</div>
+            </a>
+
+            <a href="#" class="app-icon-container">
+                <div class="app-icon reminders">
+                    <div class="app-icon-bg"></div>
+                    <div class="reminder-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="reminder-line"></div>
+                </div>
+                <div class="app-icon-text">Reminders</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon stocks">
+                    <div class="app-icon-bg"></div>
+                    <div class="chart-axis"></div>
+                    <div class="chart-line"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                    <div class="chart-bar"></div>
+                </div>
+                <div class="app-icon-text">Stocks</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon books">
+                    <div class="app-icon-bg"></div>
+                    <div class="book-shadow"></div>
+                    <div class="book-page"></div>
+                    <div class="book-page"></div>
+                </div>
+                <div class="app-icon-text">Books</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon mail">
+                    <div class="app-icon-bg"></div>
+                    <div class="mail-envelope"></div>
+                </div>
+                <div class="app-icon-text">Mail</div>
+                <span class="badge">218,882</span>
+            </a>
+
+            <a href="#" class="app-icon-container">
+                <div class="app-icon podcasts">
+                    <div class="app-icon-bg"></div>
+                    <div class="podcast-icon"></div>
+                </div>
+                <div class="app-icon-text">Podcasts</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon app-store">
+                    <div class="app-icon-bg"></div>
+                    <div class="app-store-icon"></div>
+                    <div class="app-store-lines"><span></span><span></span><span></span></div>
+                </div>
+                <div class="app-icon-text">App Store</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon shortcuts">
+                    <div class="app-icon-bg"></div>
+                    <div class="shortcut-box"></div>
+                    <div class="shortcut-box"></div>
+                    <div class="shortcut-box"></div>
+                </div>
+                <div class="app-icon-text">Shortcuts</div>
+            </a>
+            <a href="#" class="app-icon-container">
+                <div class="app-icon notes">
+                    <div class="app-icon-bg"></div>
+                    <div class="notes-top-strip"></div>
+                    <div class="notes-lines"></div>
+                    <div class="notes-lines"></div>
+                    <div class="notes-lines"></div>
+                    <div class="notes-lines"></div>
+                </div>
+                <div class="app-icon-text">Notes</div>
+            </a>
+        </div>
+
+        <div class="dock">
+            <a href="#" class="app-icon-container phone">
+                <div class="app-icon">
+                    <div class="app-icon-bg"></div>
+                    <div class="phone-receiver"></div>
+                </div>
+                <div class="app-icon-text">Phone</div>
+            </a>
+            <a href="#" class="app-icon-container compass">
+                <div class="app-icon">
+                    <div class="app-icon-bg"></div>
+                    <div class="compass-face">
+                        <div class="compass-needle"></div>
+                        <div class="compass-center-dot"></div>
+                    </div>
+                    <div class="compass-north">N</div>
+                </div>
+                <div class="app-icon-text">Compass</div>
+            </a>
+            <a href="#" class="app-icon-container messages">
+                <div class="app-icon">
+                    <div class="app-icon-bg"></div>
+                    <div class="lightning"></div>
+                </div>
+                <div class="app-icon-text">Messages</div>
+            </a>
+            <a href="#" class="app-icon-container photos">
+                <div class="app-icon">
+                    <div class="app-icon-bg"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="center-dot"></div>
+                </div>
+                <div class="app-icon-text">Photos</div>
+            </a>
+            <a href="#" class="app-icon-container music">
+                <div class="app-icon">
+                    <div class="app-icon-bg"></div>
+                    <div class="music-note">
+                        <div class="music-note-stem"></div>
+                    </div>
+                </div>
+                <div class="app-icon-text">Music</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

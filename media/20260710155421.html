@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a2035;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTQ0MCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxwYXRoIGQ9Ik0xNDQwIDEwODBIMzEzLjUyTDc1MCA0OTcuMTk1TDMyLjY2NjcgMTA4MEg1MDQuOTY5TDU4NC40OTYgNzQ4LjU4MUw3NTcuOTM2IDEwODBIMTA0OC44MzJMNzMxLjY4OCA2NDcuNjM3TDExNzIuNjM3IDEwODBIMTQ0MFoiIGZpbGw9IiMxNDRhN2UiLz4KICA8cGF0aCBkPSJNMTQ0MCAxMDgwSDY5MC4zODlMNzUwIDQyOC4yNTlMNzAwLjYxMSA4MjMuNDE4TDM1Mi42MTYgMTA4MEg4NDMuMTM0TDc1MCA0NTcuNzE4TDYxNC4yNzggMTA4MEg4OTguMjIzTDU4NC40OTYgNjYxLjEyMkw2NzAuODcxIDEwODBIMTA0OC44MzJMNzY5LjIxNyA1NDUuNDcxTDExMTcuNjE0IDEwODBIMTQ0MFoiIGZpbGw9IiMyM2E0N2QiLz4KICA8cGF0aCBkPSJNMTQ0MCAxMDgwIDcyMC44OTMgNzA4LjM4N0w4NzEuNjUxIDEwODBIMTQ0MFoiIGZpbGw9IiM1MmI1ZGUiLz4KPC9zdmc+');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: rgba(27, 35, 56, 0.8);
+            border-radius: 16px;
+            padding: 40px;
+            width: 380px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .logo-text .part {
+            color: #4fd1c5;
+        }
+
+        .login-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #a0aec0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .login-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background-color: #4299e1;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background-color: rgba(45, 55, 72, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .input-group input::placeholder {
+            color: #a0aec0;
+        }
+
+        .input-group .icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 20px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4299e1;
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #3182ce;
+        }
+
+        .google-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            transition: background-color 0.3s ease;
+        }
+
+        .google-button:hover {
+            background-color: #e2e8f0;
+        }
+
+        .google-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .signup-text {
+            font-size: 14px;
+            color: #a0aec0;
+        }
+
+        .signup-text a {
+            color: #4299e1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <svg class="logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 11.5H11V10.5H13V11.5ZM13 14.5H11V12.5H13V14.5Z" fill="#4FD1C5"/>
+            <path d="M7 3C6.44772 3 6 3.44772 6 4V12.5H8V5H13.5V3H7Z" fill="white"/>
+            <path d="M17 3H14.5V5H19V12.5H21V4C21 3.44772 20.5523 3 20 3H17Z" fill="white"/>
+        </svg>
+        <div class="logo-text">
+            Vision<span class="part">2</span>Code
+        </div>
+        <div class="login-title">Login</div>
+        <div class="input-group">
+            <input type="text" placeholder="Enter Username">
+            <span class="icon">&#128100;</span>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Enter Password">
+            <span class="icon">&#128274;</span>
+        </div>
+        <button class="login-button">Login</button>
+        <button class="google-button">
+            <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20">
+                <path fill="#fbbc04" d="M31.467,17.197h-7.052v1.535h6.969C27.302,24.267,22.195,28.723,15.999,28.723 c-7.554,0-13.738-6.185-13.738-13.738S8.445,1.246,15.999,1.246c3.718,0,7.133,1.471,9.716,3.946l6.271-6.271 C24.303,0.679,20.336,0,15.999,0C7.164,0,0,7.164,0,15.999s7.164,15.999,15.999,15.999s15.999-7.164,15.999-15.999 C31.998,19.168,31.869,18.034,31.467,17.197z"></path>
+                <path fill="#4285F4" d="M15.999,31.998l3.313-3.313c-2.131-0.914-3.742-2.687-4.557-4.811l-4.556,4.811 C8.233,28.863,11.846,31.998,15.999,31.998z"></path>
+                <path fill="#DB4437" d="M15.999,8.998c-3.226,0-6.022,2.216-6.768,5.269L10.72,14.267c0.693-3.195,3.501-5.524,6.779-5.524 c3.488,0,6.347,2.763,6.347,6.175c0,2.233-1.114,4.215-2.841,5.429l5.428,5.429c2.705-2.51,4.571-6.162,4.571-10.189 C31.999,11.761,24.837,8.998,15.999,8.998z"></path>
+                <path fill="#0F9D58" d="M7.532,20.551l5.988,5.988c1.191-2.798,3.782-4.787,6.804-4.787c2.082,0,3.904,0.892,5.222,2.321 l5.428-5.428C26.835,16.739,21.719,14,15.999,14c-5.565,0-10.183,3.908-11.15,8.998l1.383,0.553 C7.079,23.339,11.101,20.551,15.999,20.551z"></path>
+            </svg>
+            Sign up with Google
+        </button>
+        <div class="signup-text">
+            Not signed up yet? <a href="#">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>

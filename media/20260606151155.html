@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In Form</title>
+    <style>
+        :root {
+            --primary-blue: #3a7bff;
+            --secondary-blue: #285b9d;
+            --white: #ffffff;
+            --light-gray: #e0e0e0;
+            --dark-gray: #4a4a4a;
+            --medium-gray: #9b9b9b;
+            --background-color: #f4f7fc;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --card-border-radius: 15px;
+            --button-border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-color);
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            height: 700px;
+            background: linear-gradient(to right, var(--primary-blue) 50%, var(--background-color) 50%);
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+            color: var(--white);
+            position: relative;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            filter: blur(50px);
+        }
+
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            filter: blur(50px);
+        }
+
+        .welcome-text {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .headline-text {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .description-text {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 80%;
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            padding: 50px;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .sign-in-card {
+            background-color: var(--white);
+            border-radius: var(--card-border-radius);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .sign-in-title {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+        }
+
+        .card-description {
+            font-size: 0.85em;
+            color: var(--medium-gray);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9em;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            color: var(--dark-gray);
+        }
+
+        .input-field::placeholder {
+            color: var(--medium-gray);
+        }
+
+        .password-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .password-input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .show-password {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.85em;
+            color: var(--medium-gray);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            margin-right: 8px;
+            accent-color: var(--primary-blue);
+            width: 16px;
+            height: 16px;
+        }
+
+        .forgot-password {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sign-in-button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            border-radius: var(--button-border-radius);
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(58, 123, 255, 0.3);
+        }
+
+        .sign-in-button:hover {
+            background: var(--secondary-blue);
+        }
+
+        .signup-prompt {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: var(--dark-gray);
+        }
+
+        .signup-link {
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h1 class="welcome-text">WELCOME</h1>
+            <h2 class="headline-text">YOUR HEADLINE NAME</h2>
+            <p class="description-text">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.
+            </p>
+        </div>
+        <div class="right-panel">
+            <div class="sign-in-card">
+                <h2 class="sign-in-title">Sign in</h2>
+                <p class="card-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
+                <div class="input-group">
+                    <label for="username">User name</label>
+                    <input type="text" id="username" class="input-field" placeholder="Enter your username">
+                </div>
+                <div class="input-group">
+                    <div class="password-group">
+                        <label for="password">Password</label>
+                        <span class="show-password">SHOW</span>
+                    </div>
+                    <input type="password" id="password" class="input-field password-input" placeholder="Enter your password">
+                </div>
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button class="sign-in-button">Sign In</button>
+                <p class="signup-prompt">Don't have an account? <a href="#" class="signup-link">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

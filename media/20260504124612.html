@@ -1,0 +1,31 @@
+jsx
+import React from 'react';
+
+function BlueGlassHello() {
+  return (
+    // Full page container with a vibrant background for the glass effect to stand out
+    <div className="min-h-screen flex items-center justify-center
+                    bg-gradient-to-br from-blue-900 via-purple-700 to-teal-500 p-4">
+
+      {/* The 'glass' element container */}
+      <div className="relative p-12 rounded-3xl shadow-2xl overflow-hidden
+                    backdrop-filter backdrop-blur-lg backdrop-saturate-150
+                    bg-white bg-opacity-10
+                    border border-opacity-20 border-white
+                    transform hover:scale-105 transition-transform duration-300 ease-in-out">
+
+        {/* The 'hello' text */}
+        <p className="text-white text-8xl font-extrabold tracking-wide leading-none
+                      drop-shadow-lg text-center
+                      "
+           style={{
+             textShadow: '0 0 20px rgba(255,255,255,0.7), 0 0 30px rgba(0,180,255,0.5)'
+           }}>
+          hello
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default BlueGlassHello;

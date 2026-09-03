@@ -1,0 +1,175 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Brand-Specific Homepage Designs',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  static const Color _darkBlue = Color(0xFF1A3E7D);
+  static const Color _lightBlue = Color(0xFF29A0DA);
+
+  @override
+  Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double leftPanelWidth = screenWidth  0.45;
+
+    final TextStyle _titleStyle = const TextStyle(
+      fontSize: 56.0,
+      fontWeight: FontWeight.w800,
+      color: _darkBlue,
+      height: 1.1,
+      letterSpacing: -0.5,
+      fontFamily: 'Roboto',
+    );
+
+    final TextStyle _bulletPointStyle = const TextStyle(
+      fontSize: 22.0,
+      fontWeight: FontWeight.w500,
+      color: _darkBlue,
+      height: 1.4,
+      fontFamily: 'Roboto',
+    );
+
+    final TextStyle _bulletPointUnderlinedStyle = _bulletPointStyle.copyWith(
+      fontWeight: FontWeight.w700,
+      decoration: TextDecoration.underline,
+      decorationColor: _lightBlue,
+      decorationThickness: 2.0,
+      fontFamily: 'Roboto',
+    );
+
+    final TextStyle _logoStyle = const TextStyle(
+      fontSize: 36.0,
+      fontWeight: FontWeight.w900,
+      color: _darkBlue,
+      letterSpacing: 1.5,
+      fontFamily: 'Roboto',
+    );
+
+    final TextStyle _taglineStyle = const TextStyle(
+      fontSize: 18.0,
+      fontWeight: FontWeight.w500,
+      color: _darkBlue,
+      fontFamily: 'Roboto',
+    );
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/background_desk.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              width: leftPanelWidth,
+              color: Colors.white,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 80.0, vertical: 60.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Brand-Specific\nHomepage Designs',
+                    style: _titleStyle,
+                  ),
+                  const SizedBox(height: 40.0),
+                  _buildBulletPoint(
+                    icon: Icons.check_circle_rounded,
+                    iconColor: _lightBlue,
+                    iconSize: 28.0,
+                    textParts: [
+                      TextSpan(
+                        text: 'THE AVERAGE USER VISITS UP TO ',
+                        style: _bulletPointStyle,
+                      ),
+                      TextSpan(
+                        text: '130 WEBSITES DAILY',
+                        style: _bulletPointUnderlinedStyle,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
+                  _buildBulletPoint(
+                    icon: Icons.check_circle_rounded,
+                    iconColor: _lightBlue,
+                    iconSize: 28.0,
+                    textParts: [
+                      TextSpan(
+                        text: '38% OF USERS NOTICE A ',
+                        style: _bulletPointStyle,
+                      ),
+                      TextSpan(
+                        text: "WEBSITE'S LAYOUT AND\nNAVIGATION",
+                        style: _bulletPointUnderlinedStyle,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 80.0),
+                  Text(
+                    'DIGITALSILK',
+                    style: _logoStyle,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'We Grow Brands Online',
+                    style: _taglineStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBulletPoint({
+    required IconData icon,
+    required Color iconColor,
+    required double iconSize,
+    required List<TextSpan> textParts,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          color: iconColor,
+          size: iconSize,
+        ),
+        const SizedBox(width: 16.0),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              children: textParts,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

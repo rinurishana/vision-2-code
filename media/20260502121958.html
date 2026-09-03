@@ -1,0 +1,295 @@
+Here is the HTML and CSS code to recreate the design from the provided image.
+
+HTML (index.html)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision 2 Code Login</title>
+    <!-- Google Fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo-icon-wrapper">
+                <i class="fa-solid fa-code logo-brackets"></i>
+                <i class="fa-solid fa-eye logo-eye"></i>
+            </div>
+            <p class="logo-text">Vision <span>2</span>Code</p>
+        </div>
+
+        <h2 class="login-title">Login</h2>
+
+        <form class="login-form">
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="Enter Username">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Enter Password">
+            </div>
+            <button type="submit" class="btn primary-btn">Login</button>
+            <button type="button" class="btn google-btn">
+                <i class="fab fa-google"></i> Sign up with Google
+            </button>
+        </form>
+
+        <p class="signup-link">Not signed up yet? <a href="#">Sign up now</a></p>
+    </div>
+</body>
+</html>
+```
+
+CSS (style.css)
+
+```css
+:root {
+    --form-bg: rgba(26, 41, 60, 0.85); / Dark background with transparency /
+    --accent-blue: #3498db; / For "2", underline, and primary button /
+    --text-color: #e0e0e0; / Light grey for general text /
+    --placeholder-color: #a0a0a0; / Grey for placeholder text and icons /
+    --input-bg: #22344a; / Medium dark blue for input fields /
+    --input-border: #44566c; / Darker grey for input borders /
+    --white: #ffffff;
+    --google-btn-text: #333; / Dark text for Google button /
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('https://raw.githubusercontent.com/AnshulRautela/login-page-code-screenshot/main/original.jpg'); / Background from the image /
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow: hidden; / Prevent scroll if background is slightly larger /
+}
+
+.login-container {
+    background: var(--form-bg);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    backdrop-filter: blur(5px); / Frosted glass effect /
+    border: 1px solid rgba(255, 255, 255, 0.1); / Subtle white border /
+}
+
+/ Logo Section Styling /
+.logo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.logo-icon-wrapper {
+    position: relative;
+    width: 80px; / Overall icon container width /
+    height: 60px; / Overall icon container height /
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.logo-brackets {
+    font-size: 80px; / Larger to act as brackets /
+    color: var(--accent-blue);
+    position: absolute;
+    line-height: 0; / Remove extra space from Font Awesome icon /
+}
+
+.logo-eye {
+    font-size: 32px; / Size for the eye icon /
+    color: var(--white);
+    position: relative;
+    z-index: 1; / Ensure eye is above brackets /
+}
+
+.logo-text {
+    font-size: 38px;
+    font-weight: 600;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    margin-top: 5px; / Space between icon and text /
+}
+
+.logo-text span {
+    color: var(--accent-blue);
+    font-weight: 700;
+    margin: 0 4px;
+}
+
+/ Login Title Styling /
+.login-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.login-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px; / Position below text /
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent-blue);
+    border-radius: 2px;
+}
+
+/ Form Input Styling /
+.login-form {
+    margin-top: 40px; / Space after title and underline /
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--placeholder-color);
+    font-size: 18px;
+}
+
+.input-group input {
+    width: calc(100% - 80px); / Adjust width for padding and icon /
+    padding: 15px 20px 15px 60px; / Left padding for icon /
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--text-color);
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input::placeholder {
+    color: var(--placeholder-color);
+}
+
+.input-group input:focus {
+    border-color: var(--accent-blue);
+}
+
+/ Button Styling /
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.primary-btn {
+    background-color: var(--accent-blue);
+    color: var(--white);
+}
+
+.primary-btn:hover {
+    background-color: #2a81c3; / Slightly darker blue on hover /
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.google-btn {
+    background-color: var(--white);
+    color: var(--google-btn-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; / Space between icon and text /
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.google-btn .fab {
+    font-size: 20px;
+}
+
+.google-btn:hover {
+    background-color: #f0f0f0; / Slightly lighter white on hover /
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/ Signup Link Styling /
+.signup-link {
+    margin-top: 30px;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.signup-link a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/ Responsive Adjustments /
+@media (max-width: 500px) {
+    .login-container {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+
+    .logo-text {
+        font-size: 32px;
+    }
+
+    .login-title {
+        font-size: 24px;
+    }
+
+    .input-group input {
+        padding: 12px 15px 12px 50px;
+        width: calc(100% - 65px); / Adjusted width for smaller padding/icon /
+    }
+
+    .input-group i {
+        left: 15px;
+        font-size: 16px;
+    }
+
+    .btn {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .signup-link {
+        font-size: 14px;
+    }
+}
+```

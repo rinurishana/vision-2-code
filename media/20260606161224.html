@@ -1,0 +1,186 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1e1e1e;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%2300008b"/><stop offset="100%" stop-color="%23ff0000"/></linearGradient></defs><rect width="100" height="100" fill="url(%23grad1)"/><g transform="translate(50 50)"><path d="M-30,-25 L30,-25 L30,25 L-30,25 Z" stroke="%23ffffff" stroke-width="1" fill="none" opacity="0.5"/><path d="M-20,-15 L20,-15 L20,15 L-20,15 Z" stroke="%23ffffff" stroke-width="1" fill="none" opacity="0.5"/><line x1="-30" y1="-25" x2="-20" y2="-15" stroke="%23ffffff" stroke-width="1" opacity="0.5"/><line x1="30" y1="-25" x2="20" y2="-15" stroke="%23ffffff" stroke-width="1" opacity="0.5"/><line x1="-30" y1="25" x2="-20" y2="15" stroke="%23ffffff" stroke-width="1" opacity="0.5"/><line x1="30" y1="25" x2="20" y2="15" stroke="%23ffffff" stroke-width="1" opacity="0.5"/></g><g transform="translate(0 -40)"><circle cx="0" cy="0" r="10" stroke="%23ffffff" stroke-width="1" fill="none" opacity="0.5"/><path d="M-5 -5 L5 5 M-5 5 L5 -5" stroke="%23ffffff" stroke-width="1" opacity="0.5"/></g></svg>');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px 50px;
+            width: 400px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .vision-text {
+            color: #ffffff;
+        }
+        .code-text {
+            color: #ff0000;
+        }
+        .app-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+        .app-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #b3b3b3;
+            margin-bottom: 30px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+        }
+        .input-field i {
+            margin-right: 15px;
+            color: #b3b3b3;
+        }
+        .input-field input::placeholder {
+            color: #b3b3b3;
+        }
+        .input-field input {
+            background: none;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            flex-grow: 1;
+        }
+        .login-button {
+            width: 100%;
+            padding: 15px 20px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #ff0000;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+        }
+        .login-button:hover {
+            background-color: #cc0000;
+        }
+        .google-signin-button {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .google-signin-button i {
+            margin-right: 15px;
+        }
+        .google-signin-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .signup-link {
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+        .signup-link a {
+            color: #ff0000;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        .signup-container {
+            margin-top: auto;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 40 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0H30V20L15 30L0 20V0Z" fill="#FF0000"/>
+                <path d="M10 10L20 10L20 20L10 20L10 10Z" fill="white"/>
+                <path d="M15 5L25 15L15 25L5 15L15 5Z" fill="white"/>
+            </svg>
+            <span class="app-title">
+                <span class="vision-text">Vision</span><span class="code-text">2Code</span>
+            </span>
+        </div>
+        <div class="app-subtitle">Login</div>
+        <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Enter Username">
+        </div>
+        <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Enter Password">
+        </div>
+        <button class="login-button">Login</button>
+        <button class="google-signin-button">
+            <i class="fab fa-google"></i>
+            Sign up with Google
+        </button>
+        <div class="signup-container">
+            <span class="signup-link">Not signed up yet? <a href="#">Sign up now</a></span>
+        </div>
+    </div>
+</body>
+</html>

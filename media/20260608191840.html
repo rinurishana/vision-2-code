@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            height: 700px;
+            background: linear-gradient(135deg, #f5d76e 0%, #f39c12 100%);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .welcome-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: 0;
+        }
+        .welcome-section h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .welcome-section h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #fff8e1;
+            letter-spacing: 0.5px;
+        }
+        .welcome-section p {
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 400;
+            color: #fffdd0;
+            max-width: 450px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+        .login-form-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0 20px 20px 0;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+        .login-form-container {
+            background-color: #ffffff;
+            padding: 40px 50px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 85%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-form-container h3 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d35400;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        .login-form-container .sub-heading {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            letter-spacing: 0.2px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+        .input-group input {
+            width: calc(100% - 24px);
+            padding: 12px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #333;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #f39c12;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.2);
+        }
+        .password-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-group input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            margin-right: 8px;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        .checkbox-group input[type="checkbox"]:checked {
+            border-color: #f39c12;
+        }
+        .checkbox-group input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            background-color: #f39c12;
+        }
+        .checkbox-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            cursor: pointer;
+            letter-spacing: 0.2px;
+        }
+        .forgot-password {
+            font-size: 14px;
+            font-weight: 500;
+            color: #f39c12;
+            text-decoration: none;
+            letter-spacing: 0.2px;
+            transition: color 0.3s ease;
+        }
+        .forgot-password:hover {
+            color: #d35400;
+        }
+        .login-button {
+            width: 100%;
+            padding: 14px 20px;
+            background-color: #f39c12;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+        }
+        .login-button:hover {
+            background-color: #d35400;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(211, 84, 0, 0.4);
+        }
+        .signup-prompt {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 30px;
+            letter-spacing: 0.2px;
+        }
+        .signup-prompt a {
+            color: #f39c12;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .signup-prompt a:hover {
+            color: #d35400;
+        }
+        .show-password {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f39c12;
+            cursor: pointer;
+            letter-spacing: 0.2px;
+        }
+        .show-password:hover {
+            color: #d35400;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-section">
+            <h1>WELCOME</h1>
+            <h2>YOUR HEADLINE NAME</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+                aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.
+            </p>
+        </div>
+        <div class="login-form-section">
+            <div class="login-form-container">
+                <h3>Sign in</h3>
+                <p class="sub-heading">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit
+                </p>
+                <div class="input-group">
+                    <label for="username">User Name</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" placeholder="Enter your password">
+                        <span class="show-password">SHOW</span>
+                    </div>
+                </div>
+                <div class="password-container">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button class="login-button">Sing In</button>
+                <div class="signup-prompt">
+                    Don't have an account? <a href="#">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Home Screen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            background-color: #FDEBBD;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            overflow-y: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .phone-frame {
+            width: 375px; / Based on common iPhone screen width /
+            background-color: #FDEBBD;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh; / Ensure it takes full viewport height initially /
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #333333;
+            font-weight: 600;
+        }
+
+        .status-bar .left, .status-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-bar .fa-plane {
+            font-size: 12px;
+            transform: rotate(-45deg); / Match airplane icon orientation /
+        }
+
+        .status-bar .fa-signal {
+            font-size: 12px;
+            opacity: 0.8; / Slightly dimmer signal /
+        }
+
+        .status-bar .fa-moon {
+            font-size: 13px;
+            color: #4CAF50; / Green for low power mode /
+        }
+
+        .status-bar .battery {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .status-bar .battery-icon {
+            width: 24px;
+            height: 11px;
+            border: 1px solid #333333;
+            border-radius: 2.5px;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .status-bar .battery-fill {
+            height: 100%;
+            width: 18%;
+            background-color: #333333;
+            border-radius: 1px;
+            float: left; / Fill from left /
+        }
+
+        .status-bar .battery-tip {
+            width: 2px;
+            height: 4px;
+            background-color: #333333;
+            position: absolute;
+            right: -3px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 0 1px 1px 0;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px 0px; / Vertical gap, horizontal gap is handled by column width and centering /
+            padding: 10px 15px 0 15px; / Top, horizontal, and no bottom padding initially /
+            flex-grow: 1;
+            justify-items: center;
+            align-items: start;
+        }
+
+        .app-icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 70px; / Controls the horizontal spacing somewhat /
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            font-size: 0; / Hide font-size issues for container elements /
+        }
+
+        .app-label {
+            font-size: 11px;
+            color: #333333;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: #FF3B30;
+            color: #FFFFFF;
+            font-size: 10px;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            box-sizing: border-box;
+        }
+
+        / Specific App Styles /
+
+        / Calendar /
+        .app-calendar .app-icon { background-color: #FFFFFF; flex-direction: column; line-height: 1; padding-top: 5px;}
+        .app-calendar .app-icon span:first-child { font-size: 9px; color: #FF3B30; font-weight: 500; margin-bottom: 3px; text-transform: uppercase; letter-spacing: -0.5px;}
+        .app-calendar .app-icon span:last-child { font-size: 28px; color: #333333; font-weight: 600; margin-bottom: 5px;}
+
+        / Clock /
+        .app-clock .app-icon { background-color: #000000; position: relative; }
+        .app-clock .clock-face {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #FFFFFF;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .app-clock .clock-center {
+            width: 3px;
+            height: 3px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 3;
+        }
+        .app-clock .hand {
+            background-color: #FFFFFF;
+            position: absolute;
+            transform-origin: bottom center;
+            left: calc(50% - 0.75px);
+            top: 50%;
+        }
+        .app-clock .hour-hand { width: 1.5px; height: 15px; top: 18px; transform: translateX(-50%) rotate(204deg); } / 6.8  30 = 204deg /
+        .app-clock .minute-hand { width: 1.5px; height: 23px; top: 10px; transform: translateX(-50%) rotate(288deg); } / 48  6 = 288deg /
+        .app-clock .second-hand { width: 1px; height: 25px; top: 8px; background-color: #FF3B30; transform: translateX(-50%) rotate(90deg); z-index: 2;}
+
+        / Camera /
+        .app-camera .app-icon { background-color: #EFEFF4; }
+        .app-camera .app-icon i { color: #333333; font-size: 32px; position: relative; }
+        .app-camera .app-icon i::before {
+            content: ''; position: absolute; width: 20px; height: 20px; background-color: #333333; border-radius: 50%;
+            left: 50%; top: 50%; transform: translate(-50%, -50%); border: 2px solid #EFEFF4; box-sizing: border-box; z-index: 1;
+        }
+        .app-camera .app-icon i::after {
+            content: ''; position: absolute; width: 8px; height: 8px; background-color: #333333; border-radius: 50%;
+            left: calc(50% + 18px); top: calc(50% - 18px); transform: translate(-50%, -50%); z-index: 1;
+        }
+
+        / Photos /
+        .app-photos .app-icon { background-color: #EFEFF4; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 2px; padding: 5px; box-sizing: border-box; }
+        .app-photos .app-icon > div { width: 100%; height: 100%; border-radius: 3px; }
+        .app-photos .app-icon .p1 { background-color: #FF2D55; grid-column: 1 / span 1; grid-row: 1 / span 2; }
+        .app-photos .app-icon .p2 { background-color: #5AC8FA; grid-column: 2 / span 1; grid-row: 1 / span 1; }
+        .app-photos .app-icon .p3 { background-color: #4CD964; grid-column: 3 / span 1; grid-row: 1 / span 2; }
+        .app-photos .app-icon .p4

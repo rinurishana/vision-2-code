@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Development Illustration</title>
+    <style>
+        :root {
+            --color-primary-teal: #00bcd4;
+            --color-secondary-purple: #673ab7;
+            --color-accent-pink: #e91e63;
+            --color-light-blue: #00e5ff;
+            --color-dark-purple: #2c003e;
+            --color-dark-teal: #005a63;
+            --color-text-light: #ffffff;
+            --color-gradient-start: #00a89d; / More refined teal start /
+            --color-gradient-mid: #0060ad; / Transition blue /
+            --color-gradient-end: #6a008a; / Deep purple end /
+            --color-keyboard-bg: #212121;
+            --color-screen-bg: #1a1a1a;
+            --color-laptop-body: #3c3c3c;
+            --color-laptop-shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif; / Using a common sans-serif, can link Google Fonts if needed /
+            overflow: hidden; / Hide scrollbars if elements go slightly off-screen /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(90deg, var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+        }
+
+        .container {
+            width: 1200px; / Base width for the illustration /
+            height: 675px; / Base height for the illustration, maintaining aspect ratio /
+            position: relative;
+            transform-origin: top left;
+            transform: scale(min(1, calc(100vw / 1200px), calc(100vh / 675px))); / Responsive scaling /
+        }
+
+        .element {
+            position: absolute;
+            color: var(--color-text-light);
+        }
+
+        / ----- Laptop ----- /
+        .laptop {
+            position: absolute;
+            width: 550px;
+            height: 350px;
+            top: 150px;
+            left: 280px;
+            transform: perspective(1000px) rotateX(10deg) rotateY(-5deg) rotateZ(-5deg); / Perspective for 3D look /
+            transform-origin: bottom center;
+            box-shadow: 0 20px 50px var(--color-laptop-shadow);
+        }
+
+        .laptop-screen-base {
+            position: absolute;
+            width: 100%;
+            height: 70%;
+            background-color: var(--color-laptop-body);
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.5);
+            border: 2px solid rgba(0, 229, 255, 0.8);
+            box-sizing: border-box;
+            transform: translateY(-20px) rotateX(-5deg);
+            transform-origin: bottom center;
+            z-index: 20;
+        }
+
+        .laptop-screen {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: linear-gradient(135deg, #001f3f 0%, #0a1128 50%, #0e0e1a 100%);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .code-icon {
+            font-size: 80px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            background: linear-gradient(90deg, #e0e0e0, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .code-icon span:first-child {
+            color: var(--color-accent-pink);
+            font-size: 1.2em;
+        }
+        .code-icon span:last-child {
+            color: var(--color-light-blue);
+            font-size: 1.2em;
+        }
+
+
+        .laptop-keyboard-base {
+            position: absolute;
+            width: 110%;
+            height: 35%;
+            background-color: var(--color-laptop-body);
+            bottom: -5px;
+            left: -5%;
+            border-radius: 0 0 15px 15px;
+            transform: perspective(1000px) rotateX(15deg);
+            transform-origin: top center;
+            z-index: 10;
+        }
+
+        .laptop-keyboard {
+            position: absolute;
+            width: 90%;
+            height: 70%;
+            background-color: var(--color-keyboard-bg);
+            border-radius: 5px;
+            top: 15%;
+            left: 5%;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            gap: 2px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .laptop-keyboard .key {
+            background-color: #333;
+            border-radius: 2px;
+            height: 15px;
+            box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+        }
+        .laptop-keyboard .key:nth-child(even) { background-color: #444; }
+        .laptop-keyboard .key:nth-child(5n+1) { width: 150%; } / Longer keys /
+        .laptop-keyboard .key:nth-child(15n) { width: 120%; } / Enter key /
+
+
+        .laptop-trackpad {
+            position: absolute;
+            width: 40%;
+            height: 15%;
+            background-color: #1a1a1a;
+            border-radius: 3px;
+            bottom: 10%;
+            left: 30%;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 11;
+        }
+        .fingerprint-icon {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        .fingerprint-icon::before,
+        .fingerprint-icon::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 229, 255, 0.8);
+            box-sizing: border-box;
+        }
+        .fingerprint-icon::before {
+            width: 60%;
+            height: 60%;
+            border-bottom-color: transparent;
+            border-right-color: transparent;
+            transform: rotate(-45deg);
+        }
+        .fingerprint-icon::after {
+            width: 40%;
+            height: 40%;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            transform: rotate(135deg);
+        }
+
+        / ----- Mobile Phone ----- /
+        .mobile-phone {
+            position: absolute;
+            width: 150px;
+            height: 300px;
+            background-color: #0d0e1b;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(0, 229, 255, 0.8);
+            border: 3px solid var(--color-light-blue);
+            z-index: 30;
+            top: 200px;
+            left: 450px;
+            transform: perspective(1000px) rotateY(-10deg) rotateX(5deg) scale(0.9);
+            transform-origin: bottom right;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 8px 5px;
+            box-sizing: border-box;
+        }
+
+        .phone-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: #ccc;
+            padding: 2px 5px;
+        }
+        .phone-status-bar span {
+            display: inline-block;
+        }
+        .phone-status-bar .signal::before {
+            content: '|||';
+            font-size: 8px;
+            margin-right: 2px;
+        }
+        .phone-status-bar .battery::after {
+            content: '🔋';
+            font-size: 10px;
+            margin-left: 2px;
+        }
+
+        .phone-header {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .phone-avatar {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #555;
+            border: 1px solid #888;
+        }
+        .phone-text-line {
+            height: 5px;
+            background-color: #555;
+            border-radius: 2px;
+            margin-bottom: 3px;
+        }
+        .phone-text-line.short { width: 50%; }
+        .phone-text-line.medium { width: 80%; }
+        .phone-text-line.full { width: 100%; }
+
+        .phone-image-placeholder {
+            width: 100%;
+            height: 70px;
+            background-color: #444;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: #888;
+            margin: 5px 0;
+            line-height: 0;
+        }
+        .phone-image-placeholder::before {
+            content: '^';
+            transform: rotate(180deg) scaleX(-1);
+            position: relative;
+            top: -5px;
+            left: 2px;
+        }
+        .phone-image-placeholder::after {
+            content: '/\\';
+            font-size: 25px;
+            position: relative;
+            left: -3px;
+            top: 0px;
+        }
+
+
+        .phone-footer-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 5px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+        .phone-footer-nav-item {
+            width: 15px;
+            height: 15px;
+            background-color: #555;
+            border-radius: 3px;
+        }
+
+        / ----- Wireframe Browser Windows ----- /
+        .browser-window {
+            position: absolute;
+            background-color: rgba(0, 229, 255, 0.1);
+            border: 1px solid var(--color-light-blue);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .browser-header {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .browser-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-light-blue);
+        }
+        .browser-address-bar {
+            flex-grow: 1;
+            height: 15px;
+            background-color: rgba(0, 229, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .browser-content {
+            display: flex;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .browser-sidebar {
+            width: 30%;
+            height: 100%;
+            background-color: rgba(0, 229, 255, 0.2);
+            border-radius: 3px;
+        }
+        .browser-main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .browser-image-placeholder {
+            width: 100%;
+            height: 80px;
+            background-color: rgba(0, 229, 255, 0.3);
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .browser-text-line {
+            height: 8px;
+            background-color: rgba(0, 229, 255, 0.2);
+            border-radius: 2px;
+        }
+        .browser-text-line.short { width: 60%; }
+        .browser-text-line.medium { width: 80%; }
+        .browser-text-line.full { width: 100%; }
+
+        .browser-bottom-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .browser-bottom-dots .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid var(--color-light-blue);
+        }
+
+
+        / Right-side purple wireframe /
+        .code-window {
+            position: absolute;
+            width: 200px;
+            height: 180px;
+            background-color: rgba(233, 30, 99, 0.1);
+            border: 1px solid var(--color-accent-pink);
+            box-shadow: 0 0 20px rgba(233, 30, 99, 0.5);
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            top: 250px;
+            left: 700px;
+            transform: perspective(1000px) rotateY(10deg) rotateX(5deg);
+        }
+        .code-window .code-line {
+            height: 8px;
+            background-color: rgba(233, 30, 99, 0.3);
+            border-radius: 2px;
+        }
+        .code-window .code-line:nth-child(even) { width: 80%; }
+        .code-window .code-line:nth-child(odd) { width: 95%; }
+        .code-window .code-line:last-child { margin-top: auto; width: 60%; }
+
+        .purple-browser-window {
+            position: absolute;
+            width: 300px;
+            height: 180px;
+            background-color: rgba(233, 30, 99, 0.1);
+            border: 1px solid var(--color-accent-pink);
+            box-shadow: 0 0 20px rgba(233, 30, 99, 0.5);
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            top: 400px;
+            left: 750px;
+            transform: perspective(1000px) rotateY(5deg) rotateX(5deg) scale(0.95);
+        }
+        .purple-browser-window .browser-dot { background-color: var(--color-accent-pink); }
+        .purple-browser-window .browser-address-bar { background-color: rgba(233, 30, 99, 0.3); }
+        .purple-browser-window .browser-sidebar { background-color: rgba(233, 30, 99, 0.2); }
+        .purple-browser-window .browser-image-placeholder { background-color: rgba(233, 30, 99, 0.3); }
+        .purple-browser-window .browser-text-line { background-color: rgba(233, 30, 99, 0.2); }
+        .purple-browser-window .browser-bottom-dots .dot { border-color: var(--color-accent-pink); }
+
+        / ----- Text Labels ----- /
+        .text-label {
+            font-size: 38px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--color-text-light) 0%, rgba(255, 255, 255, 0.5) 70%, transparent 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            white-space: nowrap;
+        }
+        .text-label.php { top: 300px; left: 300px; transform: rotate(-5deg); font-size: 45px;}
+        .text-label.sql { top: 400px; left: 100px; transform: rotate(-10deg); font-size: 45px;}
+        .text-label.java { top: 550px; left: 280px; font-size: 45px; background: linear-gradient(90deg, #b0f2c2 0%, #20e060 70%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 10px rgba(32, 224, 96, 0.5);}
+        .text-label.html5 { top: 200px; left: 800px; background: linear-gradient(90deg, #ff9800 0%, #ffc107 70%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);}
+        .text-label.css { top: 400px; left: 850px; background: linear-gradient(90deg, #2196f3 0%, #03a9f4 70%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 10px rgba(33, 150, 243, 0.5);}
+
+
+        / ----- Icons ----- /
+        .icon {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 40;
+        }
+
+        .icon.wifi {
+            top: 250px;
+            left: 170px;
+            border-color: var(--color-light-blue);
+            color: var(--color-light-blue);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .icon.wifi::before {
+            content: ')))'; / Simplified wifi icon /
+            transform: rotate(-90deg) scale(0.8, 1.2);
+            position: relative;
+            top: 5px;
+        }
+        .icon.wifi::after {
+            content: '.';
+            position: absolute;
+            font-size: 40px;
+            top: 10px;
+        }
+
+
+        .icon.gear {
+            top: 520px;
+            left: 200px;
+            border-color: var(--color-accent-pink);
+            color: var(--color-accent-pink);
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.5);
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .icon.gear::before {
+            content: '\2699'; / Unicode gear icon /
+            font-size: 30px;
+            transform: rotate(0deg);
+            animation: rotateGear 10s linear infinite;
+        }
+        @keyframes rotateGear {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .icon.search {
+            top: 250px;
+            left: 700px;
+            border-color: var(--color-accent-pink);
+            color: var(--color-accent-pink);
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.5);
+            font-size: 25px;
+        }
+        .icon.search::before {
+            content: '\1F50D'; / Unicode magnifying glass /
+        }
+
+        / ----- Connecting Lines/Circuits ----- /
+        .connector {
+            position: absolute;
+            background-color: var(--color-light-blue);
+            height: 2px;
+            box-shadow: 0 0 10px var(--color-light-blue);
+            z-index: 1;
+        }
+
+        .connector.php-left { top: 320px; left: 310px; width: 50px; transform: rotate(-5deg); }
+        .connector.php-right { top: 320px; left: 350px; width: 100px; background: linear-gradient(90deg, rgba(0, 229, 255, 0.8), rgba(233, 30, 99, 0.8)); transform: rotate(-5deg); }
+
+        .connector.sql-laptop {
+            top: 360px; left: 240px; width: 100px; height: 2px;
+            transform: rotate(20deg);
+            background: linear-gradient(90deg, var(--color-light-blue), transparent);
+        }
+        .connector.sql-window {
+            top: 390px; left: 200px; width: 150px; height: 2px;
+            transform: rotate(-5deg);
+            background: linear-gradient(90deg, transparent, var(--color-light-blue));
+        }
+        .connector.java-line-1 {
+            top: 550px; left: 360px; width: 80px; height: 2px;
+            background: linear-gradient(90deg, rgba(32, 224, 96, 0.8), transparent);
+        }
+        .connector.java-line-2 {
+            top: 540px; left: 380px; width: 2px; height: 30px;
+            background: linear-gradient(180deg, rgba(32, 224, 96, 0.8), transparent);
+        }
+
+        .connector.html5-line-1 {
+            top: 220px; left: 680px; width: 120px; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 152, 0, 0.8));
+        }
+        .connector.css-line-1 {
+            top: 420px; left: 750px; width: 100px; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(33, 150, 243, 0.8));
+        }
+
+        .connector.search-to-code-window {
+            top: 275px; left: 750px; width: 120px; height: 2px;
+            transform: rotate(10deg);
+            background: linear-gradient(90deg, rgba(233, 30, 99, 0.8), rgba(233, 30, 99, 0.3));
+        }
+        .connector.code-window-to-laptop {
+            top: 350px; left: 600px; width: 100px; height: 2px;
+            transform: rotate(-15deg);
+            background: linear-gradient(90deg, transparent, rgba(233, 30, 99, 0.8));
+        }
+        .connector.css-to-browser {
+            top: 450px; left: 830px; width: 80px; height: 2px;
+            transform: rotate(10deg);
+            background: linear-gradient(90deg, rgba(33, 150, 243, 0.8), transparent);
+        }
+
+
+        / Specific positioning for complex elements /
+        .browser-window.left-bottom {
+            width: 350px;
+            height: 200px;
+            top: 450px;
+            left: 100px;
+            transform: perspective(1000px) rotateY(-8deg) rotateX(5deg) scale(0.9);
+        }
+
+        / Elements from the image that are hard to replicate cleanly with CSS alone for pixel perfection,
+           like complex glow gradients on objects, are simplified.
+           The keyboard keys are illustrative, not a full functional keyboard.
+           The phone's specific UI is also simplified to wireframe elements.
+           The background gradient is a general approximation.
+        /
+        .decorative-dots-top {
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            display: flex;
+            gap: 5px;
+            transform: rotate(-5deg);
+        }
+        .decorative-dots-top .dot {
+            width: 8px;
+            height: 2px;
+            background-color: var(--color-light-blue);
+            box-shadow: 0 0 5px var(--color-light-blue);
+            border-radius: 1px;
+        }
+        .decorative-dots-top .dot:nth-child(even) { background-color: var(--color-accent-pink); box-shadow: 0 0 5px var(--color-accent-pink); }
+
+        .decorative-dots-bottom {
+            position: absolute;
+            bottom: 100px;
+            right: 200px;
+            display: flex;
+            gap: 8px;
+            transform: rotate(5deg);
+        }
+        .decorative-dots-bottom .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--color-light-blue);
+            box-shadow: 0 0 5px var(--color-light-blue);
+        }
+        .decorative-dots-bottom .dot:nth-child(even) { border-color: var(--color-accent-pink); box-shadow: 0 0 5px var(--color-accent-pink); }
+
+
+        .laptop-top-right-bar {
+            position: absolute;
+            top: 155px;
+            left: 700px;
+            width: 150px;
+            height: 10px;
+            background: linear-gradient(90deg, rgba(233, 30, 99, 0.5), transparent);
+            transform: rotate(5deg);
+            box-shadow: 0 0 10px rgba(233, 30, 99, 0.5);
+            z-index: 10;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Laptop -->
+        <div class="element laptop">
+            <div class="laptop-screen-base">
+                <div class="laptop-screen">
+                    <div class="code-icon"><span>&lt;</span>/<span>&gt;</span></div>
+                </div>
+            </div>
+            <div class="laptop-keyboard-base">
+                <div class="laptop-keyboard">
+                    <!-- Illustrative keys -->
+                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                </div>
+                <div class="laptop-trackpad"></div>
+                <div class="fingerprint-icon"></div>
+            </div>
+        </div>
+
+        <!-- Mobile Phone -->
+        <div class="element mobile-phone">
+            <div class="phone-screen">
+                <div class="phone-status-bar">
+                    <span class="signal">5G</span>
+                    <span class="time">10:00</span>
+                    <span class="battery">100%</span>
+                </div>
+                <div class="phone-header">
+                    <div class="phone-avatar"></div>
+                    <div>
+                        <div class="phone-text-line short"></div>
+                        <div class="phone-text-line full"></div>
+                    </div>
+                </div>
+                <div class="phone-image-placeholder"></div>
+                <div class="phone-text-line full"></div>
+                <div class="phone-text-line medium"></div>
+                <div class="phone-text-line short"></div>
+                <div class="phone-footer-nav">
+                    <div class="phone-footer-nav-item"></div>
+                    <div class="phone-footer-nav-item"></div>
+                    <div class="phone-footer-nav-item"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wireframe Browser Window (Left Bottom) -->
+        <div class="element browser-window left-bottom">
+            <div class="browser-header">
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-address-bar"></div>
+            </div>
+            <div class="browser-content">
+                <div class="browser-sidebar"></div>
+                <div class="browser-main-content">
+                    <div class="browser-image-placeholder">&#x2015;/\\</div>
+                    <div class="browser-text-line full"></div>
+                    <div class="browser-text-line medium"></div>
+                    <div class="browser-text-line short"></div>
+                </div>
+            </div>
+            <div class="browser-bottom-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- Code Snippet Window (Right of Laptop) -->
+        <div class="element code-window">
+            <div class="browser-header">
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+            </div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+        </div>
+
+        <!-- Purple Browser Window (Right Bottom) -->
+        <div class="element purple-browser-window">
+            <div class="browser-header">
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-address-bar"></div>
+            </div>
+            <div class="browser-content">
+                <div class="browser-sidebar"></div>
+                <div class="browser-main-content">
+                    <div class="browser-image-placeholder">&#x2015;/\\</div>
+                    <div class="browser-text-line full"></div>
+                    <div class="browser-text-line medium"></div>
+                    <div class="browser-text-line short"></div>
+                </div>
+            </div>
+            <div class="browser-bottom-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- Text Labels -->
+        <div class="element text-label php">PHP</div>
+        <div class="element text-label sql">SQL</div>
+        <div class="element text-label java">JAVA</div>
+        <div class="element text-label html5">HTML5</div>
+        <div class="element text-label css">CSS</div>
+
+        <!-- Icons -->
+        <div class="element icon wifi"></div>
+        <div class="element icon gear"></div>
+        <div class="element icon search"></div>
+
+        <!-- Connecting Lines/Circuits -->
+        <div class="connector php-left"></div>
+        <div class="connector php-right"></div>
+        <div class="connector sql-laptop"></div>
+        <div class="connector sql-window"></div>
+        <div class="connector java-line-1"></div>
+        <div class="connector java-line-2"></div>
+        <div class="connector html5-line-1"></div>
+        <div class="connector css-line-1"></div>
+        <div class="connector search-to-code-window"></div>
+        <div class="connector code-window-to-laptop"></div>
+        <div class="connector css-to-browser"></div>
+
+        <!-- Decorative Elements -->
+        <div class="decorative-dots-top">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="decorative-dots-bottom">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="laptop-top-right-bar"></div>
+
+    </div>
+</body>
+</html>

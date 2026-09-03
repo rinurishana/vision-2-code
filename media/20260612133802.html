@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand-Specific Homepage Designs</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        .content-section {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .text-content {
+            flex: 1;
+            max-width: 550px;
+            padding-right: 40px;
+            box-sizing: border-box;
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1f3d6b;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #1f3d6b;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .feature i {
+            color: #3bb3e7;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .feature-text {
+            line-height: 1.5;
+        }
+
+        .feature-text strong {
+            font-weight: 700;
+        }
+
+        .feature-text a {
+            color: #3bb3e7;
+            text-decoration: underline;
+        }
+
+        .logo-section {
+            margin-top: 40px;
+        }
+
+        .logo-section img {
+            width: 200px;
+            height: auto;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            color: #1f3d6b;
+            font-weight: 300;
+            margin-top: 5px;
+        }
+
+        .image-section {
+            flex-shrink: 0;
+            width: 45%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .device-mockup {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1.2;
+        }
+
+        .device-mockup img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .monitor-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 600"><rect x="10" y="10" width="480" height="580" rx="20" ry="20" fill="none" stroke="%23cccccc" stroke-width="2"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .monitor-content {
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            width: 450px;
+            height: 540px;
+            overflow: hidden;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+
+        .monitor-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .laptop-mockup {
+            position: absolute;
+            bottom: 0;
+            right: 10%;
+            width: 38%;
+            max-width: 280px;
+            aspect-ratio: 1.2;
+            transform: rotate(-10deg);
+            transform-origin: bottom right;
+        }
+
+        .laptop-mockup img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .laptop-content {
+            position: absolute;
+            top: 15px;
+            left: 18px;
+            width: 245px;
+            height: 200px;
+            overflow: hidden;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+
+        .laptop-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .register-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3bb3e7;
+            color: #ffffff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+
+        .register-button:hover {
+            background-color: #309bc5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="content-section">
+            <div class="text-content">
+                <h1 class="title">Brand-Specific<br>Homepage Designs</h1>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="feature-text">
+                        THE AVERAGE USER VISITS<br>
+                        UP TO 130 WEBSITES DAILY
+                        <div style="width: 180px; height: 2px; background-color: #3bb3e7; margin-top: 5px;"></div>
+                    </div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="feature-text">
+                        38% OF USERS NOTICE A<br>
+                        WEBSITE'S LAYOUT AND<br>
+                        NAVIGATION
+                    </div>
+                </div>
+                <div class="logo-section">
+                    <img src="https://via.placeholder.com/200x60?text=DIGITALSILK" alt="DigitalSilk Logo">
+                    <div class="logo-text">We Grow Brands Online</div>
+                </div>
+            </div>
+            <div class="image-section">
+                <div class="device-mockup">
+                    <img src="https://via.placeholder.com/500x600?text=Desktop+Mockup" alt="Desktop Mockup">
+                    <div class="monitor-frame"></div>
+                    <div class="monitor-content">
+                        <img src="https://via.placeholder.com/450x540?text=Desktop+Screen+Content" alt="Desktop Screen Content">
+                    </div>
+                </div>
+                <div class="laptop-mockup">
+                    <img src="https://via.placeholder.com/280x336?text=Laptop+Mockup" alt="Laptop Mockup">
+                    <div class="laptop-content">
+                        <img src="https://via.placeholder.com/245x200?text=Laptop+Screen+Content" alt="Laptop Screen Content">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <button class="register-button">Register</button>
+    </div>
+</body>
+</html>

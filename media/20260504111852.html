@@ -1,0 +1,1176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Home Screen</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="iphone-screen">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-left">
+                <i class="fa-solid fa-plane"></i>
+            </div>
+            <div class="status-center">6:48 AM</div>
+            <div class="status-right">
+                <i class="fa-solid fa-signal"></i>
+                <i class="fa-solid fa-moon"></i>
+                18%
+                <div class="battery-icon-wrapper">
+                    <div class="battery-outline"></div>
+                    <div class="battery-fill"></div>
+                    <div class="battery-nub"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Grid -->
+        <div class="app-grid">
+            <!-- Calendar App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon calendar-icon">
+                        <span class="calendar-day">Thursday</span>
+                        <span class="calendar-date">31</span>
+                    </div>
+                </div>
+                <span class="app-label">Calendar</span>
+            </div>
+
+            <!-- Clock App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon clock-icon">
+                        <div class="clock-face">
+                            <span class="num n-12">12</span>
+                            <span class="num n-1">1</span>
+                            <span class="num n-2">2</span>
+                            <span class="num n-3">3</span>
+                            <span class="num n-4">4</span>
+                            <span class="num n-5">5</span>
+                            <span class="num n-6">6</span>
+                            <span class="num n-7">7</span>
+                            <span class="num n-8">8</span>
+                            <span class="num n-9">9</span>
+                            <span class="num n-10">10</span>
+                            <span class="num n-11">11</span>
+                            <div class="hour-hand"></div>
+                            <div class="minute-hand"></div>
+                            <div class="second-hand"></div>
+                            <div class="center-dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <span class="app-label">Clock</span>
+            </div>
+
+            <!-- Camera App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon camera-icon">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                </div>
+                <span class="app-label">Camera</span>
+            </div>
+
+            <!-- Photos App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon photos-icon">
+                        <div class="petal red"></div>
+                        <div class="petal orange"></div>
+                        <div class="petal yellow"></div>
+                        <div class="petal green"></div>
+                        <div class="petal blue"></div>
+                        <div class="petal purple"></div>
+                    </div>
+                </div>
+                <span class="app-label">Photos</span>
+            </div>
+
+            <!-- Weather App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon weather-icon">
+                        <i class="fa-solid fa-sun weather-sun"></i>
+                        <i class="fa-solid fa-cloud weather-cloud"></i>
+                    </div>
+                </div>
+                <span class="app-label">Weather</span>
+            </div>
+
+            <!-- Settings App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon settings-icon">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                </div>
+                <span class="app-label">Settings</span>
+            </div>
+
+            <!-- Calculator App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon calculator-icon">
+                        <div class="calculator-display"></div>
+                        <div class="calculator-keypad">
+                            <div class="key"></div>
+                            <div class="key"></div>
+                            <div class="key"></div>
+                            <div class="key"></div>
+                            <div class="key"></div>
+                            <div class="key"></div>
+                            <div class="key"></div>
+                            <div class="key"></div>
+                            <div class="key"></div>
+                        </div>
+                    </div>
+                </div>
+                <span class="app-label">Calculator</span>
+            </div>
+
+            <!-- Facebook App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon facebook-icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </div>
+                    <div class="notification-badge">5</div>
+                </div>
+                <span class="app-label">Facebook</span>
+            </div>
+
+            <!-- Messenger App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon messenger-icon">
+                        <i class="fa-brands fa-facebook-messenger"></i>
+                    </div>
+                    <div class="notification-badge">1</div>
+                </div>
+                <span class="app-label">Messenger</span>
+            </div>
+
+            <!-- WhatsApp App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon whatsapp-icon">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                </div>
+                <span class="app-label">WhatsApp</span>
+            </div>
+
+            <!-- Twitter App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon twitter-icon">
+                        <i class="fa-brands fa-twitter"></i>
+                    </div>
+                    <div class="notification-badge">20</div>
+                </div>
+                <span class="app-label">Twitter</span>
+            </div>
+
+            <!-- Instagram App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon instagram-icon">
+                        <div class="insta-lens"></div>
+                        <div class="insta-dot"></div>
+                    </div>
+                </div>
+                <span class="app-label">Instagram</span>
+            </div>
+
+            <!-- FaceTime App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon facetime-icon">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                </div>
+                <span class="app-label">FaceTime</span>
+            </div>
+
+            <!-- Maps App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon maps-icon">
+                        <div class="map-road"></div>
+                        <div class="map-pin"></div>
+                        <div class="map-highway">
+                            <span>280</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="app-label">Maps</span>
+            </div>
+
+            <!-- YouTube App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon youtube-icon">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                    <div class="notification-badge">118</div>
+                </div>
+                <span class="app-label">YouTube</span>
+            </div>
+
+            <!-- TV App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon tv-icon">
+                        <i class="fa-brands fa-apple"></i> tv
+                    </div>
+                </div>
+                <span class="app-label">TV</span>
+            </div>
+
+            <!-- Reminders App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon reminders-icon">
+                        <span class="reminder-dot red-dot"></span>
+                        <span class="reminder-dot orange-dot"></span>
+                        <span class="reminder-dot blue-dot"></span>
+                    </div>
+                </div>
+                <span class="app-label">Reminders</span>
+            </div>
+
+            <!-- Stocks App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon stocks-icon">
+                        <div class="stock-graph"></div>
+                    </div>
+                </div>
+                <span class="app-label">Stocks</span>
+            </div>
+
+            <!-- Books App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon books-icon">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                </div>
+                <span class="app-label">Books</span>
+            </div>
+
+            <!-- Mail App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon mail-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="notification-badge">218,882</div>
+                </div>
+                <span class="app-label">Mail</span>
+            </div>
+
+            <!-- Podcasts App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon podcasts-icon">
+                        <i class="fa-solid fa-podcast"></i>
+                    </div>
+                </div>
+                <span class="app-label">Podcasts</span>
+            </div>
+
+            <!-- App Store App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon appstore-icon">
+                        <div class="triangle"></div>
+                    </div>
+                </div>
+                <span class="app-label">App Store</span>
+            </div>
+
+            <!-- Shortcuts App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon shortcuts-icon">
+                        <div class="shortcut-square blue-sq"></div>
+                        <div class="shortcut-square pink-sq"></div>
+                    </div>
+                </div>
+                <span class="app-label">Shortcuts</span>
+            </div>
+
+            <!-- Notes App -->
+            <div class="app-container">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon notes-icon">
+                        <div class="notes-header"></div>
+                        <div class="notes-line"></div>
+                        <div class="notes-line"></div>
+                        <div class="notes-line"></div>
+                    </div>
+                </div>
+                <span class="app-label">Notes</span>
+            </div>
+        </div>
+
+        <!-- Page Indicators -->
+        <div class="page-indicators">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <!-- Dock -->
+        <div class="dock">
+            <!-- Compass App -->
+            <div class="app-container dock-app">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon compass-icon">
+                        <div class="compass-circle"></div>
+                        <div class="compass-needle-red"></div>
+                        <div class="compass-needle-white"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Phone App -->
+            <div class="app-container dock-app">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon phone-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Contacts App -->
+            <div class="app-container dock-app">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon contacts-icon">
+                        <div class="contact-card"></div>
+                        <div class="contact-card second"></div>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Music App -->
+            <div class="app-container dock-app">
+                <div class="app-icon-wrapper">
+                    <div class="app-icon music-icon">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Indicator -->
+        <div class="home-indicator"></div>
+    </div>
+</body>
+</html>
+
+
+css
+/ style.css /
+
+/ CSS Variables for easy theme management /
+:root {
+    --bg-color: #f5e4b6; / Light yellow/beige from image /
+    --status-bar-text-color: white;
+    --app-label-color: white;
+    --notification-badge-bg: #ed444d;
+    --notification-badge-text: white;
+    --app-icon-size: 68px; / Approximate size of app icons /
+    --app-label-font-size: 11px;
+    --status-bar-font-size: 13px;
+    --status-bar-icon-size: 13px;
+    --dock-bg-color: rgba(255, 255, 255, 0.4); / Approximated translucent white /
+}
+
+/ Basic reset for clean rendering /
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; / Align to top of viewport /
+    min-height: 100vh;
+    box-sizing: border-box; / Include padding and border in element's total width/height /
+    overflow: hidden; / Prevent body scrollbars /
+}
+
+/ iPhone Screen Container /
+.iphone-screen {
+    width: 375px; / Common logical pixel width for iPhones /
+    height: 667px; / Common logical pixel height for iPhone 6/7/8 /
+    background-color: var(--bg-color);
+    border-radius: 30px; / Rounded corners for the "phone" itself /
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); / Subtle shadow for depth /
+    overflow: hidden; / Keep content within the rounded screen /
+    position: relative; / For dock and home indicator positioning /
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px; / Space for top notch area /
+    padding-bottom: 20px; / Space for home indicator area /
+}
+
+/ Status Bar Styling /
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 18px; / Padding for left/right elements /
+    color: var(--status-bar-text-color);
+    font-size: var(--status-bar-font-size);
+    font-weight: 600;
+    margin-bottom: 20px; / Space between status bar and app grid /
+}
+
+.status-left, .status-right {
+    display: flex;
+    align-items: center;
+    gap: 5px; / Space between icons/text in status bar sections /
+}
+
+.status-bar .fa-solid {
+    font-size: var(--status-bar-icon-size);
+}
+
+.fa-plane {
+    transform: rotate(-45deg); / Rotate airplane icon to match image /
+    margin-right: 5px;
+}
+
+/ Custom Battery Icon (instead of a single Font Awesome icon) /
+.status-right .battery-icon-wrapper {
+    position: relative;
+    width: 20px;
+    height: 10px;
+    margin-left: 5px;
+}
+.status-right .battery-outline {
+    width: 100%;
+    height: 100%;
+    border: 1.5px solid var(--status-bar-text-color);
+    border-radius: 2.5px;
+    box-sizing: border-box;
+}
+.status-right .battery-fill {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: calc(18% - 4px); / Approximate 18% width for the fill /
+    height: calc(100% - 4px);
+    background-color: var(--status-bar-text-color);
+    border-radius: 1px;
+}
+.status-right .battery-nub {
+    position: absolute;
+    top: 50%;
+    right: -3px;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 4px;
+    background-color: var(--status-bar-text-color);
+    border-radius: 1px;
+}
+
+/ App Grid Styling /
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); / 4 columns, equal width /
+    gap: 20px 0; / Vertical gap between rows, no horizontal gap /
+    padding: 0 10px; / Padding for the entire grid /
+    flex-grow: 1; / Allow the grid to fill available vertical space /
+    justify-items: center; / Center app containers horizontally /
+    align-content: start; / Align rows to the start of the grid /
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: calc(var(--app-icon-size) + 10px); / Slightly wider than icon for label /
+}
+
+.app-icon-wrapper {
+    position: relative;
+    width: var(--app-icon-size);
+    height: var(--app-icon-size);
+    margin-bottom: 5px; / Space between icon and label /
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 22%; / Squircle shape /
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(var(--app-icon-size) / 2); / Default icon size /
+    color: white; / Default icon color /
+    overflow: hidden; / Crucial for internal icon elements /
+    position: relative; / For custom icon elements positioning /
+}
+
+.app-label {
+    color: var(--app-label-color);
+    font-size: var(--app-label-font-size);
+    font-weight: 500;
+    white-space: nowrap; / Prevent label from wrapping /
+    overflow: hidden;
+    text-overflow: ellipsis; / Add ellipsis if label is too long /
+    max-width: 100%; / Constrain label width /
+}
+
+/ Notification Badge Styling /
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--notification-badge-bg);
+    color: var(--notification-badge-text);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px; / Ensure badge is a circle for single digits /
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px 4px;
+    box-sizing: border-box;
+    z-index: 10; / Ensure badge is above the icon /
+    border: 1.5px solid var(--bg-color); / Matches background for "pop-out" effect /
+}
+
+/ Page Indicators Styling /
+.page-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 15px 0; / Space above and below indicators /
+}
+
+.page-indicators .dot {
+    width: 5px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.4); / Translucent dot /
+    border-radius: 50%;
+}
+
+.page-indicators .dot.active {
+    background-color: white; / Active dot is solid white /
+}
+
+/ Dock Styling /
+.dock {
+    width: 90%; / Width of the dock relative to parent /
+    max-width: 350px; / Maximum width for consistency /
+    height: 80px;
+    background: var(--dock-bg-color);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin: 0 auto 10px auto; / Center dock horizontally with bottom margin /
+}
+
+.dock-app .app-label {
+    display: none; / Dock apps do not have labels /
+}
+.dock-app .app-icon-wrapper {
+    margin-bottom: 0; / No space for label below dock icons /
+}
+
+/ Home Indicator Styling (bottom bar) /
+.home-indicator {
+    width: 130px;
+    height: 5px;
+    background-color: white;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/ --- Specific App Icon Styles --- /
+
+/ Calendar App /
+.calendar-icon {
+    background-color: white;
+    flex-direction: column;
+    color: #333; / Dark text color /
+    font-weight: 600;
+}
+.calendar-day {
+    font-size: 12px;
+    margin-top: 10px; / Position "Thursday" /
+}
+.calendar-date {
+    font-size: 34px; / Large "31" /
+    font-weight: 500;
+    line-height: 1; / Remove extra line height /
+}
+
+/ Clock App /
+.clock-icon {
+    background-color: black;
+    position: relative;
+}
+.clock-face {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    border: 2px solid white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.clock-face .num {
+    position: absolute;
+    color: white;
+    font-size: 8px; / Font size for numbers 1-12 /
+    font-weight: 500;
+    line-height: 1;
+}
+/ Positioning for each clock number (approximated) /
+.n-12 { top: 7px; left: 50%; transform: translateX(-50%); }
+.n-1 { top: 12px; right: 28%; }
+.n-2 { top: 25%; right: 12px; }
+.n-3 { right: 7px; top: 50%; transform: translateY(-50%); }
+.n-4 { bottom: 25%; right: 12px; }
+.n-5 { bottom: 12px; right: 28%; }
+.n-6 { bottom: 7px; left: 50%; transform: translateX(-50%); }
+.n-7 { bottom: 12px; left: 28%; }
+.n-8 { bottom: 25%; left: 12px; }
+.n-9 { left: 7px; top: 50%; transform: translateY(-50%); }
+.n-10 { top: 25%; left: 12px; }
+.n-11 { top: 12px; left: 28%; }
+
+.hour-hand, .minute-hand, .second-hand {
+    position: absolute;
+    border-radius: 2px;
+    transform-origin: bottom center;
+    left: 50%; / Center pivot point /
+    transform: translateX(-50%);
+}
+.hour-hand {
+    width: 3px;
+    height: 25%;
+    top: 25%;
+    background-color: white;
+    transform: translateX(-50%) rotate(224deg); / Approximated for 6:48 /
+}
+.minute-hand {
+    width: 2px;
+    height: 35%;
+    top: 15%;
+    background-color: white;
+    transform: translateX(-50%) rotate(288deg); / Approximated for 6:48 /
+}
+.second-hand {
+    width: 1px;
+    height: 40%;
+    top: 10%;
+    background-color: #e74c3c; / Red second hand /
+    transform: translateX(-50%) rotate(90deg); / Arbitrary position /
+}
+.center-dot {
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2; / Ensure dot is on top of hands /
+}
+
+/ Camera App /
+.camera-icon {
+    background-color: #d0d0d0; / Light gray background /
+    color: #555; / Darker gray icon color /
+    font-size: calc(var(--app-icon-size) / 2.5);
+}
+
+/ Photos App /
+.photos-icon {
+    background-color: white;
+    position: relative;
+}
+.photos-icon .petal {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+    margin-left: -14px; / Half of width to center before rotation /
+    margin-top: -14px; / Half of height to center before rotation /
+}
+.photos-icon .red { background-color: #e74c3c; transform: translate(0px, -24px) rotate(-10deg); }
+.photos-icon .orange { background-color: #e67e22; transform: translate(16px, -16px) rotate(45deg); }
+.photos-icon .yellow { background-color: #f1c40f; transform: translate(20px, 10px) rotate(90deg); }
+.photos-icon .green { background-color: #2ecc71; transform: translate(0px, 24px) rotate(180deg); }
+.photos-icon .blue { background-color: #3498db; transform: translate(-16px, 16px) rotate(225deg); }
+.photos-icon .purple { background-color: #9b59b6; transform: translate(-20px, -10px) rotate(270deg); }
+
+/ Weather App /
+.weather-icon {
+    background-color: #3498db; / Blue background /
+    position: relative;
+    color: white;
+}
+.weather-sun {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    font-size: calc(var(--app-icon-size) / 3);
+    color: #f1c40f; / Yellow sun /
+}
+.weather-cloud {
+    position: absolute;
+    bottom: 15%;
+    right: 15%;
+    font-size: calc(var(--app-icon-size) / 2.5);
+}
+
+/ Settings App /
+.settings-icon {
+    background-color: #d0d0d0; / Light gray background /
+    color: #555; / Darker gray gear icon /
+    font-size: calc(var(--app-icon-size) / 2.5);
+}
+
+/ Calculator App /
+.calculator-icon {
+    background-color: #d0d0d0; / Light gray background /
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.calculator-display {
+    width: 80%;
+    height: 25%;
+    background-color: #555; / Dark gray display /
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+.calculator-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); / 3 columns for keys /
+    gap: 3px;
+    width: 80%;
+    height: 55%;
+}
+.calculator-keypad .key {
+    background-color: #888; / Medium gray keys /
+    border-radius: 3px;
+}
+.calculator-keypad .key:nth-child(3n) { background-color: #e67e22; } / Orange operator keys /
+.calculator-keypad .key:nth-child(7),
+.calculator-keypad .key:nth-child(8) { background-color: #333; } / Darker bottom keys /
+
+/ Facebook App /
+.facebook-icon {
+    background-color: #3b5998; / Facebook blue /
+    color: white;
+}
+
+/ Messenger App /
+.messenger-icon {
+    background: linear-gradient(135deg, #007bff 0%, #a200ff 100%); / Blue to purple gradient /
+    color: white;
+}
+
+/ WhatsApp App /
+.whatsapp-icon {
+    background-color: #25d366; / WhatsApp green /
+    color: white;
+}
+
+/ Twitter App /
+.twitter-icon {
+    background-color: #1da1f2; / Twitter blue /
+    color: white;
+}
+
+/ Instagram App /
+.instagram-icon {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); / Instagram gradient /
+    position: relative;
+}
+.insta-lens {
+    width: 45%;
+    height: 45%;
+    border: 5px solid white;
+    border-radius: 50%;
+    position: absolute;
+}
+.insta-dot {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 15%;
+    right: 15%;
+}
+
+/ FaceTime App /
+.facetime-icon {
+    background-color: #28a745; / Green background /
+    color: white;
+}
+
+/ Maps App /
+.maps-icon {
+    background-color: #f0f0f0; / Light gray background /
+    position: relative;
+}
+.map-road {
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    background-color: #bbbbbb; / Gray road color /
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+.map-road::before, .map-road::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 8px;
+    background-color: white; / White road lines /
+    left: 50%;
+    transform: translateX(-50%);
+}
+.map-road::before { top: 10px; }
+.map-road::after { top: 25px; }
+
+.map-pin {
+    width: 18px;
+    height: 18px;
+    background-color: #3498db; / Blue pin /
+    border-radius: 50% 50% 50% 0; / Teardrop shape /
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-left: -9px; / Adjust for centering /
+    margin-top: -9px;
+    z-index: 2;
+    border: 2px solid white;
+}
+.map-pin::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background-color: white; / White dot inside pin /
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.map-highway {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e74c3c; / Red background for "280" /
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 5px;
+    border-radius: 5px;
+    z-index: 3;
+}
+.map-highway span {
+    display: block;
+    line-height: 1;
+}
+
+/ YouTube App /
+.youtube-icon {
+    background-color: #ff0000; / YouTube red /
+    color: white;
+}
+.youtube-icon .fa-youtube {
+    font-size: calc(var(--app-icon-size) / 1.8);
+}
+
+/ TV App /
+.tv-icon {
+    background-color: black;
+    color: white;
+    font-size: calc(var(--app-icon-size) / 3.5);
+    font-weight: bold;
+}
+.tv-icon .fa-apple {
+    font-size: calc(var(--app-icon-size) / 3);
+    margin-right: 3px;
+    transform: translateY(2px); / Align apple icon with "tv" text /
+}
+
+/ Reminders App /
+.reminders-icon {
+    background-color: white;
+    flex-direction: column;
+    justify-content: flex-start; / Align dots to the top /
+    padding-top: 15px;
+    box-sizing: border-box;
+}
+.reminder-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    border: 2px solid #ccc; / Light gray border /
+    box-sizing: border-box;
+}
+.reminders-icon .red-dot { background-color: #e74c3c; }
+.reminders-icon .orange-dot { background-color: #e67e22; }
+.reminders-icon .blue-dot { background-color: #3498db; }
+
+/ Stocks App /
+.stocks-icon {
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+}
+.stocks-icon .stock-graph {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; / No direct background /
+    top: 0;
+    left: 0;
+}
+.stocks-icon .stock-graph::before { / The background fill under the line /
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%; / Base height for the fill /
+    background: linear-gradient(to top, rgba(52, 152, 219, 0.4), transparent); / Blue gradient /
+    / Clippath to define the shape of the filled area /
+    clip-path: polygon(
+        0% 100%, 0% 70%, 15% 55%, 30% 65%, 45% 40%, 60% 55%, 75% 30%, 90% 45%, 100% 20%, 100% 100%
+    );
+}
+.stocks-icon .stock-graph::after { / The graph line itself /
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border-bottom: 2px solid #3498db; / Blue line /
+    / Clippath to define the shape of the line /
+    clip-path: polygon(
+        0% 70%, 15% 55%, 30% 65%, 45% 40%, 60% 55%, 75% 30%, 90% 45%, 100% 20%
+    );
+}
+
+/ Books App /
+.books-icon {
+    background-color: #ffa500; / Orange background /
+    color: white;
+}
+
+/ Mail App /
+.mail-icon {
+    background-color: #3498db; / Blue background /
+    color: white;
+}
+
+/ Podcasts App /
+.podcasts-icon {
+    background: linear-gradient(135deg, #a200ff 0%, #d6249f 100%); / Purple to pink gradient /
+    color: white;
+}
+
+/ App Store App /
+.appstore-icon {
+    background-color: #007aff; / Darker blue background /
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.appstore-icon .triangle {
+    width: 0;
+    height: 0;
+    border-left: calc(var(--app-icon-size) / 4) solid transparent;
+    border-right: calc(var(--app-icon-size) / 4) solid transparent;
+    border-bottom: calc(var(--app-icon-size) / 2) solid white; / White triangle pointing down /
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg); / Slightly rotated /
+}
+
+/ Shortcuts App /
+.shortcuts-icon {
+    background: linear-gradient(135deg, #285aeb, #d6249f, #fd5949, #fdf497); / Instagram-like gradient /
+    position: relative;
+}
+.shortcut-square {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    border-radius: 12px;
+}
+.shortcut-square.blue-sq {
+    background-color: #3498db;
+    top: 25%;
+    left: 25%;
+    transform: rotate(-15deg); / Overlapping and rotated squares /
+}
+.shortcut-square.pink-sq {
+    background-color: #d6249f;
+    bottom: 25%;
+    right: 25%;
+    transform: rotate(15deg);
+}
+
+/ Notes App /
+.notes-icon {
+    background-color: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 5px;
+    box-sizing: border-box;
+}
+.notes-header {
+    width: 100%;
+    height: 15px;
+    background-color: #f1c40f; / Yellow top strip /
+    margin-bottom: 5px;
+}
+.notes-line {
+    width: 80%;
+    height: 2px;
+    background-color: #eee; / Light gray lines /
+    margin-bottom: 5px;
+}
+.notes-line:first-of-type {
+    width: 70%; / Varied line lengths /
+}
+.notes-line:last-of-type {
+    width: 90%;
+}
+
+
+/ --- Dock App Specific Styles --- /
+
+/ Compass App /
+.compass-icon {
+    background-color: #3498db; / Blue background /
+    position: relative;
+    border-radius: 22%; / Squircle shape /
+}
+.compass-circle {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    border: 2px solid white;
+    position: relative;
+    overflow: hidden;
+}
+.compass-needle-red {
+    position: absolute;
+    width: 4px;
+    height: 40%;
+    background-color: #e74c3c; / Red needle /
+    border-radius: 2px;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%) rotate(-30deg); / Pointing approx. North-West /
+    transform-origin: bottom center;
+    z-index: 2;
+}
+.compass-needle-white {
+    position: absolute;
+    width: 4px;
+    height: 40%;
+    background-color: white;
+    border-radius: 2px;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%) rotate(-30deg); / Opposite direction /
+    transform-origin: top center;
+    z-index: 1;
+}
+
+/ Phone App /
+.phone-icon {
+    background-color: #28a745; / Green background /
+    color: white;
+}
+
+/ Contacts App /
+.contacts-icon {
+    background-color: #d0d0d0; / Light gray background /
+    position: relative;
+    color: #555;
+}
+.contact-card {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    border-radius: 15%;
+    transform: translate(-50%, -50%) rotate(-5deg); / Stacked card effect /
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+}
+.contact-card.second {
+    background-color: #e0e0e0; / Slightly darker card /
+    transform: translate(-50%, -50%) rotate(5deg);
+    z-index: 0;
+    left: 45%; / Offset for stacking /
+    top: 55%;
+}
+.contacts-icon .fa-user {
+    position: relative;
+    z-index: 2; / Ensure icon is on top /
+    font-size: calc(var(--app-icon-size) / 2);
+    color: #555;
+}
+
+/ Music App /
+.music-icon {
+    background-color: white;
+    color: #9b59b6; / Purple color for note /
+}
+.music-icon .fa-music {
+    font-size: calc(var(--app-icon-size) / 1.8);
+    position: relative;
+    transform: rotate(15deg); / Rotate note icon /
+    background: linear-gradient(135deg, #a200ff 0%, #d6249f 100%); / Purple to pink gradient /
+    -webkit-background-clip: text; / Apply gradient to text fill /
+    -webkit-text-fill-color: transparent;
+}

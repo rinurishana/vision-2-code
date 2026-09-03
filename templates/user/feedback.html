@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Feedback</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI", sans-serif;
+}
+
+/* PAGE BACKGROUND */
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#020024,#001f4d,#000000);
+}
+
+/* CONTAINER */
+
+.container{
+padding:35px;
+width:420px;
+border-radius:14px;
+
+background:linear-gradient(145deg,#0a1f44,#000000);
+
+box-shadow:0 0 30px rgba(0,0,0,0.7);
+color:white;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+/* TITLE */
+
+h2{
+text-align:center;
+margin-bottom:20px;
+color:#4da6ff;
+}
+
+/* LABEL */
+
+label{
+font-size:14px;
+color:#bbb;
+}
+
+/* TEXTAREA */
+
+textarea{
+width:100%;
+height:100px;
+padding:12px;
+margin-top:8px;
+border:none;
+border-radius:8px;
+resize:none;
+
+background:#08142e;
+color:white;
+outline:none;
+}
+
+/* RATING */
+
+.rating{
+margin:18px 0;
+text-align:center;
+}
+
+/* STARS */
+
+.star{
+font-size:32px;
+cursor:pointer;
+color:#555;
+transition:0.2s;
+}
+
+.star:hover,
+.star.active{
+color:gold;
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+
+background:linear-gradient(90deg,#0d6efd,#003c9e);
+
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:linear-gradient(90deg,#0b5ed7,#002e7a);
+}
+    .back-link{
+color:white;
+text-decoration:none;
+font-weight:500;
+}
+
+.back-link:hover{
+color:#4da6ff;
+}
+
+</style>
+</head>
+
+<body>
+
+{% include "msgalert.html" %}
+
+<div class="container">
+
+<h2>Feedback</h2>
+
+<form method="post" action="/myapp/user_fb_post">
+{% csrf_token %}
+<label>Type Your Feedback</label>
+<textarea placeholder="Enter your feedback here..." name="feedback"></textarea>
+
+<div class="rating">
+    <input type="hidden" value="0" id="rating" name="rating"/>
+<label>Rating</label><br>
+
+<span class="star" onclick="rate(1)">★</span>
+<span class="star" onclick="rate(2)">★</span>
+<span class="star" onclick="rate(3)">★</span>
+<span class="star" onclick="rate(4)">★</span>
+<span class="star" onclick="rate(5)">★</span>
+</div>
+
+<button type="submit">Send</button>
+<a href="/myapp/user_home" class="back-link">← Back to Dashboard</a>
+</form>
+
+</div>
+
+<script>
+
+function rate(n){
+let stars=document.querySelectorAll('.star');
+document.getElementById("rating").value=n+"";
+stars.forEach((star,index)=>{
+
+if(index<n){
+star.classList.add('active');
+
+}else{
+star.classList.remove('active');
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
+

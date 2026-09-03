@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision 2 Code - Login</title>
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #3498db; / Main accent blue /
+            --dark-bg: #1e2533; / Dark background for the card and overall /
+            --input-bg: #2c3545; / Background for input fields /
+            --text-color-light: #e0e6f0; / Light text color /
+            --text-color-dark: #b0b8c4; / Darker grey text color for placeholders/hints /
+            --google-btn-text: #333; / Text color for Google button /
+            --gradient-blue-start: #3498db; / Start color for blue gradient button /
+            --gradient-blue-end: #2980b9; / End color for blue gradient button /
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            / Background simulation: Dark overlay + placeholder image for code visuals /
+            background: linear-gradient(135deg, rgba(30, 37, 51, 0.95), rgba(15, 20, 30, 0.95)), url('https://via.placeholder.com/1920x1080/0d1117/1e2533?text=Code+Background');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-color-light);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .login-card {
+            background-color: var(--dark-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); / Deep shadow /
+            text-align: center;
+            width: 100%;
+            max-width: 400px; / Limits the card width /
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.05); / Subtle light border /
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon-container {
+            width: 80px;
+            height: 45px;
+            background: var(--primary-blue);
+            / Attempt to create an eye shape with border-radius /
+            border-radius: 50% / 60px 60px 40px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            transform: scale(1.2, 1.1); / Adjust shape further /
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.6); / Glowing effect /
+        }
+
+        / Pupil-like element for the eye logo /
+        .logo-icon-container::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+            border: 3px solid var(--primary-blue);
+            z-index: 1;
+        }
+
+        .logo-icon {
+            color: white;
+            font-size: 30px;
+            position: absolute;
+            z-index: 2; / Ensure code icon is on top /
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-color-light);
+            letter-spacing: 0.5px;
+        }
+
+        .logo-text span {
+            color: var(--primary-blue); / Blue color for '2' /
+        }
+
+        .login-heading {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+            color: var(--text-color-light);
+        }
+
+        / Underline for the Login heading /
+        .login-heading::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-blue);
+            border-radius: 2px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            background-color: var(--input-bg);
+            border-radius: 10px;
+            padding: 12px 15px;
+        }
+
+        .input-group i {
+            color: var(--text-color-dark);
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .input-group input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-color-light);
+            font-size: 16px;
+            padding: 0;
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-color-dark);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--gradient-blue-start), var(--gradient-blue-end));
+            color: white;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); / Blue shadow /
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, var(--gradient-blue-end), var(--gradient-blue-start));
+            transform: translateY(-2px);
+        }
+
+        .btn-google {
+            background-color: white;
+            color: var(--google-btn-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 15px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); / Subtle shadow for white button /
+        }
+
+        .btn-google i {
+            font-size: 20px;
+            color: #DB4437; / Standard Google red color /
+        }
+
+        .btn-google:hover {
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .signup-text {
+            font-size: 15px;
+            color: var(--text-color-dark);
+            margin-top: 30px;
+        }
+
+        .signup-text a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-text a:hover {
+            color: var(--gradient-blue-end);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo-section">
+            <div class="logo-icon-container">
+                <i class="fas fa-code logo-icon"></i>
+            </div>
+            <div class="logo-text">Vision <span>2</span>Code</div>
+        </div>
+
+        <h2 class="login-heading">Login</h2>
+
+        <form>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Enter Username">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Enter Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-google">
+                <i class="fab fa-google"></i> Sign up with Google
+            </button>
+        </form>
+
+        <div class="signup-text">
+            Not signed up yet? <a href="#">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>

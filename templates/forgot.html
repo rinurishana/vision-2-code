@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<style>
+
+/* ===== YOUR THEME CSS ===== */
+
+body {
+  background: linear-gradient(135deg, #020024, #001f4d, #000000);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-card {
+  background: linear-gradient(145deg, rgba(10,31,68,0.9), rgba(0,0,0,0.95));
+  backdrop-filter: blur(10px);
+
+  padding: 2rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8),
+              0 0 10px rgba(77,166,255,0.15);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transition: 0.3s;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+}
+
+.login-card h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #4da6ff;
+}
+
+/* INPUT */
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  background: #08142e;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  border-radius: 8px;
+}
+
+.form-control::placeholder {
+  color: #aaa;
+}
+
+.form-control:focus {
+  border: 1px solid #4da6ff;
+  box-shadow: 0 0 8px rgba(77,166,255,0.4);
+  outline: none;
+}
+
+/* BUTTON */
+
+.btn-login {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #0d6efd, #003c9e);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-login:hover {
+  background: linear-gradient(90deg, #1a75ff, #0052cc);
+}
+
+/* LOGO */
+
+.logo {
+  width: 60px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* MESSAGE */
+
+.message{
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.error{
+  background: rgba(255,0,0,0.15);
+  color: #ff5252;
+}
+
+.success{
+  background: rgba(0,200,83,0.15);
+  color: #00e676;
+}
+
+/* FORGOT PASSWORD */
+
+.forgot-link{
+  display:block;
+  margin-top:15px;
+  text-align:center;
+  color:#4da6ff;
+  text-decoration:none;
+}
+
+.forgot-link:hover{
+  color:#80c1ff;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login-card">
+
+<!-- LOGO (optional) -->
+<img src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" class="logo">
+
+<h3>Login</h3>
+
+<!-- DJANGO MESSAGES -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="message {{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<form method="post" action="/myapp/forgotPassword_otp">
+{% csrf_token %}
+
+<div class="form-group">
+<input type="text" name="email" placeholder="sample@domain.com" class="form-control" required pattern="[a-z0-9._]{3,30}[@][a-z]{3,10}[.][a-z.]{2,15}">
+</div>
+
+
+<button type="submit" class="btn-login">Login</button>
+
+</form>
+
+
+</div>
+
+</body>
+</html>

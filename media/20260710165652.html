@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Glass Login</title>
+    <style>
+        /* Basic Reset & Body Styling */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a2a, #0f1a1a, #050f0f); /* Dark subtle green-grey gradient */
+            overflow: hidden; /* Prevents scrollbars from background elements */
+            color: #fff;
+            position: relative; /* For pseudo-elements positioning */
+        }
+
+        /* Decorative background elements to enhance the glass feel */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px); /* Soft blur for glowing effect */
+            opacity: 0.6;
+            z-index: 0; /* Ensure they are behind the login container */
+        }
+
+        body::before {
+            top: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, rgba(0, 255, 0, 0.4), rgba(0, 100, 0, 0.4)); /* Greenish glow */
+        }
+
+        body::after {
+            bottom: -100px;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, rgba(0, 150, 0, 0.4), rgba(0, 255, 0, 0.4)); /* Another greenish glow */
+        }
+
+        /* Login Container Styling */
+        .login-container {
+            position: relative; /* To be above the decorative blobs */
+            z-index: 10; /* Ensure it's on top */
+            background: rgba(144, 238, 144, 0.15); /* Light green, very transparent */
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Stronger shadow for depth */
+            backdrop-filter: blur(12px); /* Essential frosted glass effect */
+            -webkit-backdrop-filter: blur(12px); /* Safari support */
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            color: #e0e0e0; /* Light grey text */
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            color: #e0e0e0;
+            text-shadow: 0 0 10px rgba(144, 238, 144, 0.5); /* Soft green glow for title */
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            color: #c0c0c0;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 24px); /* Account for padding */
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08); /* Very subtle white transparent background */
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: rgba(144, 238, 144, 0.7); /* Brighter green border on focus */
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #6fdc6f, #3cb371); /* Green gradient for button */
+            color: #000; /* Dark text for button for contrast */
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0, 200, 0, 0.3); /* Green glow for button */
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #3cb371, #6fdc6f); /* Reverse gradient on hover */
+            transform: translateY(-3px); /* Slight lift effect */
+            box-shadow: 0 6px 20px rgba(0, 200, 0, 0.5); /* Enhanced glow on hover */
+        }
+
+        .forgot-password {
+            margin-top: 25px;
+            font-size: 0.95em;
+        }
+
+        .forgot-password a {
+            color: #a0ffa0; /* Lighter green for links */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #e0ffe0;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit">Log In</button>
+        </form>
+        <p class="forgot-password"><a href="#">Forgot Password?</a></p>
+    </div>
+</body>
+</html>

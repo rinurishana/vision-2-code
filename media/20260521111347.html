@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #1A212E; / Card background /
+            --input-bg: #222B3B;
+            --text-white: #FFFFFF;
+            --text-light-grey: #B0B0B0;
+            --blue-accent: #0096FF;
+            --login-btn-gradient-start: #017BFF;
+            --login-btn-gradient-end: #0096FF;
+            --google-btn-bg: #343D4C;
+            --google-btn-border: #4A5568;
+            --main-bg-overall: #0C121B; / Darker overall background /
+            --card-border-color: #313B4D;
+            --card-shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--main-bg-overall);
+            color: var(--text-white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .login-card {
+            background-color: var(--bg-dark);
+            border-radius: 16px;
+            padding: 40px;
+            width: 380px;
+            box-shadow: 0 8px 30px var(--card-shadow-color),
+                        0 0 0 1px var(--card-border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon-svg {
+            width: 60px;
+            height: 60px;
+            filter: drop-shadow(0 0 8px rgba(0, 150, 255, 0.5));
+        }
+
+        .logo-icon-svg .eye-outer {
+            fill: var(--blue-accent);
+            stroke: var(--blue-accent);
+        }
+
+        .logo-icon-svg .eye-inner {
+            fill: var(--text-white);
+        }
+
+        .logo-icon-svg .code-tags {
+            fill: var(--text-white);
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-white);
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .logo-text .blue-two {
+            color: var(--blue-accent);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-header h2 {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--text-white);
+            margin: 0;
+            padding-bottom: 8px;
+        }
+
+        .login-header .underline {
+            width: 50px;
+            height: 3px;
+            background-color: var(--blue-accent);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background-color: var(--input-bg);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            width: calc(100% - 30px);
+            border: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group:focus-within {
+            border-color: var(--blue-accent);
+        }
+
+        .input-group i {
+            color: var(--text-light-grey);
+            font-size: 18px;
+            margin-right: 12px;
+            transition: color 0.3s ease;
+        }
+        
+        .input-group:focus-within i {
+            color: var(--blue-accent);
+        }
+
+        .input-group input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-white);
+            font-size: 16px;
+            flex-grow: 1;
+            padding: 0;
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-light-grey);
+            opacity: 0.8;
+        }
+
+        .login-button, .google-button {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .login-button {
+            background: linear-gradient(to right, var(--login-btn-gradient-start), var(--login-btn-gradient-end));
+            color: var(--text-white);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 150, 255, 0.4);
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 150, 255, 0.6);
+        }
+
+        .google-button {
+            background-color: var(--google-btn-bg);
+            color: var(--text-white);
+            margin-top: 20px;
+            border: 1px solid var(--google-btn-border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            gap: 10px;
+        }
+
+        .google-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .google-icon-svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .signup-prompt {
+            margin-top: 30px;
+            font-size: 15px;
+            color: var(--text-light-grey);
+        }
+
+        .signup-prompt a {
+            color: var(--blue-accent);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 5px;
+            transition: color 0.2s ease;
+        }
+
+        .signup-prompt a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo-section">
+            <svg class="logo-icon-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="eye-outer" d="M50 15C30.7143 15 14.2857 32.5 0 50C14.2857 67.5 30.7143 85 50 85C69.2857 85 85.7143 67.5 100 50C85.7143 32.5 69.2857 15 50 15ZM50 72C40.0589 72 32 63.9411 32 54C32 44.0589 40.0589 36 50 36C59.9411 36 68 44.0589 68 54C68 63.9411 59.9411 72 50 72Z" stroke-width="4"/>
+                <circle class="eye-inner" cx="50" cy="54" r="8"/>
+                <path class="code-tags" d="M38 42L28 50L38 58M62 42L72 50L62 58" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1 class="logo-text">Vision<span class="blue-two">2</span>Code</h1>
+        </div>
+
+        <div class="login-header">
+            <h2>Login</h2>
+            <div class="underline"></div>
+        </div>
+
+        <form>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Enter Username">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Enter Password">
+            </div>
+            <button type="submit" class="login-button">Login</button>
+            <button type="button" class="google-button">
+                <svg class="google-icon-svg" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#EA4335" d="M24 9.5c3.05 0 5.64 1.07 7.73 3.09l5.88-5.88C34.01 3.65 29.38 2 24 2 15.6 2 8.32 6.75 4.14 14.18l7.66 5.92C12.59 14.47 18.2 9.5 24 9.5z"/>
+                    <path fill="#34A853" d="M43.23 23.45c.19 1.34.29 2.68.29 4.29 0 4.54-.74 8.78-2.67 12.38l-7.9-6.11c1.17-3.13 1.9-6.39 1.9-9.96 0-1.74-.18-3.41-.49-5.02z"/>
+                    <path fill="#4285F4" d="M24 46c5.8 0 10.74-1.95 14.28-5.26l-7.9-6.11c-2.09 1.4-4.82 2.24-7.4 2.24-5.8 0-10.6-3.9-12.37-9.14L4.14 33.82C8.32 41.25 15.6 46 24 46z"/>
+                    <path fill="#FBBC04" d="M11.63 28.16c-.2-.7-.34-1.4-.34-2.16 0-.76.14-1.46.34-2.16l-7.66-5.92C3.59 20.35 3.1 23.08 3.1 25.84c0 2.76.49 5.49 1.04 7.91L11.63 28.16z"/>
+                </svg>
+                <span>Sign up with Google</span>
+            </button>
+        </form>
+
+        <div class="signup-prompt">
+            <span>Not signed up yet?</span>
+            <a href="#">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>

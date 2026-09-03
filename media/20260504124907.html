@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            / Colors /
+            --bg-color: #f0f2f5;
+            --blue-dark: #2669ce;
+            --blue-light: #448cf0;
+            --white: #ffffff;
+            --text-dark: #2e3a59;
+            --text-gray-light: #aaaaaa;
+            --text-gray-medium: #888888;
+            --text-gray-dark: #555555;
+            --border-light: #e0e0e0;
+            --welcome-headline-color: #a0d0ff;
+            --welcome-paragraph-color: rgba(255, 255, 255, 0.7);
+
+            / Spacing & Dimensions /
+            --container-radius: 16px;
+            --main-padding: 40px;
+            --input-height: 48px;
+            --input-padding-x: 15px;
+            --input-radius: 8px;
+            --button-height: 52px;
+            --button-radius: 8px;
+            --gap-medium: 20px;
+            --gap-small: 10px;
+            --gap-large: 30px;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .login-container {
+            display: flex;
+            background-color: var(--white);
+            border-radius: var(--container-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 900px;
+            width: 90%;
+            min-height: 520px;
+        }
+
+        .welcome-section {
+            flex: 1.2;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-light) 100%);
+            color: var(--white);
+            padding: var(--main-padding);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-top-left-radius: var(--container-radius);
+            border-bottom-left-radius: var(--container-radius);
+            text-align: left;
+        }
+
+        .welcome-section::before,
+        .welcome-section::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .welcome-section::before {
+            width: 250px;
+            height: 250px;
+            top: -80px;
+            left: -80px;
+            transform: scale(0.9);
+            opacity: 0.7;
+        }
+
+        .welcome-section::after {
+            width: 350px;
+            height: 350px;
+            bottom: -150px;
+            right: -150px;
+            transform: scale(0.8);
+            opacity: 0.6;
+        }
+
+        .welcome-section h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 var(--gap-small) 0;
+            letter-spacing: 0.5px;
+        }
+
+        .welcome-section h2 {
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0 0 var(--gap-medium) 0;
+            color: var(--welcome-headline-color);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .welcome-section p {
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--welcome-paragraph-color);
+            margin: 0;
+            max-width: 300px;
+        }
+
+        .login-form-section {
+            flex: 1;
+            padding: var(--main-padding);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .login-form-section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 8px 0;
+        }
+
+        .login-form-section p.subtitle {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-gray-medium);
+            margin: 0 0 var(--gap-large) 0;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: var(--gap-medium);
+            width: 100%;
+        }
+
+        .form-group:last-of-type {
+            margin-bottom: var(--gap-large);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-field {
+            width: 100%;
+            height: var(--input-height);
+            padding: 0 var(--input-padding-x);
+            border: 1px solid var(--border-light);
+            border-radius: var(--input-radius);
+            font-size: 15px;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .input-field::placeholder {
+            color: var(--text-gray-light);
+            opacity: 1;
+        }
+
+        .input-field:focus {
+            border-color: var(--blue-dark);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: var(--input-padding-x);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--blue-dark);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+            margin-bottom: var(--gap-large);
+            width: 100%;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-gray-dark);
+            user-select: none;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            height: 16px;
+            width: 16px;
+            background-color: var(--white);
+            border: 1px solid var(--text-gray-light);
+            border-radius: 4px;
+            margin-right: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--blue-dark);
+            border-color: var(--blue-dark);
+        }
+
+        .checkmark i {
+            color: var(--white);
+            font-size: 10px;
+            display: none;
+        }
+
+        .checkbox-container input:checked ~ .checkmark i {
+            display: block;
+        }
+
+        .form-options a {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--blue-dark);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-button {
+            width: 100%;
+            height: var(--button-height);
+            background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue-light) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: var(--button-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(38, 105, 206, 0.3);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(38, 105, 206, 0.4);
+        }
+
+        .signup-text {
+            margin-top: var(--gap-large);
+            font-size: 13px;
+            color: var(--text-gray-medium);
+            width: 100%;
+            text-align: center;
+        }
+
+        .signup-text a {
+            color: var(--blue-dark);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 5px;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 400px;
+                width: 90%;
+                min-height: auto;
+                border-radius: var(--container-radius);
+            }
+
+            .welcome-section,
+            .login-form-section {
+                padding: var(--gap-large);
+                border-radius: 0;
+                width: auto;
+            }
+
+            .welcome-section {
+                border-top-left-radius: var(--container-radius);
+                border-top-right-radius: var(--container-radius);
+                text-align: center;
+                height: 200px;
+                justify-content: flex-end;
+                padding-bottom: 30px;
+            }
+
+            .welcome-section h1 {
+                font-size: 28px;
+                margin-bottom: 5px;
+            }
+            .welcome-section h2 {
+                margin-bottom: 10px;
+            }
+            .welcome-section p {
+                display: none;
+            }
+
+            .welcome-section::before,
+            .welcome-section::after {
+                transform: scale(0.5);
+                opacity: 0.4;
+            }
+            .welcome-section::before { top: -40px; left: -40px; }
+            .welcome-section::after { bottom: -80px; right: -80px; }
+
+
+            .login-form-section {
+                border-bottom-left-radius: var(--container-radius);
+                border-bottom-right-radius: var(--container-radius);
+                justify-content: flex-start;
+            }
+
+            .login-form-section h2 {
+                font-size: 24px;
+                margin-top: 10px;
+            }
+
+            .login-form-section p.subtitle {
+                margin-bottom: var(--gap-medium);
+            }
+            .form-group {
+                margin-bottom: var(--gap-small);
+            }
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: var(--gap-medium);
+            }
+            .checkbox-container {
+                margin-bottom: var(--gap-small);
+            }
+            .form-options a {
+                margin-top: 5px;
+            }
+            .signup-text {
+                margin-top: var(--gap-medium);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="login-container">
+        <section class="welcome-section">
+            <h1>WELCOME</h1>
+            <h2>YOUR HEADLINE NAME</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.
+            </p>
+        </section>
+
+        <section class="login-form-section">
+            <form action="#" method="POST">
+                <h2>Sign in</h2>
+                <p class="subtitle">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit
+                </p>
+
+                <div class="form-group">
+                    <label for="username" class="form-label">User name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" name="username" class="input-field" placeholder="User name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" class="input-field" placeholder="Password">
+                        <span class="password-toggle">SHOW</span>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"><i class="fas fa-check"></i></span>
+                        Remember me
+                    </label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="submit-button">Sign In</button>
+            </form>
+
+            <p class="signup-text">
+                Don't have an account? <a href="#">Sign up</a>
+            </p>
+        </section>
+    </main>
+
+    <script>
+        const passwordToggle = document.querySelector('.password-toggle');
+        const passwordField = document.getElementById('password');
+
+        if (passwordToggle && passwordField) {
+            passwordToggle.addEventListener('click', () => {
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    passwordToggle.textContent = 'HIDE';
+                } else {
+                    passwordField.type = 'password';
+                    passwordToggle.textContent = 'SHOW';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

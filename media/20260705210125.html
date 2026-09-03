@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Red & Black Glass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #ff0000;
+            --dark-red: #cc0000;
+            --light-text: #e0e0e0;
+            --dark-background: #0a0a0a;
+            --glass-background: rgba(0, 0, 0, 0.3);
+            --glass-border: rgba(255, 0, 0, 0.2);
+            --glass-shadow-red: rgba(255, 0, 0, 0.5);
+            --glass-shadow-black: rgba(0, 0, 0, 0.8);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, var(--dark-background), #1a0000, #000000, #1a0000);
+            background-size: 400% 400%;
+            animation: backgroundAnimation 15s ease infinite;
+            color: var(--light-text);
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        @keyframes backgroundAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .login-container {
+            background: var(--glass-background);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 0 30px var(--glass-shadow-red), 0 0 15px var(--glass-shadow-black);
+            width: 380px;
+            max-width: 90%;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: var(--primary-red);
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            color: var(--light-text);
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: calc(100% - 24px); /* Account for padding */
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1em;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s ease;
+            outline: none;
+            caret-color: var(--primary-red); /* Color of the text cursor */
+        }
+
+        .input-group input:focus {
+            border-bottom: 2px solid var(--primary-red);
+            background: rgba(255, 0, 0, 0.1);
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, var(--primary-red), var(--dark-red));
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .login-button:hover {
+            background: linear-gradient(to right, var(--dark-red), #990000);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.7);
+        }
+
+        .links {
+            margin-top: 25px;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .links a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            font-weight: 400;
+        }
+
+        .links a:hover {
+            color: var(--primary-red);
+            text-decoration: underline;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form class="login-form">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="login-button">Login</button>
+            <div class="links">
+                <a href="#">Forgot Password?</a>
+                <a href="#">Sign Up</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

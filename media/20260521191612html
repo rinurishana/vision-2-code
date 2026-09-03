@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Home Screen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'SF Pro Display';
+            src: local('SF Pro Display Regular'), local('San Francisco Display Regular'),
+                 url('https://sf-pro-fonts.vercel.app/SF-Pro-Display-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SF Pro Display';
+            src: local('SF Pro Display Medium'), local('San Francisco Display Medium'),
+                 url('https://sf-pro-fonts.vercel.app/SF-Pro-Display-Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'SF Pro Display';
+            src: local('SF Pro Display Semibold'), local('San Francisco Display Semibold'),
+                 url('https://sf-pro-fonts.vercel.app/SF-Pro-Display-Semibold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        :root {
+            --ios-bg: rgb(255, 227, 140);
+            --icon-size: 60px;
+            --icon-border-radius: 17%;
+            --status-bar-height: 20px;
+            --dock-height: 80px;
+            --dock-bg: rgba(255, 255, 255, 0.6);
+            --app-label-color: #434343;
+            --app-label-font-size: 11px;
+            --app-label-line-height: 1.2;
+            --badge-bg: #E63D31;
+            --badge-color: white;
+            --badge-font-size: 9px;
+            --badge-padding: 0px 4px;
+            --badge-border-radius: 9px;
+            --badge-min-width: 18px;
+            --badge-height: 18px;
+            --badge-offset-x: -8px;
+            --badge-offset-y: -8px;
+            --grid-gap-x: 0px;
+            --grid-gap-y: 18px;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+        }
+
+        .phone-mockup {
+            width: 375px;
+            height: 812px;
+            background-color: var(--ios-bg);
+            border-radius: 40px;
+            box-shadow: 0 0 0 10px #000,
+                        0 0 0 12px #333,
+                        0 0 0 16px #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-bar {
+            height: var(--status-bar-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #434343;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .status-bar .left,
+        .status-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-bar .center {
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .airplane-mode-icon {
+            transform: scale(0.8) rotate(45deg);
+        }
+
+        .battery-icon {
+            width: 21px;
+            height: 10px;
+            border: 1px solid #434343;
+            border-radius: 2px;
+            position: relative;
+            margin-left: 2px;
+        }
+
+        .battery-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -2px;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 4px;
+            background-color: #434343;
+            border-radius: 0 1px 1px 0;
+        }
+
+        .battery-level {
+            height: 100%;
+            width: 18%;
+            background-color: #434343;
+            border-radius: 1px;
+        }
+
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--grid-gap-y) var(--grid-gap-x);
+            padding: 30px 10px 0 10px;
+            margin-top: calc(var(--status-bar-height) + 10px);
+            height: calc(100% - var(--status-bar-height) - var(--dock-height) - 40px - 20px);
+            align-content: start;
+        }
+
+        .app-icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .app-icon {
+            width: var(--icon-size);
+            height: var(--icon-size);
+            border-radius: var(--icon-border-radius);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: white;
+            flex-shrink: 0;
+        }
+
+        .app-label {
+            margin-top: 5px;
+            font-size: var(--app-label-font-size);
+            color: var(--app-label-color);
+            line-height: var(--app-label-line-height);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .badge {
+            position: absolute;
+            top: var(--badge-offset-y);
+            right: var(--badge-offset-x);
+            background-color: var(--badge-bg);
+            color: var(--badge-color);
+            font-size: var(--badge-font-size);
+            font-weight: bold;
+            line-height: 1;
+            padding: var(--badge-padding);
+            min-width: var(--badge-min-width);
+            height: var(--badge-height);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--badge-border-radius);
+            box-shadow: 0 0 0 2px var(--ios-bg);
+            z-index: 5;
+        }
+
+        .calendar-icon {
+            background-color: white;
+            flex-direction: column;
+            line-height: 1;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .calendar-day-name {
+            font-size: 8px;
+            color: #EE474C;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .calendar-day-num {
+            font-size: 30px;
+            font-weight: 500;
+            color: #434343;
+            margin-top: 0px;
+        }
+
+        .clock-icon {
+            background-color: black;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .clock-face {
+            width: 80%;
+            height: 80%;
+            border: 1.5px solid white;
+            border-radius: 50%;
+            position: relative;
+        }
+        .clock-center {
+            width: 4px;
+            height: 4px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+        .hour-hand, .minute-hand, .second-hand {
+            position: absolute;
+            background-color: white;
+            transform-origin: bottom center;
+            top: 50%;
+            left: 50%;
+        }
+        .hour-hand {
+            width: 1.5px;
+            height: 25%;
+            transform: translate(-50%, -100%) rotate(220deg);
+        }
+        .minute-hand {
+            width: 1px;
+            height: 35%;
+            transform: translate(-50%, -100%) rotate(290deg);
+            background-color: #f7d242;
+        }
+        .second-hand {
+            width: 0.5px;
+            height: 38%;
+            background-color: red;
+            transform: translate(-50%, -100%) rotate(180deg);
+        }
+        .clock-face div:nth-child(4) { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-size: 7px; color: white; font-weight: bold; }
+        .clock-face div:nth-child(5) { position: absolute; right: 10%; top: 50%; transform: translateY(-50%); font-size: 7px; color: white; font-weight: bold; }
+        .clock-face div:nth-child(6) { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); font-size: 7px; color: white; font-weight: bold; }
+        .clock-face div:nth-child(7) { position: absolute; left: 10%; top: 50%; transform: translateY(-50%); font-size: 7px; color: white; font-weight: bold; }
+
+        .grey-icon {
+            background-color: #E6E6E6;
+        }
+
+        .camera-icon svg {
+            width: 70%;
+            height: 70%;
+            fill: #434343;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.2));
+        }
+
+        .photos-icon {
+            background: linear-gradient(135deg, #FFC75F, #FE923C);
+            overflow: hidden;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .photos-icon svg {
+            width: 80%;
+            height: 80%;
+            position: relative;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+
+        .weather-icon {
+            background: linear-gradient(to bottom, #5EC0F2, #3086E0);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .weather-icon .sun {
+            width: 25px;
+            height: 25px;
+            background-color: #FFC94A;
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5), inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+        }
+        .weather-icon .cloud {
+            width: 40px;
+            height: 25px;
+            background-color: white;
+            border-radius: 12px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        .weather-icon .cloud::before,
+        .weather-icon .cloud::after {
+            content: '';
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            top: -5px;
+        }
+        .weather-icon .cloud::before {
+            width: 20px;
+            height: 20px;
+            left: 5px;
+        }
+        .weather-icon .cloud::after {
+            width: 30px;
+            height: 30px;
+            left: 15px;
+        }
+
+        .settings-icon {
+            background-color: #E7E7E7;
+        }
+        .settings-icon .gear-svg {
+            width: 70%;
+            height: 70%;
+            fill: #6E6E6E;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.2));
+        }
+
+        .calculator-icon {
+            background-color: #E6E6E6;
+        }
+        .calculator-icon svg {
+            width: 70%;
+            height: 70%;
+            fill: #434343;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.2));
+        }
+
+        .facebook-icon {
+            background-color: #3B5998;
+            color: white;
+            font-size: 40px;
+        }
+
+        .messenger-icon {
+            background: linear-gradient(135deg, #0084FF, #00C6FF);
+            font-size: 30px;
+            color: white;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.2));
+        }
+
+        .whatsapp-icon {
+            background-color: #25D366;
+            font-size: 35px;
+            color: white;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.2));
+        }
+
+        .twitter-icon {
+            background-color: #1DA1F2;
+            font-size: 30px;
+            color: white;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.2));
+        }
+
+        .instagram-icon {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        .instagram-icon .camera-body {
+            width: 50%;
+            height: 50%;
+            border: 3px solid white;
+            border-radius: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .instagram-icon .lens {
+            width: 45%;
+            height: 45%;
+            border: 3px solid white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .instagram-icon .flash {
+            width: 7px;
+            height: 7px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 15%;
+            right: 15%;
+        }
+
+        .facetime-icon {
+            background-color: #34C759;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .facetime-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+        
+        .maps-icon {
+            background: linear-gradient(180deg, #A8DD43 0%, #68B632 100%);
+            overflow: hidden;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .maps-icon .map-background-stripes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                #68B632,
+                #68B632 5px,
+                #A8DD43 5px,
+                #A8DD43 10px
+            );
+            transform: rotate(-30deg) scale(1.5);
+            opacity: 0.5;
+        }
+        .maps-icon .map-road-sign {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 15px;
+            background-color: #61A4FF;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 8px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+        .maps-icon .map-pin {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: #007AFF;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            bottom: 10px;
+            left: 50%;
+            margin-left: -12.5px;
+            box-shadow: 0 0 0 2px white;
+            z-index: 3;
+        }
+        .maps-icon .map-pin::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+            rotate: 45deg;
+        }
+
+
+        .youtube-icon {
+            background-color: #FF0000;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .youtube-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+
+        .tv-icon {
+            background-color: #000000;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .tv-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+
+        .reminders-icon {
+            background-color: white;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+            flex-direction: column;
+            gap: 4px;
+        }
+        .reminder-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        .reminder-item .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .reminder-item .line {
+            width: 25px;
+            height: 2px;
+            background-color: #CCCCCC;
+            border-radius: 1px;
+        }
+        .reminders-icon .reminder-item:nth-child(1) .dot { background-color: #FC6363; }
+        .reminders-icon .reminder-item:nth-child(2) .dot { background-color: #63C1FD; }
+        .reminders-icon .reminder-item:nth-child(3) .dot { background-color: #FFBF42; }
+
+
+        .stocks-icon {
+            background-color: #000000;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        .stocks-icon .graph-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .stocks-icon .graph-line svg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .books-icon {
+            background: linear-gradient(135deg, #FF9C3D 0%, #F57C00 100%);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .books-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+
+        .mail-icon {
+            background: linear-gradient(to bottom, #72C0FA, #3A9BE9);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .mail-icon svg {
+            width: 70%;
+            height: 70%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+
+        .podcasts-icon {
+            background: linear-gradient(135deg, #A836D6, #800080);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .podcasts-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+
+        .appstore-icon {
+            background: linear-gradient(135deg, #51BBFF, #007AFF);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .appstore-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+
+        .shortcuts-icon {
+            background: linear-gradient(45deg, #1C7ED6, #3E66D4, #F24D7B, #F95079);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        .shortcuts-icon svg {
+            width: 70%;
+            height: 70%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+            opacity: 0.9;
+        }
+
+        .notes-icon {
+            background-color: white;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 6px 15px rgba(0, 0, 0, 0.2);
+            flex-direction: column;
+            overflow: hidden;
+            align-items: flex-start;
+            padding: 8px;
+        }
+        .notes-header {
+            width: 100%;
+            height: 8px;
+            background-color: #F8D148;
+            border-radius: 2px;
+            margin-bottom: 5px;
+        }
+        .notes-line {
+            width: 100%;
+            height: 2px;
+            background-color: #E6E6E6;
+            margin-bottom: 3px;
+            border-radius: 1px;
+        }
+        .notes-line:nth-child(4) { width: 80%; }
+        .notes-line:last-child { width: 60%; margin-bottom: 0; }
+
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .pagination-dot {
+            width: 5px;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+        }
+        .pagination-dot:nth-child(1) {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .dock {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            height: var(--dock-height);
+            background-color: var(--dock-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px 25px 0 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.6),
+                        0px -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dock .app-icon-wrapper {
+            padding: 0;
+        }
+        .dock .app-icon {
+            width: 65px;
+            height: 65px;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .dock .app-label {
+            display: none;
+        }
+
+        .compass-icon {
+            background: linear-gradient(to bottom, #2B89FC, #0162D0);
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .compass-icon .compass-face {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background-color: white;
+            position: relative;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+        }
+        .compass-icon .compass-needle-red,
+        .compass-icon .compass-needle-white {
+            position: absolute;
+            width: 6px;
+            height: 30px;
+            background-color: red;
+            transform-origin: bottom center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -100%) rotate(-15deg);
+            border-radius: 3px 3px 0 0;
+        }
+        .compass-icon .compass-needle-white {
+            background-color: white;
+            transform: translate(-50%, 0%) rotate(165deg);
+            border-radius: 0 0 3px 3px;
+        }
+        .compass-icon .compass-center {
+            width: 8px;
+            height: 8px;
+            background-color: #63C1FD;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid white;
+            z-index: 2;
+        }
+        .compass-icon .needle-center-dot {
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+        }
+        .compass-icon .degrees {
+            position: absolute;
+            top: 15px;
+            font-size: 8px;
+            color: #AAAAAA;
+            font-weight: 500;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .phone-dock-icon {
+            background-color: #34C759;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .phone-dock-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+
+        .contacts-dock-icon {
+            background-color: #E6E6E6;
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .contacts-dock-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: #434343;
+            filter: drop-shadow(0 1px 0 rgba(255,255,255,0.2));
+        }
+
+        .music-dock-icon {
+            background: linear-gradient(135deg, #FF66A1, #BD43D1);
+            box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4),
+                        0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .music-dock-icon svg {
+            width: 60%;
+            height: 60%;
+            fill: white;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.1));
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-mockup">
+        <div class="status-bar">
+            <div class="left">
+                <i class="fas fa-plane airplane-mode-icon"></i>
+            </div>
+            <div class="center">
+                6:48 AM
+            </div>
+            <div class="right">
+                <i class="fas fa-wifi"></i>
+                <span>18%</span>
+                <div class="battery-icon">
+                    <div class="battery-level"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-grid">
+            <div class="app-icon-wrapper">
+                <div class="app-icon calendar-icon">
+                    <div class="calendar-day-name">Thursday</div>
+                    <div class="calendar-day-num">31</div>
+                </div>
+                <div class="app-label">Calendar</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon clock-icon">
+                    <div class="clock-face">
+                        <div class="hour-hand"></div>
+                        <div class="minute-hand"></div>
+                        <div class="second-hand"></div>
+                        <div class="clock-center"></div>
+                        <div>12</div>
+                        <div>3</div>
+                        <div>6</div>
+                        <div>9</div>
+                    </div>
+                </div>
+                <div class="app-label">Clock</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon grey-icon camera-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 4H20L19 3H14.82L13.71 2.06C13.31 1.69 12.82 1.5 12.31 1.5C11.8 1.5 11.31 1.69 10.91 2.06L9.8 3H5L4 4H3C1.89 4 1 4.89 1 6V18C1 19.11 1.89 20 3 20H21C22.11 20 23 19.11 23 18V6C23 4.89 22.11 4 21 4ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17ZM12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 10.34 13.66 9 12 9Z" />
+                    </svg>
+                </div>
+                <div class="app-label">Camera</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon photos-icon">
+                    <svg viewBox="0 0 100 100">
+                        <path fill="#54A5FF" d="M78.6,32.3c-2.3-4.5-7.7-6.2-12.2-3.9l-6.2,3.2c-0.6-0.1-1.2-0.2-1.9-0.2c-6.1,0-11,4.9-11,11c0,0.6,0.1,1.2,0.2,1.9l-3.2,6.2c-2.3,4.5-0.6,9.9,3.9,12.2c4.5,2.3,9.9,0.6,12.2-3.9l3.2-6.2c0.1,0.6,0.2,1.2,0.2,1.9c0,6.1,4.9,11,11,11c0.6,0,1.2-0.1,1.9-0.2l6.2,3.2c4.5,2.3,9.9,0.6,12.2-3.9c2.3-4.5,0.6-9.9-3.9-12.2l-3.2-6.2c0.1-0.6,0.2-1.2,0.2-1.9c0-6.1-4.9-11-11-11c-0.6,0-1.2,0.1-1.9,0.2L78.6,32.3z"/>
+                        <path fill="#FE5778" d="M30.4,21.4c4.5-2.3,6.2-7.7,3.9-12.2c-2.3-4.5-7.7-6.2-12.2-3.9l-6.2,3.2c-0.1,0.6-0.2,1.2-0.2,1.9c0,6.1-4.9,11-11,11c-0.6,0-1.2-0.1-1.9-0.2l-3.2,6.2c-2.3,4.5-0.6,9.9,3.9,12.2c4.5,2.3,9.9,0.6,12.2-3.9l3.2-6.2c0.1,0.6,0.2,1.2,0.2,1.9c0,6.1,4.9,11,11,11c0.6,0,1.2-0.1,1.9-0.2l6.2,3.2c4.5,2.3,9.9,0.6,12.2-3.9c2.3-4.5,0.6-9.9-3.9-12.2L30.4,21.4z"/>
+                        <path fill="#FFC958" d="M19.3,55.4c-4.5,2.3-6.2,7.7-3.9,12.2c2.3,4.5,7.7,6.2,12.2,3.9l6.2-3.2c0.1,0.6,0.2,1.2,0.2,1.9c0,6.1,4.9,11,11,11c0.6,0,1.2-0.1,1.9-0.2l3.2,6.2c2.3,4.5,0.6,9.9-3.9,12.2c-4.5,2.3-9.9,0.6-12.2-3.9l-3.2-6.2c-0.1,0.6-0.2,1.2-0.2,1.9c0,6.1-4.9,11-11,11c-0.6,0-1.2-0.1-1.9-0.2l-6.2,3.2c-4.5,2.3-9.9,0.6-12.2-3.9c-2.3-4.5-0.6-9.9,3.9-12.2L19.3,55.4z"/>
+                        <path fill="#69C256" d="M68.6,83.9c4.5-2.3,6.2-7.7,3.9-12.2c-2.3-4.5-7.7-6.2-12.2-3.9l-6.2,3.2c-0.1,0.6-0.2,1.2-0.2,1.9c0,6.1-4.9,11-11,11c-0.6,0-1.2-0.1-1.9-0.2l-3.2,6.2c-2.3,4.5-0.6,9.9,3.9,12.2c4.5,2.3,9.9,0.6,12.2-3.9l3.2-6.2c0.1,0.6,0.2,1.2,0.2,1.9c0,6.1,4.9,11,11,11c0.6,0,1.2-0.1,1.9-0.2l6.2,3.2c4.5,2.3,9.9,0.6,12.2-3.9c2.3-4.5,0.6-9.9-3.9-12.2L68.6,83.9z"/>
+                    </svg>
+                </div>
+                <div class="app-label">Photos</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon weather-icon">
+                    <div class="sun"></div>
+                    <div class="cloud"></div>
+                </div>
+                <div class="app-label">Weather</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon grey-icon settings-icon">
+                    <svg class="gear-svg" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM14.07 18.06L14.73 19.82C13.88 20.25 12.96 20.5 12 20.5C11.04 20.5 10.12 20.25 9.27 19.82L9.93 18.06C10.66 18.3 11.32 18.43 12 18.43C12.68 18.43 13.34 18.3 14.07 18.06ZM17.15 16.59L18.66 17.65C19.14 16.82 19.46 15.89 19.64 14.9L17.8 14.28C17.47 14.77 17.1 15.22 16.7 15.65C16.3 16.08 15.86 16.48 15.39 16.84L17.15 16.59ZM19.82 14.73L21.58 14.07C21.75 13.22 21.84 12.63 21.84 12C21.84 11.37 21.75 10.78 21.58 9.93L19.82 9.27C19.58 10.01 19.43 10.66 19.43 11.34C19.43 12.02 19.58 12.68 19.82 13.41L19.82 14.73ZM18.06 9.93L19.82 9.27C19.64 8.28 19.33 7.35 18.84 6.51L17.33 7.57C17.7 8.01 18.02 8.46 18.28 8.95C18.55 9.44 18.78 9.93 18.91 10.42L18.06 9.93ZM16.59 7.15L17.65 5.66C16.82 5.14 15.89 4.82 14.9 4.64L14.28 6.47C14.77 6.8 15.22 7.17 15.65 7.57C16.08 7.97 16.48 8.41 16.84 8.88L16.59 7.15ZM9.27 4.18C10.12 3.75 11.04 3.5 12 3.5C12.96 3.5 13.88 3.75 14.73 4.18L14.07 5.94C13.34 5.7 12.68 5.57 12 5.57C11.32 5.57 10.66 5.7 9.93 5.94L9.27 4.18ZM6.84 7.15L7.57 5.66C6.51 5.14 5.58 4.82 4.64 4.64L4.28 6.47C4.77 6.8 5.22 7.17 5.65 7.57C6.08 7.97 6.48 8.41 6.84 8.88L6.59 7.15ZM4.18 9.27L5.94 9.93C5.7 10.66 5.57 11.32 5.57 12C5.57 12.68 5.7 13.34 5.94 14.07L4.18 14.73C3.75 13.88 3.5 12.96 3.5 12C3.5 11.04 3.75 10.12 4.18 9.27ZM6.59 16.84L7.15 18.06C6.51 18.82 5.58 19.14 4.64 19.33L4.28 17.5C4.77 17.17 5.22 16.8 5.65 16.4C6.08 16 6.48 15.56 6.84 15.09L6.59 16.84ZM12 14C10.89 14 10 13.11 10 12C10 10.89 10.89 10 12 10C13.11 10 14 10.89 14 12C14 13.11 13.11 14 12 14Z"/>
+                    </svg>
+                </div>
+                <div class="app-label">Settings</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon grey-icon calculator-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM10 4.5H14C14.28 4.5 14.5 4.72 14.5 5C14.5 5.28 14.28 5.5 14 5.5H10C9.72 5.5 9.5 5.28 9.5 5C9.5 4.72 9.72 4.5 10 4.5ZM19 19H5V5H19V19ZM12 18C13.66 18 15 16.66 15 15C15 13.34 13.66 12 12 12C10.34 12 9 13.34 9 15C9 16.66 10.34 18 12 18ZM15 7C15.55 7 16 7.45 16 8C16 8.55 15.55 9 15 9C14.45 9 14 8.55 14 8C14 7.45 14.45 7 15 7ZM12 7C12.55 7 13 7.45 13 8C13 8.55 12.55 9 12 9C11.45 9 11 8.55 11 8C11 7.45 11.45 7 12 7ZM9 7C9.55 7 10 7.45 10 8C10 8.55 9.55 9 9 9C8.45 9 8 8.55 8 8C8 7.45 8.45 7 9 7Z" />
+                    </svg>
+                </div>
+                <div class="app-label">Calculator</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon facebook-icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <div class="badge">5</div>
+                </div>
+                <div class="app-label">Facebook</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon messenger-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 15.65 4 18.87 7 20.6V22L9 20C9 20 12 22 12 22C12 22 15 20 15 20L17 22V20.6C20 18.87 22 15.65 22 12C22 6.48 17.52 2 12 2ZM14.5 15L12 12.5L9.5 15L8 13.5L10.5 11L8 8.5L9.5 7L12 9.5L14.5 7L16 8.5L13.5 11L16 13.5L14.5 15Z" fill="white"/>
+                    </svg>
+                    <div class="badge">1</div>
+                </div>
+                <div class="app-label">Messenger</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon whatsapp-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="app-label">WhatsApp</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon twitter-icon">
+                    <i class="fab fa-twitter"></i>
+                    <div class="badge">20</div>
+                </div>
+                <div class="app-label">Twitter</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon instagram-icon">
+                    <div class="camera-body"></div>
+                    <div class="lens"></div>
+                    <div class="flash"></div>
+                </div>
+                <div class="app-label">Instagram</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon facetime-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17 10.5V7C17 6.45 16.55 6 16 6H4C3.45 6 3 6.45 3 7V17C3 17.55 3.45 18 4 18H16C16.55 18 17 17.55 17 17V13.5L21 17.5V6.5L17 10.5Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="app-label">FaceTime</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon maps-icon">
+                    <div class="map-background-stripes"></div>
+                    <div class="map-road-sign">280</div>
+                    <div class="map-pin"></div>
+                </div>
+                <div class="app-label">Maps</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon youtube-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 16.5L16 12L10 7.5V16.5ZM20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4Z" fill="white"/>
+                    </svg>
+                    <div class="badge">118</div>
+                </div>
+                <div class="app-label">YouTube</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon tv-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM15.5 17.1L12.01 19.1L8.5 17.1C8.25 16.95 8.1 16.68 8.1 16.4V12.6C8.1 12.32 8.25 12.05 8.5 11.9L12.01 9.9L15.5 11.9C15.75 12.05 15.9 12.32 15.9 12.6V16.4C15.9 16.68 15.75 16.95 15.5 17.1Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="app-label">TV</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon reminders-icon">
+                    <div class="reminder-item"><div class="dot"></div><div class="line"></div></div>
+                    <div class="reminder-item"><div class="dot"></div><div class="line"></div></div>
+                    <div class="reminder-item"><div class="dot"></div><div class="line"></div></div>
+                </div>
+                <div class="app-label">Reminders</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon stocks-icon">
+                    <div class="graph-line">
+                        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <polyline fill="none" stroke="white" stroke-width="2" points="0,70 20,50 40,80 60,30 80,60 100,40" />
+                            <polyline fill="none" stroke="#63C1FD" stroke-width="2" points="0,50 20,30 40,60 60,10 80,40 100,20" />
+                            <circle cx="60" cy="10" r="3" fill="#63C1FD" stroke="white" stroke-width="1" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="app-label">Stocks</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon books-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V4C20 2.9 19.1 2 18 2ZM12 10.5V11.5L9 13.5V12.5L12 10.5ZM12 14.5V15.5L9 17.5V16.5L12 14.5ZM12 6.5V7.5L9 9.5V8.5L12 6.5ZM16 10.5V11.5L13 13.5V12.5L16 10.5ZM16 14.5V15.5L13 17.5V16.5L16 14.5ZM16 6.5V7.5L13 9.5V8.5L16 6.5Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="app-label">Books</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon mail-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="white"/>
+                    </svg>
+                    <div class="badge">218,882</div>
+                </div>
+                <div class="app-label">Mail</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon podcasts-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 18C8.69 18 6 15.31 6 12H8C8 14.21 9.79 16 12 16C14.21 16 16 14.21 16 12H18C18 15.31 15.31 18 12 18ZM12 10C10.9 10 10 9.1 10 8C10 6.9 10.9 6 12 6C13.1 6 14 6.9 14 8C14 9.1 13.1 10 12 10Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="app-label">Podcasts</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon appstore-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM14.5 17L12 14.5L9.5 17L8 15.5L10.5 13L8 10.5L9.5 9L12 11.5L14.5 9L16 10.5L13.5 13L16 15.5L14.5 17Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="app-label">App Store</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon shortcuts-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C15.31 6 18 8.69 18 12C18 15.31 15.31 18 12 18ZM15 9.5C15 10.33 14.33 11 13.5 11H12V12.5C12 13.33 11.33 14 10.5 14H9V15.5C9 16.33 9.67 17 10.5 17H12C12.83 17 13.5 16.33 13.5 15.5V14H15C15.83 14 16.5 13.33 16.5 12.5V11C16.5 10.17 15.83 9.5 15 9.5Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="app-label">Shortcuts</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon notes-icon">
+                    <div class="notes-header"></div>
+                    <div class="notes-line"></div>
+                    <div class="notes-line"></div>
+                    <div class="notes-line"></div>
+                    <div class="notes-line"></div>
+                </div>
+                <div class="app-label">Notes</div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <div class="pagination-dot"></div>
+            <div class="pagination-dot"></div>
+            <div class="pagination-dot"></div>
+        </div>
+
+        <div class="dock">
+            <div class="app-icon-wrapper">
+                <div class="app-icon compass-icon">
+                    <div class="compass-face">
+                        <div class="degrees">N</div>
+                        <div class="compass-needle-red"></div>
+                        <div class="compass-needle-white"></div>
+                        <div class="compass-center"></div>
+                        <div class="needle-center-dot"></div>
+                    </div>
+                </div>
+                <div class="app-label">Compass</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon phone-dock-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6.62 10.79C8.06 13.62 10.38 15.93 13.21 17.38L15.41 19.58C15.7 19.87 16.14 19.98 16.57 19.88L19.49 18.96C19.82 18.87 20.07 18.57 20.07 18.2L20.07 15.14C20.07 14.73 19.78 14.39 19.38 14.32L17.29 13.91C16.92 13.84 16.58 13.95 16.35 14.2L14.07 16.48C11.53 15.01 9.49 12.97 8.02 10.43L10.3 8.15C10.55 7.92 10.66 7.58 10.59 7.21L10.18 5.12C10.11 4.72 9.77 4.43 9.36 4.43L6.3 4.43C5.93 4.43 5.63 4.68 5.54 5.01L4.62 7.93C4.52 8.36 4.63 8.8 4.92 9.09L6.62 10.79Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="app-label">Phone</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon contacts-dock-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 5C13.66 5 15 6.34 15 8C15 9.66 13.66 11 12 11C10.34 11 9 9.66 9 8C9 6.34 10.34 5 12 5ZM12 19.2C9.42 19.2 7.21 17.76 6 15.79C6.01 13.92 9.99 12.93 12 12.93C14.01 12.93 17.99 13.92 18 15.79C16.79 17.76 14.58 19.2 12 19.2Z" fill="#434343"/>
+                    </svg>
+                </div>
+                <div class="app-label">Contacts</div>
+            </div>
+
+            <div class="app-icon-wrapper">
+                <div class="app-icon music-dock-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17C6 19.21 7.79 21 10 21C12.21 21 14 19.21 14 17V7H17V3H12Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="app-label">Music</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

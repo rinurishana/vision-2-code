@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0c1b27;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://via.placeholder.com/1920x1080.png?text=Background+Image');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            color: #ffffff;
+        }
+
+        .login-container {
+            background: rgba(12, 27, 39, 0.8);
+            border-radius: 15px;
+            padding: 40px;
+            width: 380px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .logo svg {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            fill: #4bc0c8;
+        }
+
+        .brand-name {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background-color: #4bc0c8;
+            border-radius: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 15px;
+        }
+
+        .input-group i {
+            color: #778899;
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .input-group input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        .input-group input::placeholder {
+            color: #778899;
+        }
+
+        .login-button {
+            background-color: #d9534f;
+            color: #ffffff;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(217, 83, 79, 0.4);
+        }
+
+        .login-button:hover {
+            background-color: #c9302c;
+        }
+
+        .signup-google {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .signup-google .google-icon {
+            position: absolute;
+            left: 15px;
+            font-size: 20px;
+        }
+
+        .signup-google:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .signup-prompt {
+            font-size: 15px;
+            color: #778899;
+        }
+
+        .signup-prompt a {
+            color: #4bc0c8;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .signup-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .background-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .background-elements::before,
+        .background-elements::after {
+            content: '';
+            position: absolute;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .background-elements::before {
+            top: 10%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,0 100,100 0,100" fill="%2300a0b0" opacity="0.2"/></svg>');
+        }
+
+        .background-elements::after {
+            bottom: 10%;
+            right: 10%;
+            width: 250px;
+            height: 250px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20 L80 20 L100 80 L0 80 Z" fill="%2300a0b0" opacity="0.2"/></svg>');
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(31, 38, 135, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+            z-index: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="background-elements"></div>
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0zm-2 0a8 8 0 1 0-16 0 8 8 0 0 0 16 0zm-5.712 3.555a7.945 7.945 0 0 1-3.712 2.445l-2.173.942c-.49.214-.994.323-1.505.323-.512 0-1.015-.109-1.505-.323l-2.173-.942a7.945 7.945 0 0 1-3.712-2.445l-1.257-1.367a.5.5 0 0 1 .054-.698l1.367-1.257a7.944 7.944 0 0 1 2.445-3.712l.942-2.173c.214-.49.323-.995.323-1.505 0-.512-.109-1.015-.323-1.505l-.942-2.173a7.945 7.945 0 0 1 3.712-2.445l1.257-1.367a.5.5 0 0 1 .698-.054l1.367 1.257a7.945 7.945 0 0 1 3.712 2.445l2.173.942c.49.214.994.323 1.505.323.512 0 1.015-.109 1.505-.323l2.173-.942a7.945 7.945 0 0 1 2.445-3.712l1.367-1.257a.5.5 0 0 1 .698.054l1.257 1.367a7.944 7.944 0 0 1 2.445 3.712l.942 2.173c.214.49.323.994.323 1.505 0 .512-.109 1.015-.323 1.505l-.942 2.173a7.945 7.945 0 0 1-2.445 3.712l-1.257 1.367a.5.5 0 0 1-.698.054l-1.367-1.257a7.944 7.944 0 0 1-3.712 2.445z"/>
+                <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/>
+            </svg>
+        </div>
+        <div class="brand-name">Vision2Code</div>
+        <div class="form-title">Login</div>
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Enter Username">
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Enter Password">
+        </div>
+        <button class="login-button">Login</button>
+        <button class="signup-google">
+            <i class="fab fa-google google-icon"></i>
+            Sign up with Google
+        </button>
+        <div class="signup-prompt">
+            Not signed up yet? <a href="#">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>

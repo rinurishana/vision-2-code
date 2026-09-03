@@ -1,0 +1,984 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Desk Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-teal: #02b6a5;
+            --color-indigo: #2f016d;
+            --color-magenta: #8d008d;
+            --color-light-blue: #00e0ff;
+            --color-light-pink: #ff00ff;
+            --color-dark-gray: #1a1a1a;
+            --color-mid-gray: #333;
+            --color-text-light: #ffffff;
+            --glow-blue: 0 0 10px rgba(0, 224, 255, 0.6), 0 0 20px rgba(0, 224, 255, 0.4);
+            --glow-pink: 0 0 10px rgba(255, 0, 255, 0.6), 0 0 20px rgba(255, 0, 255, 0.4);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; / Prevent scrollbars /
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to right, var(--color-teal), var(--color-indigo) 50%, var(--color-magenta));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        / Laptop /
+        .laptop-wrapper {
+            position: absolute;
+            width: 60vw;
+            max-width: 900px;
+            height: auto;
+            transform: perspective(1000px) rotateX(15deg) translateY(10%);
+            transform-style: preserve-3d;
+            z-index: 10;
+        }
+
+        .laptop-base {
+            width: 100%;
+            height: 35vh;
+            background: linear-gradient(to top, #1a1a1a, #333333);
+            border-radius: 1.5vw;
+            position: relative;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+
+        .laptop-screen-bezel {
+            position: absolute;
+            top: -25vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 25vh;
+            background: linear-gradient(to bottom, #100020, #000000);
+            border: 0.2vw solid rgba(0, 224, 255, 0.4);
+            border-radius: 0.8vw;
+            box-shadow: var(--glow-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            backface-visibility: hidden;
+        }
+
+        .laptop-screen-content {
+            font-size: 8vw;
+            color: var(--color-light-blue);
+            text-shadow: var(--glow-blue);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+            font-weight: 600;
+        }
+
+        .laptop-screen-content .code-bracket-left,
+        .laptop-screen-content .code-bracket-right {
+            display: inline-block;
+            transform: scaleY(1.2);
+        }
+        .laptop-screen-content .code-slash {
+            font-size: 0.8em;
+            background: linear-gradient(to right, var(--color-light-blue), var(--color-light-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        / PHP Text and Fingerprint Icon are positioned relative to the overall container,
+           but visually aligned to the laptop's transformed plane for the floating effect /
+        .php-text {
+            position: absolute;
+            top: 55%;
+            left: 35%;
+            font-size: 3vw;
+            font-weight: 700;
+            color: var(--color-light-blue);
+            opacity: 0.6;
+            text-shadow: var(--glow-blue);
+            z-index: 11;
+            background: linear-gradient(to right, var(--color-light-blue), rgba(0, 224, 255, 0.2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            / Approximate perspective matching the laptop /
+            transform: rotateX(15deg) translateY(10%);
+            transform-origin: 0 0;
+        }
+
+        .fingerprint-icon {
+            position: absolute;
+            top: 70%;
+            left: 55%;
+            width: 4vw;
+            height: 4vw;
+            border-radius: 50%;
+            border: 0.2vw solid var(--color-light-blue);
+            box-shadow: var(--glow-blue);
+            opacity: 0.4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 11;
+            / Approximate perspective matching the laptop /
+            transform: rotateX(15deg) translateY(10%);
+        }
+        .fingerprint-icon::before,
+        .fingerprint-icon::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            border: 0.15vw solid var(--color-light-blue);
+            opacity: 0.6;
+        }
+        .fingerprint-icon::before {
+            width: 60%;
+            height: 60%;
+        }
+        .fingerprint-icon::after {
+            width: 30%;
+            height: 30%;
+        }
+
+        / Mobile Phone /
+        .mobile-phone {
+            position: absolute;
+            width: 10vw;
+            height: 20vw;
+            background: linear-gradient(to bottom, #000, #333);
+            border-radius: 1.5vw;
+            border: 0.2vw solid rgba(0, 224, 255, 0.6);
+            box-shadow: var(--glow-blue);
+            z-index: 12;
+            top: 40%;
+            left: calc(50% - 8vw);
+            transform: perspective(1000px) rotateX(15deg) rotateZ(-10deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5vw;
+        }
+
+        .phone-screen {
+            width: 90%;
+            height: 90%;
+            background-color: #0c0022;
+            border-radius: 1vw;
+            position: relative;
+            overflow: hidden;
+        }
+        .phone-screen-ui-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5vw;
+            font-size: 0.8vw;
+            color: white;
+            opacity: 0.7;
+        }
+        .phone-screen-ui-top .signal {
+            display: flex;
+            gap: 0.1vw;
+            height: 1vw;
+            align-items: flex-end;
+        }
+        .phone-screen-ui-top .signal div {
+            width: 0.2vw;
+            background-color: white;
+        }
+        .phone-screen-ui-top .signal div:nth-child(1) { height: 0.4vw; }
+        .phone-screen-ui-top .signal div:nth-child(2) { height: 0.6vw; }
+        .phone-screen-ui-top .signal div:nth-child(3) { height: 0.8vw; }
+        .phone-screen-ui-top .signal div:nth-child(4) { height: 1vw; }
+
+        .phone-screen-ui-profile {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3vw;
+            height: 3vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-light-blue);
+            opacity: 0.8;
+            overflow: hidden;
+        }
+        .phone-screen-ui-profile::before { / Head /
+            content: '';
+            position: absolute;
+            width: 1.5vw;
+            height: 1.5vw;
+            border-radius: 50%;
+            border: 0.15vw solid var(--color-light-blue);
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.8;
+        }
+        .phone-screen-ui-profile::after { / Body /
+            content: '';
+            position: absolute;
+            width: 2.5vw;
+            height: 1.5vw;
+            border-radius: 50% 50% 0 0;
+            border: 0.15vw solid var(--color-light-blue);
+            border-bottom: none;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.8;
+        }
+
+        .phone-screen-ui-image-placeholder {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 4vw;
+            border: 0.15vw solid var(--color-light-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-light-blue);
+            font-size: 2vw;
+            opacity: 0.8;
+            border-radius: 0.2vw;
+        }
+        .phone-screen-ui-image-placeholder svg {
+            width: 2vw;
+            height: 2vw;
+            stroke: var(--color-light-blue);
+        }
+
+        / Generic Text Labels (HTML5, CSS, SQL, JAVA) /
+        .text-label {
+            position: absolute;
+            font-size: 4vw;
+            font-weight: 700;
+            opacity: 0.8;
+            z-index: 5;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(255,255,255,0.2);
+        }
+        .text-label.html5 {
+            top: 20%;
+            right: 15%;
+            background: linear-gradient(to right, var(--color-light-pink), rgba(255, 0, 255, 0));
+            text-shadow: var(--glow-pink);
+        }
+        .text-label.css {
+            bottom: 25%;
+            right: 18%;
+            background: linear-gradient(to right, var(--color-light-pink), rgba(255, 0, 255, 0));
+            text-shadow: var(--glow-pink);
+        }
+        .text-label.sql {
+            top: 40%;
+            left: 10%;
+            background: linear-gradient(to left, var(--color-light-blue), rgba(0, 224, 255, 0));
+            text-shadow: var(--glow-blue);
+        }
+        .text-label.java {
+            bottom: 15%;
+            left: 25%;
+            background: linear-gradient(to left, var(--color-light-blue), rgba(0, 224, 255, 0));
+            text-shadow: var(--glow-blue);
+        }
+
+        / Icons /
+        .icon {
+            position: absolute;
+            width: 5vw;
+            height: 5vw;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.7;
+            z-index: 6;
+            background-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(3px);
+        }
+        .icon-wifi {
+            top: 25%;
+            left: 15%;
+            border: 0.2vw solid var(--color-light-pink);
+            box-shadow: var(--glow-pink);
+        }
+        .icon-wifi::before {
+            content: '';
+            position: absolute;
+            width: 0.5vw;
+            height: 0.5vw;
+            background-color: var(--color-light-pink);
+            border-radius: 50%;
+            top: 3.2vw;
+            box-shadow: 0 0 5px var(--color-light-pink);
+        }
+        .icon-wifi .arc1, .icon-wifi .arc2, .icon-wifi .arc3 {
+            position: absolute;
+            border: 0.2vw solid var(--color-light-pink);
+            border-radius: 50%;
+            box-shadow: var(--glow-pink);
+            border-top-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+        .icon-wifi .arc1 { width: 2vw; height: 2vw; transform: rotate(-45deg); top: 1.5vw; }
+        .icon-wifi .arc2 { width: 3vw; height: 3vw; transform: rotate(-45deg); top: 1vw; }
+        .icon-wifi .arc3 { width: 4vw; height: 4vw; transform: rotate(-45deg); top: 0.5vw; }
+
+
+        .icon-search {
+            bottom: 20%;
+            right: 12%;
+            border: 0.2vw solid var(--color-light-pink);
+            box-shadow: var(--glow-pink);
+        }
+        .icon-search::before {
+            content: '';
+            width: 2vw;
+            height: 2vw;
+            border: 0.2vw solid var(--color-light-pink);
+            border-radius: 50%;
+            box-shadow: var(--glow-pink);
+            position: absolute;
+            left: 0.8vw;
+            top: 0.8vw;
+        }
+        .icon-search::after {
+            content: '';
+            width: 0.2vw;
+            height: 1.5vw;
+            background-color: var(--color-light-pink);
+            box-shadow: var(--glow-pink);
+            position: absolute;
+            right: 0.8vw;
+            bottom: 0.8vw;
+            transform: rotate(45deg);
+            transform-origin: bottom center;
+        }
+
+        .icon-gear {
+            bottom: 10%;
+            left: 18%;
+            border: 0.2vw solid var(--color-light-pink);
+            box-shadow: var(--glow-pink);
+            position: relative;
+        }
+        .icon-gear::before { / Inner circle /
+            content: '';
+            position: absolute;
+            width: 2.5vw;
+            height: 2.5vw;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 0.2vw solid var(--color-light-pink);
+            box-shadow: var(--glow-pink);
+            z-index: 1;
+        }
+        .icon-gear .tooth {
+            position: absolute;
+            width: 0.7vw;
+            height: 1.5vw;
+            background-color: var(--color-light-pink);
+            box-shadow: var(--glow-pink);
+            transform-origin: 50% 50%;
+            z-index: 0;
+            top: calc(50% - 0.75vw);
+            left: calc(50% - 0.35vw);
+            border-radius: 0.2vw;
+        }
+        .icon-gear .tooth:nth-child(1) { transform: rotate(0deg) translateY(-2.2vw); }
+        .icon-gear .tooth:nth-child(2) { transform: rotate(45deg) translateY(-2.2vw); }
+        .icon-gear .tooth:nth-child(3) { transform: rotate(90deg) translateY(-2.2vw); }
+        .icon-gear .tooth:nth-child(4) { transform: rotate(135deg) translateY(-2.2vw); }
+        .icon-gear .tooth:nth-child(5) { transform: rotate(180deg) translateY(-2.2vw); }
+        .icon-gear .tooth:nth-child(6) { transform: rotate(225deg) translateY(-2.2vw); }
+        .icon-gear .tooth:nth-child(7) { transform: rotate(270deg) translateY(-2.2vw); }
+        .icon-gear .tooth:nth-child(8) { transform: rotate(315deg) translateY(-2.2vw); }
+
+        / UI Windows /
+        .ui-window {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 0.5vw;
+            padding: 1vw;
+            opacity: 0.8;
+            z-index: 5;
+        }
+        .ui-window-blue {
+            border: 0.15vw solid var(--color-light-blue);
+            box-shadow: var(--glow-blue);
+        }
+        .ui-window-pink {
+            border: 0.15vw solid var(--color-light-pink);
+            box-shadow: var(--glow-pink);
+        }
+
+        / Top Left Window (Blue) /
+        .ui-window-tl {
+            width: 25vw;
+            height: 15vw;
+            top: 25%;
+            left: 18%;
+            transform: perspective(1000px) rotateX(10deg) rotateY(-10deg);
+        }
+        .ui-window-tl .title-dots {
+            display: flex;
+            gap: 0.5vw;
+            position: absolute;
+            top: 0.5vw;
+            left: 0.5vw;
+        }
+        .ui-window-tl .title-dots div {
+            width: 0.8vw;
+            height: 0.8vw;
+            border-radius: 50%;
+            background-color: var(--color-light-blue);
+            opacity: 0.6;
+        }
+        .ui-window-tl .main-content {
+            display: flex;
+            gap: 1vw;
+            height: calc(100% - 2.5vw);
+            margin-top: 1.5vw;
+        }
+        .ui-window-tl .image-col {
+            flex: 2;
+            border: 0.15vw solid var(--color-light-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-light-blue);
+            font-size: 3vw;
+            opacity: 0.8;
+            border-radius: 0.2vw;
+        }
+        .ui-window-tl .image-col svg {
+            stroke: var(--color-light-blue);
+        }
+        .ui-window-tl .text-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5vw;
+        }
+        .ui-window-tl .text-col div {
+            width: 100%;
+            height: 0.8vw;
+            background-color: var(--color-light-blue);
+            border-radius: 0.2vw;
+            opacity: 0.7;
+        }
+        .ui-window-tl .text-col div:nth-child(odd) { width: 80%; }
+
+
+        / Mid-Right Window (Pink) /
+        .ui-window-mr {
+            width: 20vw;
+            height: 18vw;
+            top: 35%;
+            right: 15%;
+            transform: perspective(1000px) rotateX(10deg) rotateY(10deg);
+        }
+        .ui-window-mr .code-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7vw;
+            padding: 1vw;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .ui-window-mr .code-line {
+            width: 100%;
+            height: 0.8vw;
+            background-color: var(--color-light-pink);
+            border-radius: 0.2vw;
+            opacity: 0.7;
+        }
+        .ui-window-mr .code-line:nth-child(even) { width: 80%; margin-left: 10%; }
+        .ui-window-mr .code-line:nth-child(3n) { width: 60%; margin-left: 20%; }
+        .ui-window-mr .code-line:last-child {
+            width: 40%;
+            background-color: transparent;
+            border: 0.15vw solid var(--color-light-pink);
+            margin-top: 1vw;
+            height: 1.5vw;
+        }
+
+
+        / Bottom Right Window (Pink) /
+        .ui-window-br {
+            width: 22vw;
+            height: 14vw;
+            bottom: 10%;
+            right: 10%;
+            transform: perspective(1000px) rotateX(15deg) rotateY(5deg);
+            padding: 0.8vw;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8vw;
+        }
+        .ui-window-br .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5vw;
+        }
+        .ui-window-br .header-bar .dots {
+            display: flex;
+            gap: 0.4vw;
+        }
+        .ui-window-br .header-bar .dots div {
+            width: 0.7vw;
+            height: 0.7vw;
+            border-radius: 50%;
+            background-color: var(--color-light-pink);
+            opacity: 0.6;
+        }
+        .ui-window-br .header-bar .search-box {
+            width: 10vw;
+            height: 1.2vw;
+            border: 0.1vw solid var(--color-light-pink);
+            border-radius: 0.6vw;
+            opacity: 0.6;
+            background-color: rgba(255, 0, 255, 0.1);
+        }
+        .ui-window-br .chart-area {
+            flex-grow: 1;
+            display: flex;
+            gap: 0.8vw;
+        }
+        .ui-window-br .chart-main {
+            flex: 2;
+            border: 0.15vw solid var(--color-light-pink);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-light-pink);
+            font-size: 3vw;
+            opacity: 0.8;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.2vw;
+        }
+        .ui-window-br .chart-main::before, .ui-window-br .chart-main::after {
+            content: '';
+            position: absolute;
+            background-color: var(--color-light-pink);
+            opacity: 0.8;
+            border-radius: 0.2vw;
+        }
+        .ui-window-br .chart-main::before { / Bar 1 /
+            width: 1.5vw;
+            height: 6vw;
+            bottom: 0;
+            left: 2vw;
+            transform-origin: bottom center;
+            transform: skewX(-15deg);
+        }
+        .ui-window-br .chart-main::after { / Bar 2 /
+            width: 1.5vw;
+            height: 4vw;
+            bottom: 0;
+            left: 5vw;
+            transform-origin: bottom center;
+            transform: skewX(-15deg);
+        }
+        .ui-window-br .chart-lines {
+            position: absolute;
+            width: 90%;
+            height: 0.1vw;
+            background: linear-gradient(to right, rgba(255,0,255,0.8), rgba(255,0,255,0.2));
+            bottom: 3vw;
+            left: 5%;
+        }
+        .ui-window-br .chart-lines::before {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 0.1vw;
+            background: linear-gradient(to right, rgba(255,0,255,0.8), rgba(255,0,255,0.2));
+            bottom: 2vw;
+        }
+        .ui-window-br .chart-bars {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5vw;
+        }
+        .ui-window-br .chart-bar-line {
+            width: 100%;
+            height: 0.8vw;
+            background-color: var(--color-light-pink);
+            border-radius: 0.2vw;
+            opacity: 0.7;
+        }
+        .ui-window-br .chart-bar-line:nth-child(even) { width: 70%; }
+        .ui-window-br .chart-bar-line:nth-child(3n) { width: 90%; }
+
+        / Bottom Left Window (Blue) /
+        .ui-window-bl {
+            width: 25vw;
+            height: 12vw;
+            bottom: 5%;
+            left: 10%;
+            transform: perspective(1000px) rotateX(15deg) rotateY(-8deg);
+            display: flex;
+            flex-direction: column;
+            gap: 1vw;
+        }
+        .ui-window-bl .header-bar-dots {
+            display: flex;
+            gap: 0.5vw;
+            margin-bottom: 0.5vw;
+        }
+        .ui-window-bl .header-bar-dots div {
+            width: 0.8vw;
+            height: 0.8vw;
+            border-radius: 50%;
+            background-color: var(--color-light-blue);
+            opacity: 0.6;
+        }
+        .ui-window-bl .main-content-bl {
+            flex-grow: 1;
+            display: flex;
+            gap: 1vw;
+        }
+        .ui-window-bl .main-content-bl .left-lines {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5vw;
+        }
+        .ui-window-bl .main-content-bl .left-lines div {
+            width: 100%;
+            height: 0.8vw;
+            background-color: var(--color-light-blue);
+            border-radius: 0.2vw;
+            opacity: 0.7;
+        }
+        .ui-window-bl .main-content-bl .left-lines div:nth-child(odd) { width: 80%; }
+        .ui-window-bl .main-content-bl .right-image {
+            flex: 1;
+            border: 0.15vw solid var(--color-light-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-light-blue);
+            font-size: 3vw;
+            opacity: 0.8;
+            border-radius: 0.2vw;
+        }
+        .ui-window-bl .right-image svg {
+            stroke: var(--color-light-blue);
+        }
+
+        / Connector Lines /
+        .connector-line {
+            position: absolute;
+            opacity: 0.5;
+            height: 0.15vw;
+            border-radius: 0.1vw;
+            z-index: 4;
+            background-image: linear-gradient(to right, rgba(0,224,255,0.7), rgba(255,0,255,0.7)); / Default blend /
+            box-shadow: 0 0 8px rgba(255,255,255,0.3);
+        }
+
+        / Specific line positioning and rotation /
+        .line-1 { / From Wifi icon to Top-left UI window /
+            width: 8vw;
+            top: 31%;
+            left: 18%;
+            transform: rotate(10deg);
+            background-image: linear-gradient(to right, var(--color-light-pink), var(--color-light-blue));
+            box-shadow: var(--glow-pink);
+        }
+        .line-2 { / From SQL text to Top-left UI window /
+            width: 10vw;
+            top: 40%;
+            left: 17%;
+            transform: rotate(-5deg);
+            background-image: linear-gradient(to right, var(--color-light-blue), var(--color-light-blue));
+            box-shadow: var(--glow-blue);
+        }
+        .line-3 { / From Laptop to Mobile Phone /
+            width: 8vw;
+            top: 50%;
+            left: 37%;
+            transform: rotate(-10deg);
+            background-image: linear-gradient(to right, var(--color-light-blue), var(--color-light-blue));
+            box-shadow: var(--glow-blue);
+        }
+        .line-4 { / From HTML5 to Mid-right UI window /
+            width: 10vw;
+            top: 25%;
+            right: 20%;
+            transform: rotate(-5deg);
+            background-image: linear-gradient(to left, var(--color-light-pink), rgba(255,0,255,0));
+            box-shadow: var(--glow-pink);
+        }
+        .line-5 { / From Mid-right UI window to CSS text /
+            width: 10vw;
+            top: 55%;
+            right: 17%;
+            transform: rotate(20deg);
+            background-image: linear-gradient(to top, var(--color-light-pink), var(--color-light-pink));
+            box-shadow: var(--glow-pink);
+        }
+        .line-6 { / From Gear icon to Bottom-left UI window /
+            width: 8vw;
+            bottom: 12%;
+            left: 20%;
+            transform: rotate(10deg);
+            background-image: linear-gradient(to right, var(--color-light-pink), var(--color-light-blue));
+            box-shadow: var(--glow-pink);
+        }
+        .line-7 { / From Mobile Phone to Mid-right UI Window /
+            width: 15vw;
+            top: 42%;
+            left: 45%;
+            transform: rotate(20deg);
+            background-image: linear-gradient(to right, var(--color-light-blue), var(--color-light-pink));
+            box-shadow: var(--glow-blue);
+        }
+        .line-8 { / From Laptop Fingerprint to CSS text /
+            width: 10vw;
+            bottom: 28%;
+            right: 20%;
+            transform: rotate(-10deg);
+            background-image: linear-gradient(to right, var(--color-light-blue), var(--color-light-pink));
+            box-shadow: var(--glow-blue);
+        }
+        .line-9 { / From Laptop Screen to HTML5 /
+            width: 15vw;
+            top: 20%;
+            right: 30%;
+            transform: rotate(-5deg);
+            background-image: linear-gradient(to right, var(--color-light-blue), var(--color-light-pink));
+            box-shadow: var(--glow-blue);
+            opacity: 0.3;
+        }
+
+        / Additional small decorative elements for the laptop keyboard /
+        .laptop-keyboard-decor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 1.5vw;
+        }
+        .laptop-keyboard-key-row {
+            position: absolute;
+            width: 80%;
+            height: 1vw;
+            background-color: rgba(0, 224, 255, 0.2);
+            border-radius: 0.2vw;
+            left: 10%;
+            opacity: 0.3;
+        }
+        .laptop-keyboard-key-row:nth-child(1) { top: 35%; }
+        .laptop-keyboard-key-row:nth-child(2) { top: 40%; }
+        .laptop-keyboard-key-row:nth-child(3) { top: 45%; }
+        .laptop-keyboard-key-row:nth-child(4) { top: 50%; }
+        .laptop-keyboard-key-row:nth-child(5) { top: 55%; }
+        .laptop-keyboard-key-row:nth-child(6) { top: 60%; }
+        .laptop-keyboard-key-row:nth-child(7) { top: 65%; }
+
+        .laptop-trackpad {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30%;
+            height: 10%;
+            background-color: rgba(0, 224, 255, 0.1);
+            border-radius: 0.5vw;
+            border: 0.1vw solid rgba(0, 224, 255, 0.3);
+            opacity: 0.5;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Laptop -->
+        <div class="laptop-wrapper">
+            <div class="laptop-base">
+                <div class="laptop-screen-bezel">
+                    <div class="laptop-screen-content">
+                        <span class="code-bracket-left">&lt;</span>
+                        <span class="code-slash">/</span>
+                        <span class="code-bracket-right">&gt;</span>
+                    </div>
+                </div>
+                <div class="laptop-keyboard-decor">
+                    <div class="laptop-keyboard-key-row"></div>
+                    <div class="laptop-keyboard-key-row"></div>
+                    <div class="laptop-keyboard-key-row"></div>
+                    <div class="laptop-keyboard-key-row"></div>
+                    <div class="laptop-keyboard-key-row"></div>
+                    <div class="laptop-keyboard-key-row"></div>
+                    <div class="laptop-keyboard-key-row"></div>
+                </div>
+                <div class="laptop-trackpad"></div>
+            </div>
+        </div>
+
+        <!-- PHP Text on Laptop Keyboard -->
+        <div class="text-label php-text">PHP</div>
+        
+        <!-- Fingerprint Icon on Laptop Trackpad -->
+        <div class="fingerprint-icon"></div>
+
+        <!-- Mobile Phone -->
+        <div class="mobile-phone">
+            <div class="phone-screen">
+                <div class="phone-screen-ui-top">
+                    <span class="signal"><div></div><div></div><div></div><div></div></span>
+                    <span>5G</span>
+                </div>
+                <div class="phone-screen-ui-profile"></div>
+                <div class="phone-screen-ui-image-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Text Labels -->
+        <div class="text-label html5">HTML5</div>
+        <div class="text-label css">CSS</div>
+        <div class="text-label sql">SQL</div>
+        <div class="text-label java">JAVA</div>
+
+        <!-- Icons -->
+        <div class="icon icon-wifi">
+            <div class="arc1"></div>
+            <div class="arc2"></div>
+            <div class="arc3"></div>
+        </div>
+        <div class="icon icon-search"></div>
+        <div class="icon icon-gear">
+            <div class="tooth"></div>
+            <div class="tooth"></div>
+            <div class="tooth"></div>
+            <div class="tooth"></div>
+            <div class="tooth"></div>
+            <div class="tooth"></div>
+            <div class="tooth"></div>
+            <div class="tooth"></div>
+        </div>
+
+        <!-- UI Windows -->
+        <div class="ui-window ui-window-blue ui-window-tl">
+            <div class="title-dots"><div></div><div></div><div></div></div>
+            <div class="main-content">
+                <div class="image-col">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+                <div class="text-col">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-window ui-window-pink ui-window-mr">
+            <div class="code-lines">
+                <div class="code-line"></div>
+                <div class="code-line"></div>
+                <div class="code-line"></div>
+                <div class="code-line"></div>
+                <div class="code-line"></div>
+                <div class="code-line"></div>
+                <div class="code-line"></div>
+                <div class="code-line"></div>
+            </div>
+        </div>
+
+        <div class="ui-window ui-window-pink ui-window-br">
+            <div class="header-bar">
+                <div class="dots"><div></div><div></div><div></div></div>
+                <div class="search-box"></div>
+            </div>
+            <div class="chart-area">
+                <div class="chart-main">
+                    <div class="chart-lines"></div>
+                </div>
+                <div class="chart-bars">
+                    <div class="chart-bar-line"></div>
+                    <div class="chart-bar-line"></div>
+                    <div class="chart-bar-line"></div>
+                    <div class="chart-bar-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-window ui-window-blue ui-window-bl">
+            <div class="header-bar-dots"><div></div><div></div><div></div></div>
+            <div class="main-content-bl">
+                <div class="left-lines">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="right-image">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.8;">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connector Lines -->
+        <div class="connector-line line-1"></div>
+        <div class="connector-line line-2"></div>
+        <div class="connector-line line-3"></div>
+        <div class="connector-line line-4"></div>
+        <div class="connector-line line-5"></div>
+        <div class="connector-line line-6"></div>
+        <div class="connector-line line-7"></div>
+        <div class="connector-line line-8"></div>
+        <div class="connector-line line-9"></div>
+
+    </div>
+</body>
+</html>
+```

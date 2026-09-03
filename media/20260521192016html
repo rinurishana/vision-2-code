@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-light-gray: #f2f5fa;
+            --main-blue: #2172D8;
+            --dark-blue-gradient-start: #2172D8;
+            --dark-blue-gradient-end: #2D80EB;
+            --light-blue-text: #d8effd;
+            --white-text: #ffffff;
+            --dark-grey-text: #333333;
+            --medium-grey-text: #777777;
+            --light-grey-border: #cccccc;
+            --box-shadow-color: rgba(0, 0, 0, 0.1);
+            --border-radius-lg: 20px;
+            --border-radius-md: 10px;
+            --border-radius-sm: 5px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--dark-grey-text);
+            box-sizing: border-box;
+        }
+
+        .login-container {
+            display: flex;
+            background-color: var(--white-text);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px var(--box-shadow-color);
+            overflow: hidden;
+            width: 900px;
+            max-width: 90%;
+            min-height: 500px;
+        }
+
+        .left-panel {
+            flex: 1.2;
+            background: linear-gradient(135deg, var(--dark-blue-gradient-start) 0%, var(--dark-blue-gradient-end) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+            color: var(--white-text);
+            z-index: 1;
+        }
+
+        .left-panel::before,
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .left-panel::before {
+            width: 250px;
+            height: 250px;
+            top: -50px;
+            left: -80px;
+            transform: rotate(-30deg);
+        }
+
+        .left-panel::after {
+            width: 350px;
+            height: 350px;
+            bottom: -100px;
+            right: -120px;
+            opacity: 0.7;
+            transform: rotate(20deg);
+        }
+
+        .welcome-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--white-text);
+            letter-spacing: 1px;
+        }
+
+        .headline-name {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 25px;
+            color: var(--light-blue-text);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--light-blue-text);
+            max-width: 350px;
+        }
+
+        .right-panel {
+            flex: 1;
+            background-color: var(--white-text);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .signin-header {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark-grey-text);
+        }
+
+        .signin-subheader {
+            font-size: 12px;
+            color: var(--medium-grey-text);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: var(--medium-grey-text);
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-group input {
+            width: calc(100% - 30px);
+            padding: 15px;
+            border: 1px solid var(--light-grey-border);
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            outline: none;
+            color: var(--dark-grey-text);
+            background-color: transparent;
+            box-sizing: border-box;
+        }
+
+        .input-group input:focus {
+            border-color: var(--main-blue);
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 5px;
+            font-size: 12px;
+            background-color: var(--white-text);
+            padding: 0 5px;
+            color: var(--main-blue);
+        }
+
+        .password-group {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .password-group input {
+            flex-grow: 1;
+            padding-right: 70px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            color: var(--main-blue);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .options-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            color: var(--dark-grey-text);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            display: none;
+        }
+
+        .remember-me .checkbox-custom {
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--light-grey-border);
+            border-radius: 3px;
+            margin-right: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            background-color: var(--white-text);
+        }
+
+        .remember-me input[type="checkbox"]:checked + .checkbox-custom {
+            background-color: var(--main-blue);
+            border-color: var(--main-blue);
+        }
+
+        .remember-me .checkbox-custom .fa-check {
+            color: var(--white-text);
+            font-size: 12px;
+            display: none;
+        }
+
+        .remember-me input[type="checkbox"]:checked + .checkbox-custom .fa-check {
+            display: block;
+        }
+
+        .forgot-password {
+            color: var(--main-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .signin-button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--main-blue);
+            color: var(--white-text);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(33, 114, 216, 0.4);
+            margin-bottom: 40px;
+        }
+
+        .signin-button:hover {
+            background-color: #1a60bf;
+            box-shadow: 0 7px 20px rgba(33, 114, 216, 0.5);
+        }
+
+        .signup-text {
+            text-align: center;
+            font-size: 14px;
+            color: var(--medium-grey-text);
+        }
+
+        .signup-text a {
+            color: var(--main-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+
+        ::-webkit-input-placeholder {
+            color: transparent;
+        }
+        ::-moz-placeholder {
+            color: transparent;
+        }
+        :-ms-input-placeholder {
+            color: transparent;
+        }
+        :-moz-placeholder {
+            color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="left-panel">
+            <h1 class="welcome-title">WELCOME</h1>
+            <h2 class="headline-name">YOUR HEADLINE NAME</h2>
+            <p class="description">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.
+            </p>
+        </div>
+        <div class="right-panel">
+            <h2 class="signin-header">Sign in</h2>
+            <p class="signin-subheader">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+
+            <div class="input-group">
+                <input type="text" id="username" placeholder="User name">
+                <label for="username">User name</label>
+            </div>
+
+            <div class="input-group password-group">
+                <input type="password" id="password" placeholder="Password">
+                <label for="password">Password</label>
+                <span class="password-toggle">SHOW</span>
+            </div>
+
+            <div class="options-group">
+                <label class="remember-me">
+                    <input type="checkbox" checked>
+                    <span class="checkbox-custom">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    Remember me
+                </label>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="signin-button">Sing In</button>
+
+            <p class="signup-text">Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+    </div>
+</body>
+</html>

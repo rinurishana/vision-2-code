@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7; /* Light background for the page */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Login Container Styles */
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border-top: 6px solid #e74c3c; /* Distinct red top border */
+        }
+
+        /* Heading Styles */
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.4em;
+            font-weight: 700;
+        }
+
+        /* Input Group Styles */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* Label Styles */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        /* Input Field Styles */
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 24px); /* Account for padding and border */
+            padding: 12px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box; /* Include padding and border in the element's total width */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #e74c3c; /* Red border on focus */
+            outline: none;
+            box-shadow: 0 0 8px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Button Styles */
+        button[type="submit"] {
+            background-color: #e74c3c; /* Primary red button */
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.15em;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 25px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0); /* Return to normal on click */
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+</body>
+</html>

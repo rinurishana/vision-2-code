@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ledger Book</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap');
+
+        :root {
+            --page-bg: #f5f0e1; /* Light cream */
+            --ledger-bg: #ffffff; /* Clean white */
+            --text-color: #36454F; /* Charcoal grey */
+            --header-bg: #e2e8f0; /* Soft blue-grey */
+            --header-text-color: #2c3e50; /* Darker blue-grey */
+            --border-light: #e0e0e0; /* Light grey for horizontal lines */
+            --border-medium: #c0c0c0; /* Medium grey for main table borders */
+            --accent-line-blue: #a0c4ff; /* Light blue for vertical separators */
+            --accent-line-red: #ffadad; /* Light red for special separators */
+            --row-even-bg: #f9f9f9; /* Very light grey for alternating rows */
+            --font-serif: 'Merriweather', serif;
+            --font-sans: 'Roboto', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--page-bg);
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .ledger-book {
+            width: 90%;
+            max-width: 1200px;
+            background-color: var(--ledger-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px var(--border-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ledger-book::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50px; /* Red vertical line position */
+            width: 1px;
+            height: 100%;
+            background-color: var(--accent-line-red);
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .ledger-book h1 {
+            font-family: var(--font-serif);
+            text-align: center;
+            color: var(--header-text-color);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--header-bg);
+            font-size: 2.5em;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ledger-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.95em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ledger-table thead th {
+            background-color: var(--header-bg);
+            color: var(--header-text-color);
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-medium);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ledger-table tbody tr {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .ledger-table tbody tr:nth-child(even) {
+            background-color: var(--row-even-bg);
+        }
+
+        .ledger-table tbody td {
+            padding: 12px 10px;
+            vertical-align: top;
+        }
+
+        .ledger-table .col-date {
+            width: 10%;
+            border-right: 1px dashed var(--border-light);
+        }
+
+        .ledger-table .col-description {
+            width: 40%;
+            text-align: left;
+            font-family: var(--font-sans);
+        }
+
+        .ledger-table .col-debit,
+        .ledger-table .col-credit,
+        .ledger-table .col-balance {
+            width: 15%;
+            text-align: right;
+            padding-right: 15px;
+            position: relative;
+        }
+
+        .ledger-table .col-debit {
+            border-left: 1px solid var(--accent-line-blue);
+        }
+        .ledger-table .col-credit {
+            border-left: 1px dashed var(--border-light);
+        }
+        .ledger-table .col-balance {
+            border-left: 2px solid var(--border-medium);
+            font-weight: 700;
+            color: #1a5e1a; /* Dark green for balance */
+        }
+
+        .ledger-table tfoot td {
+            padding: 15px 10px;
+            font-weight: 700;
+            border-top: 2px solid var(--border-medium);
+            background-color: var(--header-bg);
+            color: var(--header-text-color);
+        }
+
+        .ledger-table tfoot .total-label {
+            text-align: right;
+            padding-right: 20px;
+            font-family: var(--font-sans);
+        }
+
+        .ledger-table tfoot .total-value {
+            text-align: right;
+            padding-right: 15px;
+            color: #1a5e1a;
+        }
+
+        @media (max-width: 768px) {
+            .ledger-book {
+                padding: 20px;
+                width: 95%;
+            }
+            body {
+                padding: 15px;
+            }
+            .ledger-book h1 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+            .ledger-table thead th,
+            .ledger-table tbody td,
+            .ledger-table tfoot td {
+                padding: 10px 5px;
+                font-size: 0.85em;
+            }
+            .ledger-table .col-debit,
+            .ledger-table .col-credit,
+            .ledger-table .col-balance {
+                padding-right: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ledger-book">
+        <h1>General Ledger</h1>
+
+        <table class="ledger-table">
+            <thead>
+                <tr>
+                    <th class="col-date">Date</th>
+                    <th class="col-description">Description</th>
+                    <th class="col-debit">Debit ($)</th>
+                    <th class="col-credit">Credit ($)</th>
+                    <th class="col-balance">Balance ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-date">2023-01-01</td>
+                    <td class="col-description">Initial Capital Contribution</td>
+                    <td class="col-debit">1,000.00</td>
+                    <td class="col-credit"></td>
+                    <td class="col-balance">1,000.00</td>
+                </tr>
+                <tr>
+                    <td class="col-date">2023-01-05</td>
+                    <td class="col-description">Purchase Office Supplies</td>
+                    <td class="col-debit"></td>
+                    <td class="col-credit">150.00</td>
+                    <td class="col-balance">850.00</td>
+                </tr>
+                <tr>
+                    <td class="col-date">2023-01-10</td>
+                    <td class="col-description">Received Payment for Services</td>
+                    <td class="col-debit">500.00</td>
+                    <td class="col-credit"></td>
+                    <td class="col-balance">1,350.00</td>
+                </tr>
+                <tr>
+                    <td class="col-date">2023-01-15</td>
+                    <td class="col-description">Paid Rent for January</td>
+                    <td class="col-debit"></td>
+                    <td class="col-credit">700.00</td>
+                    <td class="col-balance">650.00</td>
+                </tr>
+                <tr>
+                    <td class="col-date">2023-01-20</td>
+                    <td class="col-description">Sold Inventory on Credit</td>
+                    <td class="col-debit">300.00</td>
+                    <td class="col-credit"></td>
+                    <td class="col-balance">950.00</td>
+                </tr>
+                <tr>
+                    <td class="col-date">2023-01-25</td>
+                    <td class="col-description">Paid Employee Wages</td>
+                    <td class="col-debit"></td>
+                    <td class="col-credit">400.00</td>
+                    <td class="col-balance">550.00</td>
+                </tr>
+                 <tr>
+                    <td class="col-date">2023-01-31</td>
+                    <td class="col-description">Bank Service Charge</td>
+                    <td class="col-debit"></td>
+                    <td class="col-credit">15.00</td>
+                    <td class="col-balance">535.00</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="total-label">Current Final Balance:</td>
+                    <td class="col-debit"></td>
+                    <td class="col-credit"></td>
+                    <td class="col-balance total-value">535.00</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</body>
+</html>

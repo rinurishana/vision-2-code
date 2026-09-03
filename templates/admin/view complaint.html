@@ -1,0 +1,132 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#<meta charset="UTF-8">#}
+{#<title>Complaints</title>#}
+
+{% extends 'admin/admin_homenew.html' %}
+{% block body %}
+
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#000000,#0a1f44);
+}
+
+/* Container */
+.container{
+    width:85%;
+    margin:60px auto;
+    background:#0b132b;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0px 0px 20px rgba(0,0,0,0.8);
+}
+
+/* Heading */
+h2{
+    text-align:center;
+    color:white;
+    margin-bottom:25px;
+}
+
+/* Table */
+table{
+    width:100%;
+    border-collapse:collapse;
+    color:white;
+}
+
+th{
+    background:#142850;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #1c2541;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#1c2541;
+}
+
+tr:hover{
+    background:#274690;
+}
+
+/* Reply link */
+.reply-link{
+    background:#cb2a28;
+    color:white;
+    padding:6px 12px;
+    border-radius:5px;
+    text-decoration:none;
+}
+
+.reply-link:hover{
+    background:#cb2a28;
+}
+.back-link{
+display:block;
+margin-top:15px;
+color:#aaa;
+text-decoration:none;
+}
+
+.back-link:hover{
+color:white;
+}
+</style>
+
+<body>
+
+<div class="container">
+
+<h2>User Complaints</h2>
+
+<table>
+
+<tr>
+<th>Name</th>
+<th>Complaint</th>
+<th>Date</th>
+<th>Reply</th>
+</tr>
+
+
+    {% for i in complaint %}
+    <tr>
+    <td>{{ i.USER.name }}</td>
+    <td>{{ i.complaint }}</td>
+    <td>{{ i.date }}</td>
+
+    <td>{% if i.reply == "pending" %}<a href="/myapp/admin_reply/{{ i.id }}" class="reply-link">Reply</a>{% else %}{{ i.reply }}{% endif %}</td>
+    </tr>
+    {% endfor %}
+
+
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+{##}
+{#<tr>#}
+{#<td colspan="4">More complaints will appear here after users submit them</td>#}
+{#</tr>#}
+
+</table>
+<a href="/myapp/admin_home" class="back-link">← Back to Dashboard</a>
+</div>
+
+</body>
+
+{% endblock %}
+

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand-Specific Homepage Designs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            display: flex;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            align-items: center;
+            justify-content: space-between;
+            box-sizing: border-box;
+        }
+
+        .left-section {
+            flex-shrink: 0;
+            width: 50%;
+            padding-right: 40px;
+            box-sizing: border-box;
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1a202c;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .description-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 400;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .description-item i {
+            color: #2d9cdb;
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        .description-item span {
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .underlined {
+            text-decoration: underline;
+            text-decoration-color: #2d9cdb;
+            text-decoration-thickness: 2px;
+        }
+
+        .logo-container {
+            margin-top: 50px;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .logo-tagline {
+            font-size: 16px;
+            font-weight: 400;
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .right-section {
+            flex-shrink: 0;
+            width: 50%;
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .computer-monitor {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+        }
+
+        .laptop {
+            position: absolute;
+            width: 65%;
+            max-width: 350px;
+            bottom: 15%;
+            left: 0;
+            transform: rotate(-15deg);
+            transform-origin: bottom left;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+        }
+
+        .mug {
+            width: 70px;
+            height: 70px;
+            background-color: #4a5568;
+            border-radius: 50%;
+            position: absolute;
+            right: 10%;
+            bottom: 20%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .mobile-devices {
+            position: absolute;
+            right: 0;
+            bottom: 5%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mobile-devices img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .phone {
+            width: 50px;
+            margin-bottom: 5px;
+            transform: rotate(-10deg);
+        }
+
+        .tablet {
+            width: 70px;
+            transform: rotate(5deg);
+        }
+
+        .keyboard {
+            position: absolute;
+            left: 20%;
+            bottom: 5%;
+            width: 150px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.08));
+        }
+
+        .plant {
+            position: absolute;
+            right: -50px;
+            top: 0;
+            width: 120px;
+            height: 180px;
+            background-color: #6b7280;
+            border-radius: 8px;
+        }
+
+        .plant-leaves {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #9ca3af;
+            border-radius: 8px;
+            clip-path: polygon(30% 0, 70% 0, 100% 30%, 70% 100%, 30% 100%, 0 70%);
+        }
+
+        .plant-stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 80%;
+            background-color: #a07b59;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+                padding: 30px;
+            }
+            .left-section {
+                width: 100%;
+                padding-right: 0;
+                margin-bottom: 30px;
+                text-align: center;
+            }
+            .title {
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+            .description-item {
+                justify-content: center;
+                font-size: 16px;
+            }
+            .description-item i {
+                font-size: 20px;
+            }
+            .logo-container {
+                margin-top: 30px;
+            }
+            .logo {
+                font-size: 28px;
+            }
+            .logo-tagline {
+                font-size: 14px;
+            }
+            .right-section {
+                width: 100%;
+                justify-content: center;
+            }
+            .computer-monitor {
+                max-width: 500px;
+            }
+            .laptop {
+                max-width: 280px;
+                bottom: 10%;
+                left: 5%;
+            }
+            .mug {
+                right: 20%;
+                bottom: 15%;
+            }
+            .keyboard {
+                left: 25%;
+                bottom: 2%;
+                width: 120px;
+            }
+            .plant {
+                right: -30px;
+                top: -20px;
+                width: 100px;
+                height: 150px;
+            }
+            .mobile-devices {
+                bottom: 0;
+                right: 5%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+            }
+            .left-section {
+                text-align: left;
+            }
+            .description-item {
+                justify-content: flex-start;
+            }
+            .title {
+                font-size: 32px;
+            }
+            .description-item {
+                font-size: 15px;
+            }
+            .logo {
+                font-size: 26px;
+            }
+            .logo-tagline {
+                font-size: 13px;
+            }
+            .computer-monitor {
+                max-width: 400px;
+            }
+            .laptop {
+                max-width: 250px;
+                bottom: 8%;
+                left: 2%;
+            }
+            .mug {
+                right: 15%;
+                bottom: 12%;
+                width: 60px;
+                height: 60px;
+            }
+            .keyboard {
+                left: 20%;
+                bottom: 0;
+                width: 100px;
+            }
+            .plant {
+                right: -20px;
+                top: -10px;
+                width: 80px;
+                height: 120px;
+            }
+            .mobile-devices {
+                bottom: -5%;
+                right: 0;
+                width: 90px;
+                height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h1 class="title">Brand-Specific<br>Homepage Designs</h1>
+            <div class="description-item">
+                <i class="fas fa-check-circle"></i>
+                <p>THE AVERAGE USER VISITS<br>UP TO <span class="underlined">130 WEBSITES DAILY</span></p>
+            </div>
+            <div class="description-item">
+                <i class="fas fa-check-circle"></i>
+                <p>38% OF USERS NOTICE A<br>WEBSITE'S LAYOUT AND<br>NAVIGATION</p>
+            </div>
+            <div class="logo-container">
+                <div class="logo">DIGITALSILK</div>
+                <div class="logo-tagline">We Grow Brands Online</div>
+            </div>
+        </div>
+        <div class="right-section">
+            <img src="https://via.placeholder.com/600x500" alt="Computer Monitor" class="computer-monitor">
+            <img src="https://via.placeholder.com/350x250" alt="Laptop" class="laptop">
+            <div class="mug"></div>
+            <div class="mobile-devices">
+                <img src="https://via.placeholder.com/50x80" alt="Phone" class="phone">
+                <img src="https://via.placeholder.com/70x50" alt="Tablet" class="tablet">
+            </div>
+            <img src="https://via.placeholder.com/150x50" alt="Keyboard" class="keyboard">
+            <div class="plant">
+                <div class="plant-leaves"></div>
+                <div class="plant-stem"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

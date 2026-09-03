@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121829;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #ffffff;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwMCIgaGVpZ2h0PSIxMDAwIiB2aWV3Qm94PSIwIDAgMTYwMCAxMDAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxwYXRoIGQ9Ik0wIDc3NS45ODlDNDMxLjAxNSAxMTc0LjEzIDExMTUuNTA1IDExNzQuMTMgMTYwMCA3NzUuOTg5VjEwMDBIMHoiIGZpbGw9IiMxYTU1NjciLz4KICA8cGF0aCBkPSJNMTYwMCA4MjUuNjg1QzExNjAuMDMxIDEyMjcuNDEgNjY2LjM3NiAxMjA2LjUwOSAxNjAwIDgyNS42ODVWMTAwMEgxNjAwWiIgZmlsbD0iIzE0M2IxOSIvPgo8L3N2Zz4=');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: rgba(24, 32, 48, 0.8);
+            border-radius: 20px;
+            padding: 40px 50px;
+            width: 380px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 30px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .logo-text span {
+            color: #50c8ff;
+        }
+
+        .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #8fa0b5;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8fa0b5;
+            font-size: 18px;
+        }
+
+        .input-field {
+            width: calc(100% - 40px);
+            padding: 15px 15px 15px 50px;
+            background-color: rgba(32, 43, 63, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 16px;
+            color: #ffffff;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .input-field::placeholder {
+            color: #8fa0b5;
+        }
+
+        .login-button {
+            background: linear-gradient(90deg, #4b90ff, #00d4ff);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+            box-shadow: 0 5px 15px rgba(75, 144, 255, 0.4);
+        }
+
+        .login-button:hover {
+            background: linear-gradient(90deg, #3b80ee, #00c4ee);
+        }
+
+        .signup-google {
+            background-color: rgba(32, 43, 63, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px 0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .signup-google:hover {
+            background-color: rgba(40, 55, 75, 0.8);
+        }
+
+        .signup-google i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .signup-text {
+            font-size: 14px;
+            color: #8fa0b5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signup-text a {
+            color: #50c8ff;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 3C8.65685 3 10.2426 3.64706 11.4427 4.84717C12.6428 6.04728 13.2899 7.63315 13.2899 9.2899C13.2899 10.9467 12.6428 12.5326 11.4427 13.7327C10.2426 14.9328 8.65685 15.5799 7 15.5799C5.34315 15.5799 3.75739 14.9328 2.55731 13.7327C1.35722 12.5326 0.710156 10.9467 0.710156 9.2899C0.710156 7.63315 1.35722 6.04728 2.55731 4.84717C3.75739 3.64706 5.34315 3 7 3ZM7 18.1101C5.64315 18.1101 4.2863 17.7762 3.02947 17.1224C1.77264 16.4686 0.660013 15.5114 0 14.3274C0.373156 13.6005 1.01354 13.0491 1.87315 12.7262C2.73277 12.4033 3.72581 12.2528 4.71015 12.2528C5.70649 12.2528 6.70364 12.4033 7.57053 12.7262C8.43742 13.0491 9.0778 13.6005 9.45095 14.3274C9.77053 15.5114 9.77053 16.4686 9.00818 17.1224C7.75135 17.7762 6.3945 18.1101 5 18.1101L7 18.1101Z" fill="currentColor"/>
+                <path d="M10.4936 10.5707C11.4936 9.65398 12.2268 8.46474 12.5036 7.12474C12.7804 5.78474 12.6013 4.37474 11.9936 3.08474C11.5536 1.96474 10.7686 1.07474 9.75864 0.534738C8.74864 0.00473765 7.57864 -0.125262 6.46864 0.0747383C6.09782 0.171924 5.72999 0.364004 5.39364 0.634738C5.05728 0.905472 4.76864 1.24794 4.54864 1.6474C3.65864 2.96474 3.17864 4.45474 3.17864 6.00474C3.17864 7.55474 3.65864 9.04474 4.54864 10.3647C4.83542 10.7686 5.17392 11.1036 5.55581 11.3581C5.9377 11.6126 6.35661 11.7759 6.78864 11.8374C7.35661 11.9153 8.01045 11.9153 8.66864 11.8374C9.32683 11.7595 9.95989 11.5945 10.4936 11.3219C10.3647 11.0866 10.2804 10.8266 10.4936 10.5707Z" fill="currentColor"/>
+                <path d="M15.0477 13.3488C14.7993 13.1516 14.4686 13.0538 14.1291 13.0736C13.7896 13.0934 13.4677 13.2284 13.2059 13.4575C13.0512 13.5804 12.9618 13.7618 12.9586 13.9547C12.9554 14.1476 13.0406 14.3326 13.1953 14.4688C13.4745 14.7025 13.8095 14.8226 14.1615 14.8188C14.5135 14.815 14.8354 14.68 15.0972 14.4509C15.2519 14.3147 15.3367 14.1297 15.34 13.9368C15.3432 13.7439 15.2584 13.5589 15.1037 13.4227C15.0705 13.3948 15.0605 13.3756 15.0477 13.3488Z" fill="currentColor"/>
+                <path d="M23.2899 9.2899C23.2899 7.63315 22.6428 6.04728 21.4427 4.84717C20.2426 3.64706 18.6568 3 17 3C15.3431 3 13.7574 3.64706 12.5573 4.84717C11.3572 6.04728 10.7102 7.63315 10.7102 9.2899C10.7102 10.9467 11.3572 12.5326 12.5573 13.7327C13.7574 14.9328 15.3431 15.5799 17 15.5799C18.6568 15.5799 20.2426 14.9328 21.4427 13.7327C22.6428 12.5326 23.2899 10.9467 23.2899 9.2899ZM17 18.1101C15.6431 18.1101 14.2863 17.7762 13.0295 17.1224C11.7726 16.4686 10.66 15.5114 10 14.3274C10.3732 13.6005 11.0135 13.0491 11.8732 12.7262C12.7328 12.4033 13.7258 12.2528 14.7102 12.2528C15.7065 12.2528 16.7036 12.4033 17.5705 12.7262C18.4374 13.0491 19.0778 13.6005 19.451 14.3274C19.7705 15.5114 19.7705 16.4686 19.0082 17.1224C17.7513 17.7762 16.3945 18.1101 15 18.1101L17 18.1101Z" fill="currentColor"/>
+            </svg>
+            <span class="logo-text">Vision<span style="color: #50c8ff;">2</span>Code</span>
+        </div>
+        <div class="title">Login</div>
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" class="input-field" placeholder="Enter Username">
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" class="input-field" placeholder="Enter Password">
+        </div>
+        <button class="login-button">Login</button>
+        <button class="signup-google">
+            <i class="fab fa-google"></i>
+            Sign up with Google
+        </button>
+        <div class="signup-text">
+            Not signed up yet? <a href="#">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%2316213e;stop-opacity:1" /><stop offset="100%" style="stop-color:%230f3460;stop-opacity:1" /></linearGradient></defs><rect width="100%" height="100%" fill="url(%23grad1)" /><polygon points="50,0 100,50 50,100 0,50" fill="%23000000" fill-opacity="0.1" transform="translate(0 0) scale(1)" /><line x1="10" y1="10" x2="90" y2="10" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="20" x2="90" y2="20" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="30" x2="90" y2="30" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="40" x2="90" y2="40" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="50" x2="90" y2="50" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="60" x2="90" y2="60" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="70" x2="90" y2="70" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="80" x2="90" y2="80" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="90" x2="90" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="10" y1="10" x2="10" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="20" y1="10" x2="20" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="30" y1="10" x2="30" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="40" y1="10" x2="40" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="50" y1="10" x2="50" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="60" y1="10" x2="60" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="70" y1="10" x2="70" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="80" y1="10" x2="80" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><line x1="90" y1="10" x2="90" y2="90" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/><polygon points="70,20 80,30 70,40 60,30" fill="%23ffffff" fill-opacity="0.05" transform="translate(10 10) scale(0.8)"/><polygon points="30,60 40,70 30,80 20,70" fill="%23ffffff" fill-opacity="0.05" transform="translate(5 5) scale(0.5)"/></svg>');
+            background-size: cover;
+        }
+
+        .login-container {
+            background-color: rgba(26, 33, 54, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 380px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            fill: url(#yellowGradient);
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffe600;
+            letter-spacing: 1px;
+        }
+
+        .login-title {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .login-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, #ffe600, #ffcc00);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background-color: rgba(40, 49, 73, 0.5);
+            color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ffe600;
+        }
+
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, #ffe600, #ffcc00);
+            color: #1a1a2e;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(255, 230, 0, 0.4);
+        }
+
+        .login-button:hover {
+            background: linear-gradient(to right, #ffcc00, #ffe600);
+        }
+
+        .signup-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background-color: rgba(40, 49, 73, 0.5);
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .signup-google:hover {
+            background-color: rgba(40, 49, 73, 0.7);
+        }
+
+        .signup-google .fab {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .signup-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .signup-link {
+            color: #ffe600;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+
+        .logo-svg-container {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-svg {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-svg-container">
+            <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="yellowGradient">
+                        <stop offset="0%" stop-color="#ffe600"/>
+                        <stop offset="100%" stop-color="#ffcc00"/>
+                    </linearGradient>
+                </defs>
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" fill="url(#yellowGradient)"/>
+                <path d="M10.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm3 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-4.5 5.5h9l-1.5 3h-6L12 14z" fill="#ffffff"/>
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" fill="url(#yellowGradient)" fill-opacity="0.7"/>
+                <path d="M8 12.5a4 4 0 1 1 8 0 4 4 0 0 1-8 0zm2 0a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" fill="#ffffff"/>
+                <path d="M15.346 14.404a7.008 7.008 0 0 0-6.692 0l-.154.096a3.5 3.5 0 0 0-2.846 3.404V18a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-1.096a3.5 3.5 0 0 0-2.846-3.404l-.154-.096z" fill="#ffffff" opacity="0.7"/>
+            </svg>
+        </div>
+        <div class="logo-text">Vision2Code</div>
+        <div class="login-title">Login</div>
+        <div class="input-group">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" class="input-field" placeholder="Enter Username">
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" class="input-field" placeholder="Enter Password">
+        </div>
+        <button class="login-button">Login</button>
+        <div class="signup-text">
+            Not signed up yet? <a href="#" class="signup-link">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; / Prevents scrollbars if elements slightly exceed viewport /
+            background: linear-gradient(to right, #00A2A7 0%, #4B0082 50%, #EE0979 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .developer-showcase {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            max-width: 1920px; / Max width to maintain aspect ratio on large screens /
+            max-height: 1080px; / Max height to maintain aspect ratio on large screens /
+            / All children are absolutely positioned relative to this container /
+        }
+
+        / Laptop Assembly /
+        .laptop {
+            width: 38vw; / Relative size based on viewport width /
+            height: 25vw;
+            position: absolute;
+            left: 20%;
+            bottom: 10%;
+            transform: perspective(1000px) rotateX(10deg) rotateZ(-5deg); / Adds 3D tilt and rotation /
+            transform-origin: bottom center;
+            z-index: 10;
+        }
+
+        .laptop-screen-bezel {
+            background: linear-gradient(to top, #0c1a3b, #1e2d53);
+            width: 80%;
+            height: 70%;
+            border-radius: 1.5vw 1.5vw 0 0; / Rounded top corners for the screen bezel /
+            position: absolute;
+            top: 0;
+            left: 10%;
+            border: 0.3vw solid #0a1128;
+            box-shadow: 0 0 3vw rgba(0, 255, 255, 0.4), inset 0 0 1vw rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .laptop-screen-display {
+            width: calc(100% - 1.5vw); / Inner display area /
+            height: calc(100% - 1.5vw);
+            background: linear-gradient(to right, #1a2a52, #0d1736);
+            border-radius: 0.5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .code-icon {
+            width: 8vw;
+            height: 8vw;
+            max-width: 100px;
+            max-height: 100px;
+            mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>') no-repeat center center;
+            mask-size: contain;
+            background: linear-gradient(to right, #00C6FF, #EE0979); / Gradient fill for the icon /
+            box-shadow: 0 0 1vw rgba(0,255,255,0.7); / Glow effect /
+            z-index: 1;
+        }
+
+        .laptop-base {
+            background: linear-gradient(to bottom, #101c37, #0a1128);
+            width: 100%;
+            height: 30%;
+            position: absolute;
+            bottom: -5%; / Overlaps slightly with screen bezel /
+            border-radius: 0 0 2vw 2vw;
+            box-shadow: 0 1vw 3vw rgba(0, 0, 0, 0.4);
+            transform: skewX(-15deg) scaleY(0.7); / Simulates perspective for the base /
+            transform-origin: bottom right;
+            left: 0;
+        }
+
+        .laptop-keyboard {
+            width: 70%;
+            height: 70%;
+            background: linear-gradient(to bottom, #1a2c4e, #101c37);
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            border-radius: 0.5vw;
+            padding: 1vw;
+            box-shadow: inset 0 0 1vw rgba(0, 0, 0, 0.7);
+            overflow: hidden; / Ensures keyboard keys are visually contained /
+        }
+
+        / Keyboard key simulation using pseudo-elements and gradients /
+        .laptop-keyboard::before {
+            content: '';
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background:
+                linear-gradient(to right, #2a3e6a 0%, #2a3e6a 2%, transparent 2%, transparent 9%),
+                linear-gradient(to bottom, #2a3e6a 0%, #2a3e6a 5%, transparent 5%, transparent 25%);
+            background-size: 8% 20%; / Controls size and spacing of simulated keys /
+            opacity: 0.4;
+            pointer-events: none; / Allows interaction with elements below if any /
+        }
+
+        .php-text {
+            position: absolute;
+            font-size: 2.2vw;
+            font-weight: 700;
+            color: #79D1F4; / Light blue /
+            top: 10%;
+            left: 10%;
+            letter-spacing: 0.1vw;
+            text-shadow: 0 0 1vw rgba(121, 209, 244, 0.7);
+            z-index: 1;
+            background: linear-gradient(to right, #79D1F4, transparent);
+            -webkit-background-clip: text; / Clips background to text shape /
+            -webkit-text-fill-color: transparent; / Makes text transparent, showing background /
+            width: fit-content;
+        }
+
+        / Mobile Phone /
+        .mobile-phone {
+            width: 10vw;
+            height: 18vw;
+            max-width: 180px;
+            max-height: 300px;
+            background: linear-gradient(to bottom, #1a2a52, #0d1736);
+            border: 0.2vw solid #00C6FF;
+            border-radius: 2vw;
+            position: absolute;
+            left: 50%;
+            top: 55%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 2vw rgba(0, 255, 255, 0.5);
+            z-index: 15;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.3vw;
+        }
+
+        .phone-screen {
+            width: 90%;
+            height: 95%;
+            background: linear-gradient(to bottom, #00C6FF, #0076F4); / Blue gradient screen /
+            border-radius: 1.5vw;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 0.5vw rgba(0, 0, 0, 0.5);
+        }
+
+        .phone-screen-content {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5vw;
+            align-items: center;
+        }
+
+        .phone-screen-header {
+            width: 90%;
+            height: 0.7vw;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 0.2vw;
+            margin-top: 0.5vw;
+        }
+        .phone-screen-avatar {
+            width: 2.5vw;
+            height: 2.5vw;
+            min-width: 30px;
+            min-height: 30px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.3);
+            margin: 0.5vw auto;
+        }
+        .phone-screen-lines > div {
+            width: 80%;
+            height: 0.3vw;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 0.1vw;
+            margin: 0.3vw auto;
+        }
+        .phone-screen-image-placeholder {
+            width: 90%;
+            height: 5vw;
+            min-height: 50px;
+            background-color: rgba(255,255,255,0.3);
+            margin: 0.5vw auto;
+            border-radius: 0.5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        / Mountain outline in phone screen /
+        .phone-screen-image-placeholder::before {
+            content: '';
+            width: 1.5vw;
+            height: 1.5vw;
+            min-width: 20px;
+            min-height: 20px;
+            border: 0.15vw solid rgba(255,255,255,0.7);
+            border-radius: 0.2vw;
+            transform: rotate(45deg);
+            position: absolute;
+            top: 30%;
+            left: 30%;
+            clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 50% 50%, 0% 0%); / Mask to create a peak effect /
+        }
+        / Mountain peak in phone screen /
+        .phone-screen-image-placeholder::after {
+            content: '';
+            width: 1.5vw;
+            height: 1.5vw;
+            min-width: 20px;
+            min-height: 20px;
+            background-color: rgba(255,255,255,0.7);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: absolute;
+            bottom: 30%;
+            right: 30%;
+        }
+
+        / Fingerprint icon on laptop trackpad /
+        .fingerprint-icon {
+            width: 3vw;
+            height: 3vw;
+            max-width: 50px;
+            max-height: 50px;
+            position: absolute;
+            right: 15%;
+            bottom: 25%;
+            mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-2.45-.63-4.32-2.5-4.95-4.95L11 12v7.93zm2 0V12l4.95 4.95c-.63 2.45-2.5 4.32-4.95 4.95zm-6-2.07c.63-2.45 2.5-4.32 4.95-4.95H12c0-2.21 1.79-4 4-4s4 1.79 4 4h-2V7c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1h2v-1h2v6H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h2v2H7c-1.1 0-2 .9-2 2s.9 2 2 2h2z"/></svg>') no-repeat center center;
+            mask-size: contain;
+            background: linear-gradient(to right, #EE0979, #8C0667);
+            box-shadow: 0 0 1vw rgba(238,9,121,0.7);
+            z-index: 1;
+            border-radius: 50%;
+            border: 0.1vw solid rgba(238,9,121,0.5);
+        }
+
+        / Large Text Labels /
+        .html5-text, .css-text, .sql-text, .java-text {
+            position: absolute;
+            font-size: 3.5vw;
+            font-weight: 700;
+            letter-spacing: 0.2vw;
+            z-index: 5;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: fit-content;
+            white-space: nowrap; / Prevents text from wrapping /
+        }
+
+        .html5-text {
+            top: 20%;
+            left: 65%;
+            background: linear-gradient(to right, #EE0979, transparent);
+            text-shadow: 0 0 1.5vw rgba(238,9,121,0.7);
+        }
+
+        .css-text {
+            top: 60%;
+            left: 65%;
+            background: linear-gradient(to right, #EE0979, transparent);
+            text-shadow: 0 0 1.5vw rgba(238,9,121,0.7);
+        }
+
+        .sql-text {
+            top: 40%;
+            left: 5%;
+            background: linear-gradient(to right, #00C6FF, transparent);
+            text-shadow: 0 0 1.5vw rgba(0,255,255,0.7);
+        }
+
+        .java-text {
+            bottom: 10%;
+            left: 15%;
+            background: linear-gradient(to right, #00C6FF, transparent);
+            text-shadow: 0 0 1.5vw rgba(0,255,255,0.7);
+        }
+
+        / Floating UI Elements (windows/cards) /
+        .ui-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1vw;
+            backdrop-filter: blur(0.5vw); / Glassmorphism effect /
+            padding: 1vw;
+            z-index: 20;
+            opacity: 0.9;
+        }
+
+        .ui-sql-window {
+            width: 18vw;
+            height: 12vw;
+            max-width: 300px;
+            max-height: 200px;
+            background: linear-gradient(135deg, rgba(0,198,255,0.2), rgba(0,118,244,0.2));
+            border: 0.1vw solid rgba(0,198,255,0.5);
+            box-shadow: 0 0 2vw rgba(0,198,255,0.5);
+            left: 10%;
+            top: 15%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.5vw;
+            gap: 0.5vw;
+        }
+        .ui-sql-window .placeholder-line {
+            width: 80%;
+            height: 0.4vw;
+            background: rgba(255,255,255,0.3);
+            border-radius: 0.2vw;
+        }
+        .ui-sql-window .placeholder-circle {
+            width: 1.5vw;
+            height: 1.5vw;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            margin-bottom: 0.5vw;
+        }
+
+        .ui-code-snippet {
+            width: 20vw;
+            height: 15vw;
+            max-width: 350px;
+            max-height: 250px;
+            background: linear-gradient(135deg, rgba(238,9,121,0.2), rgba(75,0,130,0.2));
+            border: 0.1vw solid rgba(238,9,121,0.5);
+            box-shadow: 0 0 2vw rgba(238,9,121,0.5);
+            right: 18%;
+            top: 25%;
+            padding: 1.5vw;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5vw;
+        }
+        .ui-code-snippet .code-line {
+            width: 90%;
+            height: 0.7vw;
+            max-height: 12px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 0.2vw;
+        }
+        .ui-code-snippet .code-line:nth-child(even) {
+            width: 70%;
+        }
+
+        .ui-browser-window-bottom-left {
+            width: 25vw;
+            height: 15vw;
+            max-width: 450px;
+            max-height: 250px;
+            background: linear-gradient(135deg, rgba(0,198,255,0.2), rgba(0,118,244,0.2));
+            border: 0.1vw solid rgba(0,198,255,0.5);
+            box-shadow: 0 0 2vw rgba(0,198,255,0.5);
+            left: 0%;
+            bottom: 0%;
+            transform: translate(20%, -20%) rotate(-5deg); / Slight rotation /
+            padding: 1vw;
+            display: flex;
+            flex-direction: column;
+            gap: 1vw;
+        }
+        .ui-browser-window-bottom-left .browser-header {
+            width: 100%;
+            height: 0.8vw;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 0.3vw;
+            position: relative;
+        }
+        / Traffic light dot in browser header /
+        .ui-browser-window-bottom-left .browser-header::before {
+            content: '';
+            width: 0.5vw;
+            height: 0.5vw;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            position: absolute;
+            left: 0.8vw;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .ui-browser-window-bottom-left .browser-content-image {
+            width: 90%;
+            height: 60%;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 0.5vw;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        / Mountain placeholders for browser window image content /
+        .ui-browser-window-bottom-left .browser-content-image::before {
+             content: '';
+            width: 1.5vw;
+            height: 1.5vw;
+            min-width: 20px;
+            min-height: 20px;
+            border: 0.15vw solid rgba(255,255,255,0.7);
+            border-radius: 0.2vw;
+            transform: rotate(45deg);
+            position: absolute;
+            top: 30%;
+            left: 30%;
+            clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 50% 50%, 0% 0%);
+        }
+        .ui-browser-window-bottom-left .browser-content-image::after {
+            content: '';
+            width: 1.5vw;
+            height: 1.5vw;
+            min-width: 20px;
+            min-height: 20px;
+            background-color: rgba(255,255,255,0.7);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: absolute;
+            bottom: 30%;
+            right: 30%;
+        }
+
+        .ui-browser-window-bottom-right {
+            width: 25vw;
+            height: 15vw;
+            max-width: 450px;
+            max-height: 250px;
+            background: linear-gradient(135deg, rgba(238,9,121,0.2), rgba(75,0,130,0.2));
+            border: 0.1vw solid rgba(238,9,121,0.5);
+            box-shadow: 0 0 2vw rgba(238,9,121,0.5);
+            right: 0%;
+            bottom: 0%;
+            transform: translate(-20%, -20%) rotate(5deg); / Slight rotation /
+            padding: 1vw;
+            display: flex;
+            flex-direction: column;
+            gap: 1vw;
+        }
+        .ui-browser-window-bottom-right .browser-header {
+            width: 100%;
+            height: 0.8vw;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 0.3vw;
+            position: relative;
+        }
+        / Traffic light dot in browser header /
+        .ui-browser-window-bottom-right .browser-header::before {
+            content: '';
+            width: 0.5vw;
+            height: 0.5vw;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            position: absolute;
+            left: 0.8vw;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .ui-browser-window-bottom-right .browser-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5vw;
+            height: calc(100% - 1.8vw); / Adjust height based on header and gap /
+        }
+        .ui-browser-window-bottom-right .grid-item {
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 0.5vw;
+        }
+        .ui-browser-window-bottom-right .grid-item.full-height {
+            grid-row: span 2;
+        }
+        .ui-browser-window-bottom-right .grid-item.lines {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 0.5vw;
+        }
+        .ui-browser-window-bottom-right .grid-item.lines div {
+            width: 80%;
+            height: 0.3vw;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 0.1vw;
+        }
+
+        / Generic Icon Styling for external icons /
+        .generic-icon {
+            position: absolute;
+            width: 4vw;
+            height: 4vw;
+            max-width: 60px;
+            max-height: 60px;
+            background: linear-gradient(to right, #EE0979, #8C0667); / Default magenta gradient /
+            border-radius: 50%;
+            box-shadow: 0 0 1.5vw rgba(238,9,121,0.7);
+            border: 0.15vw solid rgba(238,9,121,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 25;
+            padding: 0.2vw; / Provides inner spacing for the icon mask /
+        }
+
+        .generic-icon::before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background-color: white; / Color of the SVG mask content /
+            mask-repeat: no-repeat;
+            mask-position: center center;
+            mask-size: 70%; / Scales the SVG inside the circle /
+        }
+
+        / Specific Icon Overrides for positioning and SVG mask-image /
+        .wifi-icon {
+            left: 20%;
+            top: 5%;
+            transform: translate(-50%, -50%);
+        }
+        .wifi-icon::before {
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55C5.07 11.96 5.3 11.41 5.68 10.97C6.06 10.53 6.55 10.19 7.12 9.99C7.69 9.78 8.3 9.74 8.9 9.87C9.5 10 10.05 10.3 10.5 10.74L12 12.24L13.5 10.74C13.95 10.3 14.5 10 15.1 9.87C15.7 9.74 16.31 9.78 16.88 9.99C17.45 10.19 17.94 10.53 18.32 10.97C18.7 11.41 18.93 11.96 19 12.55M1.42 8.7C2.04 7.37 2.97 6.17 4.13 5.18C5.29 4.19 6.64 3.44 8.08 2.98C9.52 2.52 11.02 2.36 12.51 2.52C14 2.67 15.45 3.12 16.8 3.84L22.58 8.7M12 21L12 18M12 18V12"/></svg>');
+        }
+
+        .search-icon {
+            right: 25%;
+            top: 40%;
+            transform: translate(50%, -50%);
+        }
+        .search-icon::before {
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+        }
+
+        .gear-icon {
+            left: 20%;
+            bottom: 5%;
+            transform: translate(-50%, 50%);
+        }
+        .gear-icon::before {
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0-.33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82 1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>');
+        }
+
+        / Basic Responsive adjustments /
+        @media (max-width: 768px) {
+            .laptop {
+                width: 60vw;
+                height: 40vw;
+                left: 50%;
+                bottom: 20%;
+                transform: translateX(-50%) perspective(1000px) rotateX(5deg);
+            }
+            .mobile-phone {
+                width: 15vw;
+                height: 25vw;
+                top: 50%;
+                left: 60%;
+            }
+            .html5-text, .css-text, .sql-text, .java-text {
+                font-size: 5vw;
+                left: 5%; / Brings text closer to center on smaller screens /
+                text-align: center;
+                width: 90%;
+            }
+            .html5-text { top: 5%; left: auto; right: 5%; }
+            .css-text { top: auto; bottom: 5%; left: auto; right: 5%; }
+            .sql-text { top: 5%; left: 5%; }
+            .java-text { top: auto; bottom: 5%; left: 5%; }
+            .ui-element {
+                width: 40vw;
+                height: 25vw;
+                padding: 2vw;
+                transform: none !important; / Removes individual rotations for better stacking /
+            }
+            .ui-sql-window { top: 15%; left: 5%; }
+            .ui-code-snippet { top: 15%; right: 5%; }
+            .ui-browser-window-bottom-left { bottom: 5%; left: 5%; }
+            .ui-browser-window-bottom-right { bottom: 5%; right: 5%; }
+            .generic-icon { width: 8vw; height: 8vw; }
+            .wifi-icon { top: 10%; left: 80%; }
+            .search-icon { top: 50%; right: 80%; }
+            .gear-icon { bottom: 10%; left: 80%; }
+            .fingerprint-icon { width: 5vw; height: 5vw; right: 10%; bottom: 20%; }
+        }
+
+        @media (max-width: 480px) {
+            .developer-showcase {
+                flex-direction: column; / Stacks elements vertically for very small screens /
+            }
+            .laptop {
+                position: relative;
+                width: 80vw;
+                height: 50vw;
+                left: auto;
+                bottom: auto;
+                transform: none;
+                margin-top: 10vh; / Pushes content down from the top /
+            }
+            .mobile-phone {
+                width: 25vw;
+                height: 40vw;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .html5-text, .css-text, .sql-text, .java-text {
+                font-size: 6vw;
+                position: relative;
+                margin: 2vw auto;
+                text-align: center;
+                width: 90%;
+            }
+            .ui-element {
+                display: none; / Hides floating UI elements on very small screens for clarity /
+            }
+            .generic-icon, .fingerprint-icon {
+                display: none; / Hides icons on very small screens /
+            }
+            body { align-items: flex-start; } / Aligns content to the top /
+        }
+    </style>
+</head>
+<body>
+    <div class="developer-showcase">
+
+        <!-- Laptop Assembly -->
+        <div class="laptop">
+            <div class="laptop-screen-bezel">
+                <div class="laptop-screen-display">
+                    <div class="code-icon"></div>
+                </div>
+            </div>
+            <div class="laptop-base">
+                <div class="laptop-keyboard">
+                    <div class="php-text">PHP</div>
+                    <!-- Mobile Phone positioned on the keyboard -->
+                    <div class="mobile-phone">
+                        <div class="phone-screen">
+                            <div class="phone-screen-content">
+                                <div class="phone-screen-header"></div>
+                                <div class="phone-screen-avatar"></div>
+                                <div class="phone-screen-lines">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                <div class="phone-screen-image-placeholder"></div>
+                                <div class="phone-screen-lines">
+                                    <div style="width: 70%"></div>
+                                    <div style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fingerprint icon on the trackpad area -->
+                    <div class="fingerprint-icon"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating UI elements -->
+        <div class="ui-element ui-sql-window">
+             <div class="placeholder-circle"></div>
+             <div class="placeholder-line" style="width: 60%"></div>
+             <div class="placeholder-line"></div>
+             <div class="placeholder-line" style="width: 90%"></div>
+        </div>
+
+        <div class="ui-element ui-code-snippet">
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+            <div class="code-line"></div>
+        </div>
+
+        <div class="ui-element ui-browser-window-bottom-left">
+            <div class="browser-header"></div>
+            <div class="browser-content-image"></div>
+        </div>
+
+        <div class="ui-element ui-browser-window-bottom-right">
+            <div class="browser-header"></div>
+            <div class="browser-content-grid">
+                <div class="grid-item full-height"></div>
+                <div class="grid-item lines">
+                    <div></div>
+                    <div></div>
+                </div>
+                 <div class="grid-item"></div>
+            </div>
+        </div>
+
+        <!-- Text Labels -->
+        <span class="html5-text">HTML5</span>
+        <span class="css-text">CSS</span>
+        <span class="sql-text">SQL</span>
+        <span class="java-text">JAVA</span>
+
+        <!-- Icons -->
+        <div class="generic-icon wifi-icon"></div>
+        <div class="generic-icon search-icon"></div>
+        <div class="generic-icon gear-icon"></div>
+
+    </div>
+</body>
+</html>

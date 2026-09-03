@@ -1,0 +1,1111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Screenshot</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .meeting-container {
+            width: 100%;
+            max-width: 1600px;
+            height: 900px;
+            background-color: #2a2a2a;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .left-panel {
+            width: 300px;
+            background-color: #3c3c3c;
+            border-right: 1px solid #4a4a4a;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .top-bar {
+            height: 60px;
+            background-color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid #4a4a4a;
+            flex-shrink: 0;
+        }
+
+        .top-bar .user-info {
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .top-bar .user-info img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .top-bar .controls {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .top-bar .controls .record-button,
+        .top-bar .controls .share-button {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .top-bar .controls .record-button {
+            background-color: #d8302f;
+            color: #ffffff;
+        }
+
+        .top-bar .controls .share-button {
+            background-color: #1a73e8;
+            color: #ffffff;
+        }
+
+        .presentation-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .presentation-header {
+            height: 50px;
+            background-color: #333333;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid #4a4a4a;
+            flex-shrink: 0;
+        }
+
+        .presentation-header .menu-item {
+            font-size: 14px;
+            color: #cccccc;
+            margin-right: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .presentation-header .menu-item.active {
+            color: #ffffff;
+        }
+
+        .presentation-header .menu-item::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #ffffff;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .presentation-header .menu-item:hover::after {
+            opacity: 0.5;
+        }
+
+        .presentation-header .menu-item.active::after {
+            opacity: 1;
+        }
+
+        .presentation-header .search-bar {
+            margin-left: auto;
+            background-color: #444444;
+            border-radius: 4px;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .presentation-header .search-bar input {
+            background: none;
+            border: none;
+            color: #ffffff;
+            outline: none;
+            font-size: 14px;
+            flex-grow: 1;
+            padding-left: 5px;
+        }
+
+        .presentation-header .search-bar .icon {
+            color: #aaaaaa;
+            font-size: 16px;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .slide-thumbnails {
+            width: 150px;
+            background-color: #333333;
+            padding: 10px 5px;
+            overflow-y: auto;
+            border-right: 1px solid #4a4a4a;
+            flex-shrink: 0;
+        }
+
+        .slide-thumbnail {
+            width: 130px;
+            height: 90px;
+            background-color: #4a4a4a;
+            margin-bottom: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: #aaaaaa;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .slide-thumbnail.active {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.5);
+        }
+
+        .slide-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        .slide-thumbnail.active img {
+            opacity: 1;
+        }
+
+        .slide-thumbnail .slide-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        .main-slide-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #2a2a2a;
+            overflow: auto;
+        }
+
+        .slide-view {
+            width: 100%;
+            max-width: 900px;
+            height: 550px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .slide-header-text {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333333;
+            margin-top: 30px;
+            margin-left: 40px;
+            margin-bottom: 20px;
+        }
+
+        .slide-body {
+            padding: 0 40px 40px 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-body ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 20px;
+        }
+
+        .slide-body li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 20px;
+            font-size: 18px;
+            color: #555555;
+            line-height: 1.5;
+        }
+
+        .slide-body li::before {
+            content: '\2022';
+            color: #d8302f;
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            font-size: 24px;
+            top: -4px;
+        }
+
+        .slide-body li strong {
+            color: #333333;
+            font-weight: 700;
+        }
+
+        .slide-body .list-sub-item {
+            margin-top: 10px;
+            margin-bottom: 8px;
+            padding-left: 30px;
+            font-size: 16px;
+            color: #666666;
+        }
+
+        .slide-body .list-sub-item::before {
+            content: '\2022';
+            color: #cccccc;
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            left: 18px;
+            font-size: 18px;
+            top: -3px;
+        }
+
+        .slide-controls {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .slide-controls .icon-button {
+            background: none;
+            border: none;
+            color: #555555;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-controls .icon-button:hover {
+            color: #333333;
+        }
+
+        .slide-controls .separator {
+            width: 1px;
+            height: 20px;
+            background-color: #dddddd;
+            margin: 0 15px;
+        }
+
+        .slide-controls .icon-button.red {
+            color: #d8302f;
+        }
+
+        .slide-controls .icon-button.red:hover {
+            color: #c0201e;
+        }
+
+        .main-slide-content .horizontal-line {
+            position: absolute;
+            left: 40px;
+            right: 40px;
+            top: 110px;
+            height: 1px;
+            background-color: #d8302f;
+        }
+
+        .right-panel {
+            width: 300px;
+            background-color: #2a2a2a;
+            border-left: 1px solid #3c3c3c;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .participants-header {
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .participant-card {
+            background-color: #3c3c3c;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .participant-card:hover {
+            background-color: #4a4a4a;
+        }
+
+        .participant-card .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .participant-card .avatar.user-color-1 { background-color: #f2a2b1; color: #721229; }
+        .participant-card .avatar.user-color-2 { background-color: #a2a2f2; color: #212172; }
+        .participant-card .avatar.user-color-3 { background-color: #72dae2; color: #125272; }
+        .participant-card .avatar.user-color-4 { background-color: #e2a272; color: #723212; }
+        .participant-card .avatar.user-color-5 { background-color: #a2e2a2; color: #127212; }
+        .participant-card .avatar.user-color-6 { background-color: #e2a2e2; color: #721272; }
+        .participant-card .avatar.user-color-7 { background-color: #a2a2a2; color: #333333; }
+
+        .participant-card .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .participant-card .name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+            flex-grow: 1;
+        }
+
+        .participant-card .name span {
+            font-size: 12px;
+            color: #aaaaaa;
+            display: block;
+            font-weight: 400;
+        }
+
+        .participant-card .icon {
+            font-size: 14px;
+            color: #aaaaaa;
+            margin-left: 10px;
+        }
+
+        .participant-card .icon.mute { color: #d8302f; }
+
+        .participants-footer {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #3c3c3c;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .participants-footer .icon {
+            font-size: 16px;
+            color: #aaaaaa;
+        }
+
+        .bottom-controls {
+            height: 70px;
+            background-color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            flex-shrink: 0;
+            border-top: 1px solid #4a4a4a;
+        }
+
+        .bottom-controls .icon-button {
+            background: none;
+            border: none;
+            color: #cccccc;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+
+        .bottom-controls .icon-button:hover {
+            color: #ffffff;
+        }
+
+        .bottom-controls .icon-button.red {
+            color: #d8302f;
+        }
+
+        .bottom-controls .icon-button.red:hover {
+            color: #c0201e;
+        }
+
+        .bottom-controls .main-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .bottom-controls .main-controls .icon-button {
+            font-size: 30px;
+            padding: 10px 15px;
+        }
+
+        .bottom-controls .main-controls .icon-button.leave {
+            font-size: 24px;
+            padding: 12px 18px;
+        }
+
+        .bottom-controls .text-indicator {
+            font-size: 14px;
+            color: #aaaaaa;
+            margin-left: 20px;
+        }
+
+        .bottom-controls .text-indicator .count {
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .bottom-controls .right-icons {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .bottom-controls .right-icons .icon-button {
+            margin: 0 5px;
+        }
+
+        .bottom-controls .right-icons .icon-button.info {
+            margin-left: 20px;
+        }
+
+        .window-controls {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .window-controls .icon {
+            padding: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #aaaaaa;
+        }
+
+        .window-controls .icon:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .window-controls .icon.close:hover {
+            background-color: #e81111;
+            color: #ffffff;
+        }
+
+        .chrome-bar {
+            height: 40px;
+            background-color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .chrome-bar .nav-icons {
+            display: flex;
+            margin-right: 10px;
+        }
+
+        .chrome-bar .nav-icons .icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #333333;
+        }
+
+        .chrome-bar .nav-icons .icon.back { background-color: #f25f5b; }
+        .chrome-bar .nav-icons .icon.reload { background-color: #f2bc5b; }
+        .chrome-bar .nav-icons .icon.forward { background-color: #54c254; }
+
+        .chrome-bar .url-bar {
+            flex-grow: 1;
+            height: 28px;
+            background-color: #2d2d2d;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            position: relative;
+        }
+
+        .chrome-bar .url-bar .lock-icon {
+            color: #aaaaaa;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+
+        .chrome-bar .url-bar input {
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 14px;
+            outline: none;
+            flex-grow: 1;
+            caret-color: #1a73e8;
+        }
+
+        .chrome-bar .url-bar .extension-icon {
+            color: #aaaaaa;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .chrome-bar .right-icons {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .chrome-bar .right-icons .icon {
+            font-size: 16px;
+            color: #aaaaaa;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .chrome-bar .right-icons .icon:hover {
+            color: #ffffff;
+        }
+
+        .chrome-bar .right-icons .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            margin-left: 10px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .chrome-bar .right-icons .chat-icon {
+            font-size: 20px;
+            color: #aaaaaa;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .chrome-bar .right-icons .chat-icon:hover {
+            color: #ffffff;
+        }
+
+        .title-bar {
+            height: 30px;
+            background-color: #333333;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #aaaaaa;
+            position: sticky;
+            top: 40px;
+            z-index: 10;
+        }
+
+        .title-bar .tab-button {
+            background-color: #4a4a4a;
+            padding: 5px 15px;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .title-bar .tab-button.active {
+            background-color: #1e1e1e;
+        }
+
+        .title-bar .tab-button .close-tab {
+            font-size: 10px;
+            margin-left: 8px;
+            color: #cccccc;
+            opacity: 0.7;
+        }
+
+        .title-bar .tab-button.active .close-tab {
+            opacity: 1;
+        }
+
+        .title-bar .tab-button:hover .close-tab {
+            opacity: 1;
+        }
+
+        .title-bar .new-tab-button {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background-color: #4a4a4a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #cccccc;
+            margin-left: 5px;
+        }
+
+        .title-bar .new-tab-button:hover {
+            background-color: #5a5a5a;
+            color: #ffffff;
+        }
+
+        .title-bar .window-controls {
+            margin-left: auto;
+            display: flex;
+        }
+
+        .title-bar .window-controls .icon {
+            padding: 4px;
+            font-size: 14px;
+            color: #aaaaaa;
+            cursor: pointer;
+        }
+
+        .title-bar .window-controls .icon:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .title-bar .window-controls .icon.close:hover {
+            background-color: #e81111;
+            color: #ffffff;
+        }
+
+        .slide-background-image {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path d="M0 0 L0 5 L100 5 L100 0 Z" fill="%237f7f7f"/><path d="M0 5 L0 10 L100 10 L100 5 Z" fill="%23a2a2a2"/><path d="M0 10 L0 15 L100 15 L100 10 Z" fill="%237f7f7f"/><path d="M0 15 L0 20 L100 20 L100 15 Z" fill="%23a2a2a2"/></svg>');
+            background-repeat: repeat-x;
+            background-size: 100px 5px;
+        }
+
+        .tab-content {
+            flex-grow: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .google-meet-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .presentation-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .full-slide-view {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #2a2a2a;
+            position: relative;
+        }
+
+        .main-presentation-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .main-presentation-content .slide-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .main-presentation-content .slide-points {
+            font-size: 22px;
+            color: #555555;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        .main-presentation-content .slide-points .point-item {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .main-presentation-content .slide-points .point-item::before {
+            content: '\2022';
+            color: #d8302f;
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            font-size: 30px;
+            top: -7px;
+        }
+
+        .main-presentation-content .slide-points .point-item strong {
+            color: #333333;
+            font-weight: 700;
+        }
+
+        .main-presentation-content .slide-points .sub-point {
+            font-size: 20px;
+            color: #666666;
+            padding-left: 35px;
+            margin-top: 8px;
+            margin-bottom: 6px;
+        }
+
+        .main-presentation-content .slide-points .sub-point::before {
+            content: '\2022';
+            color: #cccccc;
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            left: 20px;
+            font-size: 22px;
+            top: -5px;
+        }
+
+        .main-presentation-content .icon-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 8px 15px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .main-presentation-content .icon-bar .icon-button {
+            background: none;
+            border: none;
+            color: #555555;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 8px;
+            margin: 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+
+        .main-presentation-content .icon-bar .icon-button:hover {
+            color: #333333;
+        }
+
+        .main-presentation-content .icon-bar .icon-button.red {
+            color: #d8302f;
+        }
+
+        .main-presentation-content .icon-bar .icon-button.red:hover {
+            color: #c0201e;
+        }
+
+        .main-presentation-content .icon-bar .separator {
+            width: 1px;
+            height: 20px;
+            background-color: #dddddd;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="meeting-container">
+        <div class="left-panel">
+            <div class="top-bar">
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/30" alt="User Avatar">
+                    Ishaque K (Presenting)
+                </div>
+                <div class="controls">
+                    <div class="record-button">
+                        <i class="fas fa-circle"></i> Record
+                    </div>
+                    <div class="share-button">
+                        <i class="fas fa-share-alt"></i> Share
+                    </div>
+                </div>
+            </div>
+            <div class="presentation-area">
+                <div class="presentation-header">
+                    <span class="menu-item">File</span>
+                    <span class="menu-item">Home</span>
+                    <span class="menu-item">Insert</span>
+                    <span class="menu-item">Draw</span>
+                    <span class="menu-item">Design</span>
+                    <span class="menu-item">Transitions</span>
+                    <span class="menu-item">Animations</span>
+                    <span class="menu-item active">Slide Show</span>
+                    <span class="menu-item">Record</span>
+                    <span class="menu-item">Review</span>
+                    <span class="menu-item">View</span>
+                    <span class="menu-item">Help</span>
+                    <div class="search-bar">
+                        <i class="fas fa-search icon"></i>
+                        <input type="text" placeholder="Search">
+                    </div>
+                </div>
+                <div class="content-wrapper">
+                    <div class="slide-thumbnails">
+                        <div class="slide-thumbnail">
+                            <img src="https://via.placeholder.com/130x90" alt="Thumbnail">
+                            <span class="slide-number">14</span>
+                        </div>
+                        <div class="slide-thumbnail">
+                            <img src="https://via.placeholder.com/130x90" alt="Thumbnail">
+                            <span class="slide-number">15</span>
+                        </div>
+                        <div class="slide-thumbnail">
+                            <img src="https://via.placeholder.com/130x90" alt="Thumbnail">
+                            <span class="slide-number">16</span>
+                        </div>
+                        <div class="slide-thumbnail active">
+                            <img src="https://via.placeholder.com/130x90" alt="Thumbnail">
+                            <span class="slide-number">17</span>
+                        </div>
+                        <div class="slide-thumbnail">
+                            <img src="https://via.placeholder.com/130x90" alt="Thumbnail">
+                            <span class="slide-number">18</span>
+                        </div>
+                        <div class="slide-thumbnail">
+                            <img src="https://via.placeholder.com/130x90" alt="Thumbnail">
+                            <span class="slide-number">19</span>
+                        </div>
+                    </div>
+                    <div class="main-slide-content">
+                        <div class="slide-view">
+                            <div class="slide-header-text">COMPONENTS OF RMMM PLAN</div>
+                            <div class="horizontal-line"></div>
+                            <div class="slide-body">
+                                <ul>
+                                    <li><strong>1. Risk Identification</strong>
+                                        <div class="list-sub-item">- List all possible risks</div>
+                                    </li>
+                                    <li><strong>2. Risk Assessment</strong>
+                                        <div class="list-sub-item">- Probability</div>
+                                        <div class="list-sub-item">- Impact</div>
+                                        <div class="list-sub-item">- Priority</div>
+                                    </li>
+                                    <li><strong>3. Risk Mitigation Plan</strong>
+                                        <div class="list-sub-item">- Defines:</div>
+                                        <div class="list-sub-item">- Preventive actions</div>
+                                        <div class="list-sub-item">- Backup strategies</div>
+                                    </li>
+                                </ul>
+                                <div class="slide-background-image"></div>
+                            </div>
+                            <div class="slide-controls">
+                                <button class="icon-button"><i class="fas fa-lightbulb"></i></button>
+                                <button class="icon-button"><i class="fas fa-microphone-slash"></i></button>
+                                <button class="icon-button"><i class="fas fa-cog"></i></button>
+                                <div class="separator"></div>
+                                <button class="icon-button red"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="participants-header">
+                <i class="fas fa-users"></i> 23
+            </div>
+            <div class="participant-card">
+                <div class="avatar user-color-1">IK</div>
+                <div class="name">Ishaque K<span>You</span></div>
+                <i class="fas fa-microphone icon"></i>
+            </div>
+            <div class="participant-card">
+                <div class="avatar user-color-2">V</div>
+                <div class="name">Vishnupriya Mk</div>
+                <i class="fas fa-microphone-slash icon mute"></i>
+            </div>
+            <div class="participant-card">
+                <div class="avatar user-color-3">T</div>
+                <div class="name">Thanveera Ja...</div>
+                <i class="fas fa-microphone icon"></i>
+            </div>
+            <div class="participant-card">
+                <div class="avatar user-color-6">S</div>
+                <div class="name">Sreelakshmi VK</div>
+                <i class="fas fa-microphone icon"></i>
+            </div>
+            <div class="participant-card">
+                <div class="avatar user-color-5"><img src="https://via.placeholder.com/40" alt="Avatar"></div>
+                <div class="name">samshiya bas...</div>
+                <i class="fas fa-microphone icon"></i>
+            </div>
+            <div class="participant-card">
+                <div class="avatar user-color-4"><img src="https://via.placeholder.com/40" alt="Avatar"></div>
+                <div class="name">Rahan Raj</div>
+                <i class="fas fa-microphone icon"></i>
+            </div>
+            <div class="participant-card">
+                <div class="avatar user-color-7">MA</div>
+                <div class="name">15 others</div>
+                <i class="fas fa-microphone icon"></i>
+            </div>
+            <div class="participant-card">
+                <div class="avatar user-color-1"><img src="https://via.placeholder.com/40" alt="Avatar"></div>
+                <div class="name">Rinu Rishana</div>
+                <i class="fas fa-microphone icon"></i>
+            </div>
+
+            <div class="participants-footer">
+                <i class="fas fa-user-plus icon"></i> Add someone
+                <i class="fas fa-chevron-right icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-controls">
+        <div class="main-controls">
+            <button class="icon-button red leave"><i class="fas fa-phone-slash"></i></button>
+        </div>
+        <div class="text-indicator">
+            <i class="fas fa-microphone"></i> <span class="count">11:35</span>
+        </div>
+        <div class="right-icons">
+            <button class="icon-button"><i class="fas fa-closed-captioning"></i></button>
+            <button class="icon-button"><i class="fas fa-tasks"></i></button>
+            <button class="icon-button"><i class="fas fa-ellipsis-v"></i></button>
+        </div>
+    </div>
+
+    <div class="chrome-bar">
+        <div class="nav-icons">
+            <div class="icon back"></div>
+            <div class="icon reload"></div>
+            <div class="icon forward"></div>
+        </div>
+        <div class="url-bar">
+            <i class="fas fa-lock lock-icon"></i>
+            <input type="text" value="meet.google.com/ioo-juqb-nwh?pli=1&authuser=2">
+            <i class="fas fa-link extension-icon"></i>
+        </div>
+        <div class="right-icons">
+            <i class="fas fa-star icon"></i>
+            <i class="fas fa-music icon"></i>
+            <i class="fas fa-ellipsis-h icon"></i>
+            <span class="text-indicator">Verify it's you</span>
+            <img src="https://via.placeholder.com/28" alt="User Avatar" class="user-avatar">
+            <i class="fas fa-comment-alt chat-icon"></i>
+            <span class="text-indicator"><span class="count">23</span></span>
+        </div>
+    </div>
+
+    <div class="title-bar">
+        <div class="tab-button">New tab<i class="fas fa-times close-tab"></i></div>
+        <div class="tab-button active">
+            Meet - ioo-juqb-nwh<i class="fas fa-times close-tab"></i>
+        </div>
+        <div class="new-tab-button">+</div>
+        <div class="window-controls">
+            <i class="fas fa-window-minimize icon"></i>
+            <i class="fas fa-window-maximize icon"></i>
+            <i class="fas fa-times icon close"></i>
+        </div>
+    </div>
+
+</body>
+</html>

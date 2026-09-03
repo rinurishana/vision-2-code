@@ -1,0 +1,886 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Perfect Replication</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: #f4d03f; / Changed yellow to blue /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .iphone-screen {
+            width: 375px;
+            height: 667px;
+            background-color: #f4d03f; / Changed yellow to blue /
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-bar {
+            height: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 15px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(244, 208, 63, 0.7); / Changed yellow to blue /
+            backdrop-filter: blur(5px);
+        }
+
+        .status-bar-left {
+            font-size: 12px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .status-bar-right {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: #000;
+        }
+
+        .status-bar-right span {
+            margin-left: 5px;
+        }
+
+        .wifi-icon {
+            width: 15px;
+            height: 12px;
+            position: relative;
+            border: 1px solid #000;
+            border-radius: 2px;
+            margin-right: 5px;
+        }
+
+        .wifi-icon::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            border-bottom: none;
+        }
+
+        .battery-icon {
+            width: 24px;
+            height: 12px;
+            border: 1px solid #000;
+            border-radius: 3px;
+            position: relative;
+            background-color: #fff;
+            margin-left: 5px;
+        }
+
+        .battery-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20px; / Represents 18% charge /
+            height: 100%;
+            background-color: #000;
+            border-radius: 1px;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px 5px;
+            padding: 60px 10px 10px 10px;
+            justify-items: center;
+        }
+
+        .app-icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70px;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            position: relative;
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .app-label {
+            font-size: 11px;
+            color: #000;
+            text-align: center;
+            font-weight: 500;
+            margin-top: 3px;
+        }
+
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff3b30; / Red badge color /
+            color: #fff;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 4px;
+            box-sizing: border-box;
+        }
+
+        / Specific App Icon Styles /
+        .calendar { background-color: #fff; }
+        .calendar .app-label { color: #000; }
+        .calendar-day { font-size: 12px; font-weight: 600; color: #000; margin-bottom: -3px;}
+        .calendar-date { font-size: 32px; font-weight: bold; color: #000; }
+
+        .clock { background-color: #2c3e50; }
+        .clock .clock-face {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: relative;
+        }
+        .clock .hour-hand, .clock .minute-hand, .clock .second-hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            background-color: #fff;
+            transform-origin: bottom center;
+        }
+        .clock .hour-hand { width: 4px; height: 12px; border-radius: 2px;}
+        .clock .minute-hand { width: 3px; height: 16px; border-radius: 2px;}
+        .clock .second-hand { width: 1px; height: 18px; background-color: #ff3b30;} / Red for seconds /
+        .clock .center-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .camera { background-color: #e0e0e0; }
+        .camera-lens {
+            width: 15px;
+            height: 15px;
+            background-color: #000;
+            border-radius: 50%;
+            margin-top: 10px;
+            box-shadow: inset 0 0 0 2px #fff;
+        }
+        .camera-flash {
+            width: 5px;
+            height: 5px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        .photos { background-color: #fff; }
+        .photos .flower-petal {
+            position: absolute;
+            width: 20px;
+            height: 25px;
+            border-radius: 10px 10px 0 0;
+        }
+        .photos .petal-1 { top: 5px; left: 50%; transform: translateX(-50%) rotate(0deg); background-color: #FF5722; } / Orange /
+        .photos .petal-2 { top: 50%; left: 5px; transform: translateY(-50%) rotate(-90deg); background-color: #03A9F4; } / Blue /
+        .photos .petal-3 { top: 50%; right: 5px; transform: translateY(-50%) rotate(90deg); background-color: #4CAF50; } / Green /
+        .photos .petal-4 { bottom: 5px; left: 50%; transform: translateX(-50%) rotate(180deg); background-color: #FDD835; } / Yellow /
+
+        .weather { background-color: #3498db; } / Blue gradient start /
+        .weather::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #3498db, #85c1e9);
+            border-radius: 15px;
+            z-index: 0;
+        }
+        .weather .cloud {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.8;
+            top: 15px;
+        }
+        .weather .cloud.large {
+            width: 30px;
+            height: 18px;
+            left: 12px;
+        }
+        .weather .cloud.medium {
+            width: 25px;
+            height: 15px;
+            left: 20px;
+            top: 18px;
+        }
+        .weather .sun {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1c40f;
+            border-radius: 50%;
+            top: 12px;
+            right: 12px;
+            box-shadow: 0 0 5px rgba(241, 196, 15, 0.7);
+        }
+
+        .settings { background-color: #d3d3d3; }
+        .settings .gear {
+            width: 35px;
+            height: 35px;
+            border: 3px solid #444;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .settings .gear::before, .settings .gear::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 3px solid #444;
+            border-radius: 50%;
+        }
+        .settings .gear::before { top: 4px; left: 4px; }
+        .settings .gear::after { bottom: 4px; right: 4px; }
+        .settings .gear .tooth {
+            position: absolute;
+            width: 6px;
+            height: 12px;
+            background-color: #444;
+            border-radius: 3px;
+        }
+        .settings .gear .tooth:nth-child(1) { transform: rotate(0deg) translateY(-15px); }
+        .settings .gear .tooth:nth-child(2) { transform: rotate(60deg) translateY(-15px); }
+        .settings .gear .tooth:nth-child(3) { transform: rotate(120deg) translateY(-15px); }
+        .settings .gear .tooth:nth-child(4) { transform: rotate(180deg) translateY(-15px); }
+        .settings .gear .tooth:nth-child(5) { transform: rotate(240deg) translateY(-15px); }
+        .settings .gear .tooth:nth-child(6) { transform: rotate(300deg) translateY(-15px); }
+
+        .calculator { background-color: #e0e0e0; }
+        .calculator .keys {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3px;
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 36px;
+            height: 36px;
+        }
+        .calculator .key {
+            background-color: #444;
+            border-radius: 2px;
+        }
+        .calculator .key.orange { background-color: #f0ad4e; }
+
+        .facebook { background-color: #3b5998; }
+        .facebook .f-icon {
+            font-size: 35px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .messenger { background-color: #007aff; }
+        .messenger .lightning {
+            width: 20px;
+            height: 25px;
+            background-color: #fff;
+            border-radius: 5px;
+            position: relative;
+            transform: rotate(-15deg);
+        }
+        .messenger .lightning::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 10px solid #fff;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .whatsapp { background-color: #25d366; }
+        .whatsapp .phone-icon {
+            font-size: 30px;
+            color: #fff;
+            transform: rotate(-15deg);
+        }
+
+        .twitter { background-color: #1da1f2; }
+        .twitter .bird {
+            width: 30px;
+            height: 25px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: relative;
+        }
+        .twitter .bird::before, .twitter .bird::after {
+            content: '';
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            top: 8px;
+        }
+        .twitter .bird::before { left: 3px; }
+        .twitter .bird::after { right: 3px; }
+        .twitter .bird .body {
+            position: absolute;
+            width: 16px;
+            height: 14px;
+            background-color: #fff;
+            border-radius: 5px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .instagram { background-color: #e1306c; }
+        .instagram .camera-lens {
+            width: 25px;
+            height: 25px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: relative;
+        }
+        .instagram .camera-lens::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 5px;
+            right: 5px;
+        }
+        .instagram .camera-lens::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+        }
+
+        .facetime { background-color: #00c853; }
+        .facetime .camera-outline {
+            width: 25px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-radius: 5px;
+            position: relative;
+        }
+        .facetime .camera-outline::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .maps { background-color: #007aff; }
+        .maps .map-pin {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 25px;
+            background-color: #fff;
+            border-radius: 50% 50% 0 0;
+        }
+        .maps .map-pin::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #3498db;
+            border-radius: 50%;
+            bottom: 7px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .maps .road {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 15px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+        .maps .road-sign {
+            position: absolute;
+            top: 15px;
+            right: 10px;
+            background-color: #fff;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            padding: 2px;
+            font-size: 8px;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .youtube { background-color: #ff0000; }
+        .youtube .play-button {
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 20px solid #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .tv { background-color: #000; }
+        .tv svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+        }
+
+        .reminders { background-color: #fff; }
+        .reminders .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin: 3px 0;
+        }
+        .reminders .dot.red { background-color: #ff3b30; }
+        .reminders .dot.orange { background-color: #ff9500; }
+        .reminders .dot.blue { background-color: #007aff; }
+        .reminders .line {
+            width: 30px;
+            height: 2px;
+            background-color: #ccc;
+            margin: 3px 0;
+        }
+
+        .stocks { background-color: #242424; }
+        .stocks .chart {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+        .stocks .chart-line {
+            position: absolute;
+            bottom: 10px;
+            left: 2px;
+            width: 36px;
+            height: 18px;
+            border-bottom: 2px solid #20c997; / Green /
+            border-left: 2px solid #20c997;
+        }
+        .stocks .chart-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #20c997;
+            border-radius: 50%;
+            bottom: 10px;
+            left: 2px;
+        }
+        .stocks .chart-axis {
+            position: absolute;
+            bottom: 9px;
+            left: 1px;
+            width: 38px;
+            height: 1px;
+            background-color: #555;
+        }
+        .stocks .chart-axis.vertical {
+            bottom: 9px;
+            left: 1px;
+            width: 1px;
+            height: 20px;
+        }
+
+        .books { background-color: #f39c12; }
+        .books .book-cover {
+            position: absolute;
+            width: 18px;
+            height: 25px;
+            background-color: #fff;
+            border-radius: 2px;
+            top: 10px;
+        }
+        .books .book-cover.left { left: 15px; }
+        .books .book-cover.right { right: 15px; }
+        .books .book-spine {
+            position: absolute;
+            width: 2px;
+            height: 25px;
+            background-color: #e67e22;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-1px);
+        }
+
+        .mail { background-color: #007aff; }
+        .mail .envelope {
+            width: 30px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            position: relative;
+            border: 2px solid #007aff;
+        }
+        .mail .envelope::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid #007aff;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 9px;
+        }
+
+        .podcasts { background-color: #9c27b0; }
+        .podcasts svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+        }
+
+        .app-store { background-color: #007aff; }
+        .app-store .a-icon {
+            font-size: 30px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .shortcuts { background-color: #7d3cff; }
+        .shortcuts .shapes {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+        }
+        .shortcuts .shape-1 {
+            background-color: #fff;
+            width: 15px;
+            height: 15px;
+            top: 0;
+            left: 0;
+            border-radius: 3px;
+        }
+        .shortcuts .shape-2 {
+            background-color: #d9534f; / Red /
+            width: 15px;
+            height: 15px;
+            top: 10px;
+            left: 10px;
+            border-radius: 3px;
+        }
+        .shortcuts .shape-3 {
+            background-color: #5bc0de; / Blue /
+            width: 15px;
+            height: 15px;
+            bottom: 0;
+            left: 5px;
+            border-radius: 3px;
+        }
+
+        .notes { background-color: #fff; }
+        .notes .top-line {
+            width: 35px;
+            height: 5px;
+            background-color: #f1c40f; / Yellow /
+            border-radius: 2px;
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .notes .lines {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35px;
+            height: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .notes .line {
+            width: 100%;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        .dock {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .dock-app-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70px;
+        }
+
+        .dock-app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            position: relative;
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .dock-app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .dock-app-label {
+            font-size: 11px;
+            color: #fff;
+            text-align: center;
+            font-weight: 500;
+            text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+        }
+
+        .compass { background-color: #fff; }
+        .compass .compass-base {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid #007aff;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .compass .needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            background-color: #ff3b30;
+            border-radius: 1px;
+        }
+        .compass .north-arrow {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 15px solid #ff3b30;
+        }
+        .compass .red-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #ff3b30;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .phone { background-color: #25d366; }
+        .phone svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+            transform: rotate(-15deg);
+        }
+
+        .contacts { background-color: #a0a0a0; }
+        .contacts .user-icon {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: relative;
+        }
+        .contacts .user-icon::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .music { background-color: #9c27b0; }
+        .music svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="iphone-screen">
+        <div class="status-bar">
+            <div class="status-bar-left">6:48 AM</div>
+            <div class="status-bar-right">
+                <svg class="wifi-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12,24C7.58,24 3.61,22.03 0.83,19.25C-0.41,18.01 -0.41,16.03 0.83,14.79C2.07,13.55 4.05,13.55 5.29,14.79C7.57,17.07 9.76,18 12,18C14.24,18 16.43,17.07 18.71,14.79C19.95,13.55 21.93,13.55 23.17,14.79C24.41,16.03 24.41,18.01 23.17,19.25C20.39,22.03 16.42,24 12,24Z" />
+                    <path fill="currentColor" d="M12,18C9.34,18 7.27,16.66 5.53,14.92C4.73,14.12 3.47,14.12 2.67,14.92C1.87,15.72 1.87,17.02 2.67,17.82C4.61,19.76 7.04,20 9.6,20C12.16,20 14.59,19.76 16.53,17.82C17.33,17.02 17.33,15.72 16.53,14.92C14.79,16.66 12.72,18 12,18Z" />
+                    <path fill="currentColor" d="M12,14C10.59,14 9.46,14.75 8.41,15.8C7.91,16.3 7.91,17.1 8.41,17.61C9.21,18.41 10.47,18.41 11.27,17.61C12,16.81 13.26,16.81 14.06,17.61C14.86,18.41 16.12,18.41 16.92,17.61C17.43,17.1 17.43,16.3 16.92,15.8C15.94,14.75 14.73,14 12,14Z" />
+                </svg>
+                <span>18%</span>
+                <div class="battery-icon"></div>
+            </div>
+        </div>
+        <div class="app-grid">
+            <div class="app-icon-container">
+                <div class="app-icon calendar">
+                    <div class="calendar-day">Thursday</div>
+                    <div class="calendar-date">31</div>
+                </div>
+                <div class="app-label">Calendar</div>
+            </div>
+            <div class="app-icon-container">
+                <div class="app-icon clock">
+                    <div class="clock-face">
+                        <div class="hour-hand" style="transform: rotate(150deg);"></div>
+                        <div class="minute-hand" style="transform: rotate(240deg);"></div>
+                        <div class="second-hand" style="transform: rotate(0deg);"></div>
+                        <div class="center-dot"></div>
+                    </div>
+                </div>
+                <div class="app-label">Clock</div>
+            </div>
+            <div class="app-icon-container">
+                <div class="app-icon camera">
+                    <div class="camera-lens"></div>
+                    <div class="camera-flash"></div>
+                </div>
+                <div class="app-label">Camera</div>
+            </div>
+            <div class="app-icon-container">
+                <div class="app-icon photos">
+                    <div class="flower-petal petal-1"></div>
+                    <div class="flower-petal petal-2"></div>
+                    <div class="flower-petal petal-3"></div>
+                    <div class="flower-petal petal-4"></div>
+                </div>
+                <div class="app-label">Photos</div>
+            </div>
+
+            <div class="app-icon-container">
+                <div class="app-icon weather">
+                    <div class="cloud large"></div>
+                    <div class="cloud medium"></div>
+                    <div class="sun"></div>
+                </div>
+                <div class="app-label">Weather</div>
+            </div>
+            <div class="app-icon-container">
+                <div class="app-icon settings">
+                    <div class="gear">
+                        <div class="tooth"></div><div class="tooth"></div><div class="tooth"></div><div class="tooth"></div><div class="tooth"></div><div class="tooth"></div>
+                    </div>
+                </div>
+                <div class="app-label">Settings</div>
+            </div>
+            <div class="app-icon-container">
+                <div class="app-icon calculator">
+                    <div class="keys">
+                        <div class="key"></div><div class="key"></div><div class="key orange"></div><div class="key"></div>
+                    </div>
+                </div>
+                <div class="app-label">Calculator</div>
+            </div>
+            <div class="app-icon-container">
+                <div class="app-icon facebook">
+                    <div class="f-icon">f</div>
+                </div>
+                <div class="app-label">Facebook</div>
+            </div>
+
+            <div class="app-icon-container">
+                <div class="app-icon messenger">
+                    <div class="lightning"></div>
+                </div>
+                <div class="app-label">Messenger</div>
+                <div class="badge">1</div>
+            </div>
+            <div class="app-icon-container">
+                <div class="app-icon whatsapp">
+                    <svg class="phone-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M19.45,12.42C17.81,11.79 16.43,11.41 15.25,11.59C14.19,11.76 13.36,12.48 12.64,13.42C11.92,14.36 11.35,15.3 11.17,16.18C11.1,16.36 11.13,16.53 11.27,16.66L12.15,17.53C12.27,17.64 12.4,17.7 12.59,17.67C14.16,17.33 15.86,16.53 17.25,15.25C18.64,14 19.51,12.72 19.45,12.42M17.45,11.68C17.39,11.68 17.33,11.68 17.27,11.68L15.78,13.17C15.5,13.45 15.25,13.75 15,14C14.75,14.25 14.5,14.5 14.22,14.78C12.98,16.02 11.59,16.72 10.18,17C9.82,17.04 9.46,17.07 9.1,17C8.74,17 8.38,17 8.02,17C7.73,17 7.45,17 7.17,17C6.89,17 6.61,17 6.33,17C6.05,17 5.77,17 5.49,17C5.21,17 4.93,17 4.65,17C4.37,17 4.09,17 3.81,17C3.53,17 3.25,17 2.97,17C2.69,17 2.41,17 2.13,17C1.85,17 1.57,17 1.29,17C1.01,17 0.73,17 0.45,17C0.17,17 0,16.83 0,16.54C0,16.26 0,15.98 0,15.7C0,15.42 0,15.14 0,14.86C0,14.58 0,14.3 0,14.02C0,13.74 0,13.46 0,13.18C0,12.9 0,12.62 0,12.34C0,12.06 0,11.78 0,11.5C0,11.22 0,10.94 0,10.66C0,10.38 0,10.1 0,9.82C0,9.54 0,9.26 0,8.98C0,8.7 0,8.42 0,8.14C0,7.86 0,7.58 0,7.3C0,7.02 0,6.74 0,6.46C0,6.18 0,5.9 0,5.62C0,5.34 0,5.06 0,4.78C0,4.5 0,4.22 0,3.94C0,3.66 0,3.38 0,3.1C0,2.82 0,2.54 0,2.26C0,1.98 0,1.7 0,1.42C0,1.14 0,0.86 0,0.58C0,0.3 0,0.02 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0 0,0C0,0 0,0

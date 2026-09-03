@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Administration Dashboard</title>
+    <style>
+        /* General Styling */
+        :root {
+            --primary-white: #ffffff;
+            --light-green-bg: #f0fff0; /* Very light green, almost white for body background */
+            --accent-green-light: #d4edda; /* Lighter accent for subtle elements */
+            --accent-green-medium: #aaffaa; /* Medium green for hover/active */
+            --accent-green-dark: #28a745; /* Darker green for primary actions/sidebar */
+            --text-color: #333;
+            --glass-bg: rgba(255, 255, 255, 0.7); /* White with transparency for glass effect */
+            --glass-border: rgba(255, 255, 255, 0.3); /* Transparent white border */
+            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--light-green-bg) 0%, #e0ffe0 100%); /* Subtle green gradient for the body */
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main Container for the Application */
+        .container {
+            display: flex;
+            width: 95%;
+            max-width: 1400px;
+            min-height: 90vh;
+            background-color: var(--primary-white); /* Base background for the app */
+            border-radius: 15px;
+            overflow: hidden; /* Ensures content respects border-radius */
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 280px;
+            background-color: var(--accent-green-dark);
+            color: var(--primary-white);
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-shrink: 0; /* Prevents sidebar from shrinking */
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .sidebar .logo h1 {
+            font-size: 1.8em;
+            margin: 0;
+            padding: 0 20px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar .main-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar .main-nav li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 30px;
+            color: var(--primary-white);
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-left: 5px solid transparent; /* For active indicator */
+        }
+
+        .sidebar .main-nav li a::before {
+            content: '🔹'; /* Generic icon placeholder */
+            margin-right: 15px;
+            font-size: 1.2em;
+            opacity: 0.7;
+            width: 20px; /* fixed width for icon alignment */
+            text-align: center;
+        }
+
+        .sidebar .main-nav li a:hover {
+            background-color: var(--accent-green-medium);
+            color: var(--text-color);
+            border-left-color: var(--primary-white);
+        }
+
+        .sidebar .main-nav li a.active {
+            background-color: var(--primary-white);
+            color: var(--accent-green-dark);
+            border-left-color: var(--accent-green-light);
+            font-weight: bold;
+        }
+        .sidebar .main-nav li a.active::before {
+            content: '▶'; /* Different icon for active */
+            color: var(--accent-green-dark);
+            opacity: 1;
+        }
+
+        .sidebar .logout {
+            margin-top: auto; /* Pushes logout to the bottom */
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .sidebar .logout a {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            color: var(--primary-white);
+            text-decoration: none;
+            background-color: var(--accent-green-medium);
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .sidebar .logout a::before {
+            content: '⏏'; /* Logout icon */
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        .sidebar .logout a:hover {
+            background-color: var(--primary-white);
+            color: var(--accent-green-dark);
+        }
+
+        /* Main Content Area Styling */
+        .main-content {
+            flex-grow: 1; /* Takes up remaining space */
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Space between sections */
+            background-color: var(--primary-white); /* Fallback */
+            overflow-y: auto; /* Enable scrolling for main content if it overflows */
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--accent-green-light);
+        }
+
+        .top-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+            color: var(--accent-green-dark);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-profile span {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .user-profile img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-green-medium);
+            object-fit: cover;
+        }
+
+        /* Glass Effect Styling */
+        .glass-effect {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .dashboard-cards .card {
+            text-align: center;
+        }
+
+        .dashboard-cards .card h3 {
+            margin-top: 0;
+            color: var(--accent-green-dark);
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-cards .card p {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        /* Recent Activity & Upcoming Appointments */
+        .recent-activity ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recent-activity li {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--accent-green-light);
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+        }
+        .recent-activity li:last-child {
+            border-bottom: none;
+        }
+        .recent-activity li::before {
+            content: '•';
+            color: var(--accent-green-medium);
+            margin-right: 10px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        .upcoming-appointments table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .upcoming-appointments th,
+        .upcoming-appointments td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--accent-green-light);
+        }
+
+        .upcoming-appointments th {
+            background-color: var(--accent-green-light);
+            color: var(--accent-green-dark);
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .upcoming-appointments tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly less transparent on hover */
+        }
+        .upcoming-appointments tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+                padding: 20px 0;
+            }
+            .sidebar .logo h1 {
+                font-size: 1.5em;
+            }
+            .sidebar .main-nav li a {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            .main-content {
+                padding: 20px;
+                gap: 20px;
+            }
+            .dashboard-cards {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                margin: 0;
+                width: 100%;
+                min-height: 100vh;
+                border-radius: 0;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 15px 0;
+                border-radius: 0;
+                position: relative;
+            }
+            .sidebar .logo {
+                margin-bottom: 20px;
+            }
+            .sidebar .main-nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .sidebar .main-nav li a {
+                padding: 10px 15px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            .sidebar .main-nav li a.active {
+                border-left: none;
+                border-bottom-color: var(--accent-green-light);
+            }
+            .sidebar .main-nav li a::before {
+                display: none; /* Hide icons on small screen horizontal nav */
+            }
+            .sidebar .logout {
+                margin-top: 20px;
+                padding-top: 15px;
+            }
+            .main-content {
+                padding: 20px;
+            }
+            .top-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .dashboard-cards {
+                grid-template-columns: 1fr; /* Stack cards */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Hospital Admin</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="#">Patients</a></li>
+                    <li><a href="#">Staff</a></li>
+                    <li><a href="#">Appointments</a></li>
+                    <li><a href="#">Inventory</a></li>
+                    <li><a href="#">Reports</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="logout">
+                <a href="#">Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <h2>Dashboard Overview</h2>
+                <div class="user-profile">
+                    <span>Dr. Jane Doe</span>
+                    <img src="https://via.placeholder.com/40/d4edda/28a745?text=JD" alt="User Avatar">
+                </div>
+            </header>
+
+            <section class="dashboard-cards">
+                <div class="card glass-effect">
+                    <h3>Total Patients</h3>
+                    <p>1,234</p>
+                </div>
+                <div class="card glass-effect">
+                    <h3>New Appointments</h3>
+                    <p>45</p>
+                </div>
+                <div class="card glass-effect">
+                    <h3>Available Doctors</h3>
+                    <p>12</p>
+                </div>
+                <div class="card glass-effect">
+                    <h3>Urgent Cases</h3>
+                    <p>3</p>
+                </div>
+            </section>
+
+            <section class="recent-activity glass-effect">
+                <h3>Recent Activity</h3>
+                <ul>
+                    <li>Patient John Doe checked in.</li>
+                    <li>Appointment scheduled for Mary Smith.</li>
+                    <li>Inventory updated for surgical supplies.</li>
+                    <li>Dr. Lee updated patient records.</li>
+                </ul>
+            </section>
+
+            <section class="upcoming-appointments glass-effect">
+                <h3>Upcoming Appointments</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10:00 AM</td>
+                            <td>Alice Johnson</td>
+                            <td>Dr. Smith</td>
+                            <td>Confirmed</td>
+                        </tr>
+                        <tr>
+                            <td>11:00 AM</td>
+                            <td>Bob Williams</td>
+                            <td>Dr. Lee</td>
+                            <td>Pending</td>
+                        </tr>
+                        <tr>
+                            <td>01:00 PM</td>
+                            <td>Carol White</td>
+                            <td>Dr. Green</td>
+                            <td>Confirmed</td>
+                        </tr>
+                        <tr>
+                            <td>02:30 PM</td>
+                            <td>David Brown</td>
+                            <td>Dr. Smith</td>
+                            <td>Cancelled</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

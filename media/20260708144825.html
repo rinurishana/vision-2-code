@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand-Specific Homepage Designs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-blue: #1a2e5a;
+            --medium-blue: #007bff;
+            --light-blue: #4dabf7;
+            --dark-gray: #343a40;
+            --light-gray: #ced4da;
+            --white: #ffffff;
+            --off-white: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--off-white);
+            color: var(--dark-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .left-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .left-section h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            color: var(--dark-blue);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--dark-blue);
+            line-height: 1.4;
+        }
+
+        .list-item .icon {
+            color: var(--light-blue);
+            font-size: 28px;
+            margin-top: 2px;
+        }
+
+        .list-item span {
+            flex: 1;
+        }
+
+        .list-item .highlight {
+            font-weight: 700;
+        }
+
+        .list-item .underline {
+            text-decoration: underline;
+            text-decoration-color: var(--light-blue);
+            text-decoration-thickness: 3px;
+        }
+
+        .logo-section {
+            margin-top: 50px;
+        }
+
+        .logo-section .logo-text {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 5px;
+        }
+
+        .logo-section .slogan {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--dark-gray);
+            opacity: 0.9;
+        }
+
+        .right-section {
+            flex: 1;
+            min-width: 500px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .monitor-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            aspect-ratio: 1.3;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .monitor-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .laptop-container {
+            position: absolute;
+            bottom: 15%;
+            left: 0;
+            width: 40%;
+            aspect-ratio: 1.2;
+            transform: rotate(-5deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .laptop-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .tablet-container {
+            position: absolute;
+            bottom: 5%;
+            right: 10%;
+            width: 15%;
+            aspect-ratio: 0.7;
+            transform: rotate(10deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .tablet-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .phone-container {
+            position: absolute;
+            bottom: 10%;
+            right: 0;
+            width: 10%;
+            aspect-ratio: 0.6;
+            transform: rotate(20deg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+        }
+
+        .phone-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .mug-container {
+            position: absolute;
+            bottom: 20%;
+            right: 25%;
+            width: 8%;
+            aspect-ratio: 0.9;
+        }
+
+        .mug-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .left-section {
+                max-width: 100%;
+                order: 2;
+            }
+
+            .right-section {
+                max-width: 100%;
+                order: 1;
+                aspect-ratio: 1;
+                margin-bottom: 30px;
+            }
+
+            .monitor-container {
+                width: 80%;
+            }
+
+            .laptop-container {
+                width: 30%;
+                bottom: 10%;
+                left: 5%;
+            }
+
+            .tablet-container {
+                width: 12%;
+                bottom: 5%;
+                right: 5%;
+            }
+
+            .phone-container {
+                width: 8%;
+                bottom: 7%;
+                right: 2%;
+            }
+            .mug-container {
+                width: 6%;
+                bottom: 15%;
+                right: 15%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .left-section h1 {
+                font-size: 40px;
+            }
+            .list-item {
+                font-size: 16px;
+            }
+            .logo-section .logo-text {
+                font-size: 30px;
+            }
+            .logo-section .slogan {
+                font-size: 16px;
+            }
+            .right-section {
+                aspect-ratio: 0.9;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .left-section h1 {
+                font-size: 32px;
+            }
+            .list-item {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            .list-item .icon {
+                font-size: 22px;
+            }
+            .logo-section .logo-text {
+                font-size: 24px;
+            }
+            .logo-section .slogan {
+                font-size: 14px;
+            }
+            .container {
+                padding: 10px;
+            }
+            .right-section {
+                aspect-ratio: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h1>Brand-Specific Homepage Designs</h1>
+            <div class="list-item">
+                <i class="fas fa-check-circle icon"></i>
+                <span>THE AVERAGE USER VISITS <span class="underline highlight">UP TO 130 WEBSITES DAILY</span></span>
+            </div>
+            <div class="list-item">
+                <i class="fas fa-check-circle icon"></i>
+                <span>38% OF USERS NOTICE A <span class="underline">WEBSITE'S LAYOUT AND</span> <br> NAVIGATION</span>
+            </div>
+            <div class="logo-section">
+                <div class="logo-text">DIGITALSILK</div>
+                <div class="slogan">We Grow Brands Online</div>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="monitor-container">
+                <img src="https://via.placeholder.com/700x600?text=Desktop+Screen" alt="Desktop Screen">
+                <div class="laptop-container">
+                    <img src="https://via.placeholder.com/300x250?text=Laptop+Screen" alt="Laptop Screen">
+                </div>
+                <div class="tablet-container">
+                    <img src="https://via.placeholder.com/150x100?text=Tablet+Screen" alt="Tablet Screen">
+                </div>
+                <div class="phone-container">
+                    <img src="https://via.placeholder.com/100x60?text=Phone+Screen" alt="Phone Screen">
+                </div>
+                <div class="mug-container">
+                    <img src="https://via.placeholder.com/80x70?text=Mug" alt="Mug">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

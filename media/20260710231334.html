@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            height: 70vh;
+            background: linear-gradient(to right, #007bff, #3a9eff);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .welcome-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .welcome-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -80px;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .welcome-section h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+        .welcome-section h2 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            z-index: 1;
+            letter-spacing: 0.5px;
+            color: #e6f0ff;
+        }
+        .welcome-section p {
+            font-size: 0.95em;
+            font-weight: 400;
+            line-height: 1.6;
+            z-index: 1;
+            color: #e6f0ff;
+            opacity: 0.9;
+        }
+        .signin-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 0 20px 20px 0;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
+        }
+        .signin-form {
+            width: 100%;
+            max-width: 380px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .signin-form h3 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            letter-spacing: 0.5px;
+        }
+        .signin-form p.subtitle {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            letter-spacing: 0.2px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #34495e;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: #3a9eff;
+            outline: none;
+        }
+        .form-group input::placeholder {
+            color: #95a5a6;
+        }
+        .password-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.85em;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            color: #7f8c8d;
+        }
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            accent-color: #3a9eff;
+            border-radius: 4px;
+        }
+        .forgot-password a {
+            color: #7f8c8d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .forgot-password a:hover {
+            color: #3a9eff;
+        }
+        .signin-button {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(to right, #007bff, #3a9eff);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            letter-spacing: 0.5px;
+        }
+        .signin-button:hover {
+            background: linear-gradient(to right, #3a9eff, #007bff);
+            transform: translateY(-2px);
+        }
+        .signup-prompt {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        .signup-prompt a {
+            color: #3a9eff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .password-toggle {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            cursor: pointer;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="welcome-section">
+            <h1>WELCOME</h1>
+            <h2>YOUR HEADLINE NAME</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.
+            </p>
+        </section>
+        <section class="signin-section">
+            <div class="signin-form">
+                <h3>Sign in</h3>
+                <p class="subtitle">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
+                <div class="form-group">
+                    <label for="username">User Name</label>
+                    <input type="text" id="username" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div style="display: flex; align-items: center;">
+                        <input type="password" id="password" placeholder="Enter your password" style="flex-grow: 1;">
+                        <span class="password-toggle" style="margin-left: 10px;">SHOW</span>
+                    </div>
+                </div>
+                <div class="password-options">
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                </div>
+                <button class="signin-button">Sing In</button>
+                <div class="signup-prompt">
+                    Don't have an account? <a href="#">Sign Up</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

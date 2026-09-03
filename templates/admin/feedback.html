@@ -1,0 +1,117 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#<meta charset="UTF-8">#}
+{#<title>View Feedback</title>#}
+
+{% extends 'admin/admin_homenew.html' %}
+{% block body %}
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#000000,#0a1f44);
+}
+
+/* Main container */
+.container{
+    width:80%;
+    margin:60px auto;
+    background:#0b132b;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0px 0px 20px rgba(0,0,0,0.8);
+}
+
+/* Heading */
+h2{
+    text-align:center;
+    color:#ffffff;
+    margin-bottom:25px;
+    letter-spacing:1px;
+}
+
+/* Table styling */
+table{
+    width:100%;
+    border-collapse:collapse;
+    color:white;
+}
+
+/* Table headers */
+th{
+    background:#142850;
+    padding:12px;
+    text-align:center;
+}
+
+/* Table cells */
+td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #1c2541;
+}
+
+/* Alternate rows */
+tr:nth-child(even){
+    background:#1c2541;
+}
+
+/* Hover effect */
+tr:hover{
+    background:#274690;
+}
+.back-link{
+display:block;
+margin-top:15px;
+color:#aaa;
+text-decoration:none;
+}
+
+.back-link:hover{
+color:white;
+}
+</style>
+
+
+
+<body>
+
+<div class="container">
+
+<h2>User Feedback</h2>
+
+<table>
+
+<tr>
+<th>Slno</th>
+<th>User Name</th>
+<th>Feedback</th>
+<th>Rating</th>
+<th>Date</th>
+</tr>
+
+    {% for i in feedback %}
+    <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ i.USER.name }}</td>
+    <td>{{ i.feedback }}</td>
+    <td>{{ i.rating }}</td>
+    <td>{{ i.date }}</td>
+    </tr>
+    {% endfor %}
+
+
+
+</table>
+<a href="/myapp/admin_home" class="back-link">← Back to Dashboard</a>
+</div>
+
+</body>
+
+
+{% endblock %}
+

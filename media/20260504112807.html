@@ -1,0 +1,828 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Home Screen Clone</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2j+FWy7hEaK+hSYcM+O6rV/S3i/T/jP8t1W+w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        / General Body and Screen Styling /
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #eee; / Outer background /
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+        }
+
+        .iphone-screen {
+            width: 390px; / Approximate iPhone screen width /
+            height: 844px; / Approximate iPhone screen height /
+            background-color: #FBF1C2; / Light yellow background from image /
+            border-radius: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 10px; / Internal padding to keep content from edges /
+            box-sizing: border-box;
+        }
+
+        / Status Bar Styling /
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: black;
+            height: 30px;
+        }
+
+        .status-bar-left, .status-bar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-bar-left .fa-plane {
+            margin-right: 5px;
+            transform: rotate(-45deg);
+        }
+
+        .status-bar-right .fa-moon {
+            margin-right: 5px;
+            font-size: 0.8em;
+        }
+
+        .battery-icon {
+            margin-left: 5px;
+            width: 20px;
+            height: 10px;
+            border: 1px solid black;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden; / Hide excess fill /
+        }
+
+        .battery-icon::before {
+            content: '';
+            width: 1.5px;
+            height: 6px;
+            background-color: black;
+            position: absolute;
+            right: -3px; / Position the little nub /
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 1px;
+            z-index: 1; / Ensure it's above the fill /
+        }
+
+        .battery-fill {
+            height: 100%;
+            width: 18%; / Based on image's 18% charge /
+            background-color: black;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 1px;
+        }
+
+        / Main Content and App Grid /
+        .main-content {
+            flex-grow: 1;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px 0px; / Vertical and horizontal gap /
+            margin-top: 20px;
+            padding: 0 5px;
+        }
+
+        .app-icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            background-color: lightgray;
+            border-radius: 14px; / iOS icon rounded corners /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden; / For icons with complex internal shapes /
+        }
+
+        .app-icon .fa-solid, .app-icon .fa-brands {
+            color: white; / Default icon color /
+        }
+        .app-icon.large-icon .fa-solid, .app-icon.large-icon .fa-brands { font-size: 32px; }
+        .app-icon.medium-icon .fa-solid, .app-icon.medium-icon .fa-brands { font-size: 28px; }
+        .app-icon.small-icon .fa-solid, .app-icon.small-icon .fa-brands { font-size: 24px; }
+
+
+        .app-label {
+            margin-top: 8px;
+            font-size: 0.75em;
+            color: black;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: #FF3B30; / iOS red badge color /
+            color: white;
+            font-size: 0.65em;
+            font-weight: bold;
+            border-radius: 50%;
+            min-width: 20px; / Use min-width for variable content /
+            height: 20px;
+            padding: 0 4px; / Add padding for larger numbers /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1.5px solid #FBF1C2; / Match background color for border /
+            z-index: 10;
+        }
+
+        / Specific App Icon Styling /
+
+        / Calendar /
+        .calendar-icon {
+            background-color: white;
+            flex-direction: column;
+            padding-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+        }
+        .calendar-icon .day-of-week {
+            font-size: 0.65em;
+            color: #FF3B30; / Red for Thursday /
+            font-weight: 500;
+        }
+        .calendar-icon .day-number {
+            font-size: 2.2em;
+            font-weight: 600;
+            color: black;
+            line-height: 1;
+        }
+
+        / Clock /
+        .clock-icon {
+            background-color: black;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+        }
+        .clock-face {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            border: 1px solid white;
+            position: relative;
+            background-color: black;
+        }
+        .clock-center {
+            width: 4px;
+            height: 4px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .clock-hour, .clock-minute, .clock-second {
+            position: absolute;
+            background-color: white;
+            transform-origin: bottom center;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg); / Default, will be overridden /
+        }
+        .clock-hour { width: 2px; height: 18px; margin-top: -18px; transform: translateX(-50%) rotate(240deg); } / approx 10 o'clock /
+        .clock-minute { width: 1.5px; height: 25px; margin-top: -25px; transform: translateX(-50%) rotate(60deg); } / approx 12 mins past /
+        .clock-second { width: 1px; height: 22px; margin-top: -22px; background-color: #FF3B30; transform: translateX(-50%) rotate(300deg); } / approx 50 seconds /
+
+        / Camera /
+        .camera-icon { background-color: #D3D3D3; }
+        .camera-icon .fa-camera { color: #555; }
+
+        / Photos (recreated with multiple colored circles) /
+        .photos-icon {
+            background-color: #C1215B; / Base color for one petal /
+            overflow: hidden;
+            position: relative;
+        }
+        .photos-icon .petal {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            opacity: 0.9;
+            transform-origin: center center;
+        }
+        .photos-icon .petal:nth-child(1) { background-color: #E23D5B; top: 10px; left: 10px; } / Red /
+        .photos-icon .petal:nth-child(2) { background-color: #F89730; top: 10px; right: 10px; } / Orange /
+        .photos-icon .petal:nth-child(3) { background-color: #FFD226; bottom: 10px; left: 10px; } / Yellow /
+        .photos-icon .petal:nth-child(4) { background-color: #2F9C4A; bottom: 10px; right: 10px; } / Green /
+        .photos-icon .petal:nth-child(5) { background-color: #2CA3C4; top: 50%; left: 0; transform: translateY(-50%) translateX(-10px); } / Light Blue /
+        .photos-icon .petal:nth-child(6) { background-color: #7B47AD; top: 50%; right: 0; transform: translateY(-50%) translateX(10px); } / Purple /
+        .photos-icon .center-circle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        / Weather /
+        .weather-icon { background-color: #5AC8FA; }
+        .weather-icon .sun {
+            width: 20px;
+            height: 20px;
+            background-color: #FFEB3B; / Yellow /
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+            left: 30px;
+            box-shadow: 0 0 5px #FFEB3B;
+        }
+        .weather-icon .cloud {
+            width: 35px;
+            height: 20px;
+            background-color: white;
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 15px;
+            left: 10px;
+        }
+        .weather-icon .cloud::before {
+            content: '';
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -10px;
+            left: 5px;
+        }
+        .weather-icon .cloud::after {
+            content: '';
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -10px;
+            right: 0px;
+        }
+
+        / Settings /
+        .settings-icon { background-color: #D3D3D3; }
+        .settings-icon .fa-gear { color: #555; }
+
+        / Calculator /
+        .calculator-icon { background-color: #D3D3D3; }
+        .calculator-icon .fa-calculator { color: #555; }
+
+        / Facebook /
+        .facebook-icon { background-color: #3B5998; }
+        .facebook-icon .fa-facebook-f { }
+
+        / Messenger /
+        .messenger-icon { background-color: #007AFF; }
+        .messenger-icon .fa-bolt { }
+
+        / WhatsApp /
+        .whatsapp-icon { background-color: #25D366; }
+        .whatsapp-icon .fa-whatsapp { }
+
+        / Twitter /
+        .twitter-icon { background-color: #1DA1F2; }
+        .twitter-icon .fa-twitter { }
+
+        / Instagram /
+        .instagram-icon {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        }
+        .instagram-icon .fa-instagram { }
+
+        / FaceTime /
+        .facetime-icon { background-color: #34C759; }
+        .facetime-icon .fa-video { }
+
+        / Maps (simplified recreation) /
+        .maps-icon {
+            background-color: #EFEFEF;
+            position: relative;
+            display: block;
+        }
+        .maps-icon .map-bg-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(135deg, transparent 49%, #8E8E93 49%, #8E8E93 51%, transparent 51%);
+        }
+        .maps-icon .map-road {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(45deg, transparent 49%, #8E8E93 49%, #8E8E93 51%, transparent 51%);
+        }
+        .maps-icon .fa-location-dot {
+            position: absolute;
+            font-size: 24px;
+            color: #007AFF;
+            top: 15px;
+            left: 20px;
+            transform: rotate(-10deg);
+        }
+        .maps-icon .route-280 {
+            position: absolute;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            background-color: #007AFF;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 25px;
+            right: 10px;
+            border: 2px solid white;
+        }
+
+        / YouTube /
+        .youtube-icon { background-color: #FF0000; }
+        .youtube-icon .fa-youtube { }
+
+        / TV /
+        .tv-icon { background-color: black; display: flex; align-items: center; justify-content: center; }
+        .tv-icon .fa-apple-whole { color: white; font-size: 28px; }
+        .tv-icon span { font-size: 10px; font-weight: bold; color: white; margin-left: 5px; }
+
+        / Reminders /
+        .reminders-icon { background-color: white; border: 1px solid #ddd; position: relative; }
+        .reminders-icon .reminder-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            left: 10px;
+        }
+        .reminders-icon .reminder-line {
+            width: 30px;
+            height: 3px;
+            background-color: #8E8E93;
+            position: absolute;
+            left: 25px;
+            border-radius: 1px;
+        }
+        .reminders-icon .reminder-dot:nth-child(1) { background-color: #FF3B30; top: 15px; }
+        .reminders-icon .reminder-line:nth-child(2) { top: 18px; }
+        .reminders-icon .reminder-dot:nth-child(3) { background-color: #FF9500; top: 30px; }
+        .reminders-icon .reminder-line:nth-child(4) { top: 33px; }
+        .reminders-icon .reminder-dot:nth-child(5) { background-color: #007AFF; top: 45px; }
+        .reminders-icon .reminder-line:nth-child(6) { top: 48px; }
+
+        / Stocks (using SVG path for accuracy) /
+        .stocks-icon { background-color: black; position: relative; }
+        .stocks-icon .graph-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #007AFF; / Blue line /
+            stroke-width: 2px;
+            top: 0;
+            left: 0;
+        }
+        .stocks-icon .graph-svg path {
+            fill: transparent;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            transform: translateY(5px); / Adjust to visually center /
+        }
+        .stocks-icon .graph-dot {
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            border: 1px solid #007AFF;
+            border-radius: 50%;
+            position: absolute;
+            top: 15px; / Adjust based on path for the peak /
+            left: calc(75% - 3px); / Adjust based on path for the peak /
+            z-index: 1;
+        }
+
+        / Books /
+        .books-icon { background-color: #FF9500; }
+        .books-icon .fa-book-open { }
+
+        / Mail /
+        .mail-icon { background-color: #007AFF; }
+        .mail-icon .fa-envelope { }
+
+        / Podcasts /
+        .podcasts-icon {
+            background: linear-gradient(135deg, #A4508B 0%, #E02F77 100%);
+        }
+        .podcasts-icon .fa-podcast { }
+
+        / App Store /
+        .appstore-icon {
+            background-color: #007AFF;
+        }
+        .appstore-icon .fa-apple-whole { / Using the Apple icon as a simpler representation / }
+
+
+        / Shortcuts (simplified with two overlapping squares) /
+        .shortcuts-icon {
+            background: linear-gradient(135deg, #7C4DFF 0%, #1DE9B6 100%); / gradient from image /
+            position: relative;
+        }
+        .shortcuts-icon .shortcut-square-1 {
+            width: 30px;
+            height: 30px;
+            background-color: #F06292; / Pink /
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            border-radius: 8px;
+            transform: rotate(-10deg);
+        }
+        .shortcuts-icon .shortcut-square-2 {
+            width: 30px;
+            height: 30px;
+            background-color: #4FC3F7; / Blue /
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            border-radius: 8px;
+            transform: rotate(10deg);
+        }
+
+        / Notes /
+        .notes-icon { background-color: white; border: 1px solid #ddd; position: relative; }
+        .notes-icon .notes-top-yellow {
+            width: 100%;
+            height: 10px;
+            background-color: #FFD42A; / Yellow /
+            border-radius: 14px 14px 0 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .notes-icon .notes-line {
+            width: 40px;
+            height: 2px;
+            background-color: #EFEFF4;
+            position: absolute;
+            left: 10px;
+            border-radius: 1px;
+        }
+        .notes-icon .notes-line:nth-child(2) { top: 20px; }
+        .notes-icon .notes-line:nth-child(3) { top: 28px; }
+        .notes-icon .notes-line:nth-child(4) { top: 36px; }
+        .notes-icon .notes-line:nth-child(5) { top: 44px; }
+        .notes-icon .notes-line:nth-child(6) { top: 52px; width: 30px; }
+
+        / Pagination Dots /
+        .pagination-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0 10px 0;
+        }
+        .pagination-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 0 4px;
+        }
+        .pagination-dot.active {
+            background-color: #8E8E93;
+            width: 8px; / Slightly larger active dot /
+            height: 8px;
+        }
+
+        / Dock Styling /
+        .dock {
+            width: 100%;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.6); / Translucent white /
+            backdrop-filter: blur(20px); / Frosted glass effect /
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            margin-top: auto; / Push to bottom /
+            box-sizing: border-box;
+        }
+
+        .dock .app-icon-wrapper {
+            margin: 0;
+            padding: 0;
+        }
+
+        .dock .app-label {
+            display: none; / Hide labels in dock /
+        }
+
+        / Dock Specific Apps /
+        .safari-icon { background-color: #007AFF; }
+        .safari-icon .fa-compass { }
+
+        .phone-icon { background-color: #34C759; }
+        .phone-icon .fa-phone-flip { }
+
+        .contacts-icon { background-color: #D3D3D3; }
+        .contacts-icon .fa-user { color: #555; }
+
+        .music-icon {
+            background: linear-gradient(135deg, #FF2D55 0%, #AF52DE 100%);
+        }
+        .music-icon .fa-music { }
+
+    </style>
+</head>
+<body>
+    <div class="iphone-screen">
+        <div class="status-bar">
+            <div class="status-bar-left">
+                <i class="fa-solid fa-plane"></i>
+                <span>6:48 AM</span>
+            </div>
+            <div class="status-bar-right">
+                <i class="fa-solid fa-moon"></i>
+                <span>18%</span>
+                <div class="battery-icon">
+                    <div class="battery-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="app-grid">
+                <!-- Row 1 -->
+                <div class="app-icon-wrapper">
+                    <div class="app-icon calendar-icon">
+                        <span class="day-of-week">Thursday</span>
+                        <span class="day-number">31</span>
+                    </div>
+                    <p class="app-label">Calendar</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon clock-icon">
+                        <div class="clock-face">
+                            <div class="clock-hour"></div>
+                            <div class="clock-minute"></div>
+                            <div class="clock-second"></div>
+                            <div class="clock-center"></div>
+                        </div>
+                    </div>
+                    <p class="app-label">Clock</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon camera-icon medium-icon">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <p class="app-label">Camera</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon photos-icon">
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="center-circle"></div>
+                    </div>
+                    <p class="app-label">Photos</p>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="app-icon-wrapper">
+                    <div class="app-icon weather-icon">
+                        <div class="sun"></div>
+                        <div class="cloud"></div>
+                    </div>
+                    <p class="app-label">Weather</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon settings-icon medium-icon">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <p class="app-label">Settings</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon calculator-icon medium-icon">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <p class="app-label">Calculator</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon facebook-icon large-icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                        <span class="badge">5</span>
+                    </div>
+                    <p class="app-label">Facebook</p>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="app-icon-wrapper">
+                    <div class="app-icon messenger-icon medium-icon">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span class="badge">1</span>
+                    </div>
+                    <p class="app-label">Messenger</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon whatsapp-icon large-icon">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <p class="app-label">WhatsApp</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon twitter-icon medium-icon">
+                        <i class="fa-brands fa-twitter"></i>
+                        <span class="badge">20</span>
+                    </div>
+                    <p class="app-label">Twitter</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon instagram-icon medium-icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <p class="app-label">Instagram</p>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="app-icon-wrapper">
+                    <div class="app-icon facetime-icon medium-icon">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                    <p class="app-label">FaceTime</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon maps-icon">
+                        <div class="map-road"></div>
+                        <div class="map-bg-line"></div>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div class="route-280">280</div>
+                    </div>
+                    <p class="app-label">Maps</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon youtube-icon large-icon">
+                        <i class="fa-brands fa-youtube"></i>
+                        <span class="badge">118</span>
+                    </div>
+                    <p class="app-label">YouTube</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon tv-icon medium-icon">
+                        <i class="fa-brands fa-apple-whole"></i>
+                        <span>tv</span>
+                    </div>
+                    <p class="app-label">TV</p>
+                </div>
+
+                <!-- Row 5 -->
+                <div class="app-icon-wrapper">
+                    <div class="app-icon reminders-icon">
+                        <span class="reminder-dot"></span><span class="reminder-line"></span>
+                        <span class="reminder-dot"></span><span class="reminder-line"></span>
+                        <span class="reminder-dot"></span><span class="reminder-line"></span>
+                    </div>
+                    <p class="app-label">Reminders</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon stocks-icon">
+                        <svg class="graph-svg" viewBox="0 0 100 60" preserveAspectRatio="none">
+                            <path d="M0,45 L15,35 L30,50 L45,20 L60,40 L75,10 L90,30 L100,25" />
+                        </svg>
+                        <div class="graph-dot"></div>
+                    </div>
+                    <p class="app-label">Stocks</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon books-icon medium-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <p class="app-label">Books</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon mail-icon medium-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span class="badge">218,882</span>
+                    </div>
+                    <p class="app-label">Mail</p>
+                </div>
+
+                <!-- Row 6 -->
+                <div class="app-icon-wrapper">
+                    <div class="app-icon podcasts-icon medium-icon">
+                        <i class="fa-solid fa-podcast"></i>
+                    </div>
+                    <p class="app-label">Podcasts</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon appstore-icon medium-icon">
+                        <i class="fa-brands fa-apple-whole"></i>
+                    </div>
+                    <p class="app-label">App Store</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon shortcuts-icon">
+                        <div class="shortcut-square-1"></div>
+                        <div class="shortcut-square-2"></div>
+                    </div>
+                    <p class="app-label">Shortcuts</p>
+                </div>
+                <div class="app-icon-wrapper">
+                    <div class="app-icon notes-icon">
+                        <div class="notes-top-yellow"></div>
+                        <span class="notes-line"></span>
+                        <span class="notes-line"></span>
+                        <span class="notes-line"></span>
+                        <span class="notes-line"></span>
+                        <span class="notes-line"></span>
+                    </div>
+                    <p class="app-label">Notes</p>
+                </div>
+            </div>
+
+            <div class="pagination-dots">
+                <div class="pagination-dot active"></div>
+                <div class="pagination-dot"></div>
+                <div class="pagination-dot"></div>
+            </div>
+        </div>
+
+        <div class="dock">
+            <div class="app-icon-wrapper">
+                <div class="app-icon safari-icon medium-icon">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <p class="app-label">Safari</p>
+            </div>
+            <div class="app-icon-wrapper">
+                <div class="app-icon phone-icon medium-icon">
+                    <i class="fa-solid fa-phone-flip"></i>
+                </div>
+                <p class="app-label">Phone</p>
+            </div>
+            <div class="app-icon-wrapper">
+                <div class="app-icon contacts-icon medium-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <p class="app-label">Contacts</p>
+            </div>
+            <div class="app-icon-wrapper">
+                <div class="app-icon music-icon medium-icon">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+                <p class="app-label">Music</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

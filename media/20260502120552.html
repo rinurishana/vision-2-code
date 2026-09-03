@@ -1,0 +1,308 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        / CSS Variables for consistent styling /
+        :root {
+            --primary-blue: #2B6CB0; / A darker blue for the main background gradient /
+            --secondary-blue: #3E8ED0; / A lighter blue for the main background gradient /
+            --white: #ffffff;
+            --dark-text: #1A202C; / Dark gray for main text, headings /
+            --light-text: #4A5568; / Lighter gray for secondary text, labels, placeholders /
+            --button-blue: #3182CE; / Blue for buttons and links /
+            --button-blue-hover: #2C7BB9; / Slightly darker blue for button hover /
+            --border-light: #E2E8F0; / Light gray for input borders /
+            --body-bg: #F7FAFC; / Light gray background for the entire page /
+            --shadow-primary: rgba(0, 0, 0, 0.1); / Shadow for the main container /
+            --shadow-secondary: rgba(0, 0, 0, 0.05); / Shadow for the white card /
+        }
+
+        / Base styles /
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--body-bg);
+            box-sizing: border-box;
+        }
+
+        / Main container for the login card /
+        .login-container {
+            display: flex;
+            width: 900px; / Fixed width as per design intent /
+            height: 500px; / Fixed height as per design intent /
+            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow-primary);
+            overflow: hidden; / Ensures child elements respect border-radius /
+            padding: 20px; / Adds spacing around the inner white card /
+            box-sizing: border-box; / Includes padding in the total width/height /
+            align-items: center; / Vertically centers the content /
+        }
+
+        / Left section: Welcome content /
+        .welcome-section {
+            flex: 1; / Takes remaining space after form-section width is set /
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden; / For pseudo-elements /
+            text-align: left;
+        }
+
+        / Background shapes for welcome section /
+        .welcome-section::before,
+        .welcome-section::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1); / Semi-transparent white /
+            border-radius: 50%; / Makes them circular/oval /
+            z-index: 0;
+            filter: blur(2px); / Slightly blur the shapes /
+        }
+
+        .welcome-section::before {
+            width: 280px;
+            height: 280px;
+            top: -60px;
+            left: -100px;
+            transform: scaleX(0.9); / Slightly flattened ellipse /
+        }
+
+        .welcome-section::after {
+            width: 220px;
+            height: 220px;
+            bottom: -70px;
+            right: -120px;
+            transform: scaleX(0.8); / Slightly flattened ellipse /
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1; / Ensures text is above background shapes /
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .welcome-section h2 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .welcome-section p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        / Right section: Sign in form /
+        .form-section {
+            width: 380px; / Fixed width for the form card /
+            height: 100%; / Takes full height of the padded container /
+            background-color: var(--white);
+            border-radius: 15px; / Border-radius for the inner white card /
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 4px 15px var(--shadow-secondary); / Subtle shadow for the white card /
+            box-sizing: border-box; / Includes padding in the total width/height /
+        }
+
+        .form-section h2 {
+            font-size: 2rem;
+            color: var(--dark-text);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-section p.sub-text {
+            font-size: 0.85rem;
+            color: var(--light-text);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--light-text);
+            margin-bottom: 5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--dark-text);
+            box-sizing: border-box; / Ensures padding does not increase total width /
+        }
+
+        .input-wrapper input::placeholder {
+            color: var(--light-text);
+            opacity: 0.7;
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--button-blue);
+            box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2); / Focus ring /
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.85rem;
+            color: var(--button-blue);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .options-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.85rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--button-blue); / Styles the checkbox itself /
+            border-radius: 4px; / Attempt to round the checkbox, browser dependent /
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            color: var(--light-text);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .options-group a {
+            color: var(--button-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .options-group a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-signin {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--button-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-signin:hover {
+            background-color: var(--button-blue-hover);
+        }
+
+        .signup-text {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: var(--light-text);
+        }
+
+        .signup-text a {
+            color: var(--button-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>WELCOME</h1>
+                <h2>YOUR HEADLINE NAME</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim quis nostrud exerci tation.</p>
+            </div>
+        </div>
+        <div class="form-section">
+            <form>
+                <h2>Sign in</h2>
+                <p class="sub-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+
+                <div class="form-group">
+                    <label for="username">User name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" placeholder="User name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" placeholder="Password">
+                        <span class="password-toggle">SHOW</span>
+                    </div>
+                </div>
+
+                <div class="options-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn-signin">Sing In</button>
+
+                <p class="signup-text">Don't have an account? <a href="#">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+```

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@700&display=swap" rel="stylesheet">
+    <style>
+        / Color variables for consistent theming /
+        :root {
+            --bg-start-color: #00334d; / Dark blue-green /
+            --bg-mid-color-left: #0a708a; / Brighter blue-green /
+            --bg-mid-color-right: #5e008d; / Dark purple /
+            --bg-end-color: #8f00b3; / Brighter purple-magenta /
+
+            / Text gradient colors, mimicking the subtle gradients in the image /
+            --php-text-gradient: linear-gradient(to right, #a0f0ff, #70d0ff); / Lighter blue to slightly darker blue /
+            --html5-text-gradient: linear-gradient(to right, #ffc0ff, #e080ff); / Lighter magenta to slightly darker magenta /
+            --css-text-gradient: linear-gradient(to right, #ffc0ff, #e080ff); / Lighter magenta to slightly darker magenta /
+            --sql-text-gradient: linear-gradient(to right, #a0f0ff, #70d0ff); / Lighter blue to slightly darker blue /
+            --java-text-gradient: linear-gradient(to right, #a0f0ff, #70d0ff); / Lighter blue to slightly darker blue /
+        }
+
+        / Basic reset and font styling /
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif; / Using Segoe UI as it's clean and similar to image /
+            overflow: hidden; / Prevents scrollbars on the body /
+            color: var(--text-color-white); / Default text color, though overridden by gradients /
+        }
+
+        / Main container for the entire showcase /
+        .developer-showcase {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            min-height: 600px; / Ensures a minimum height on smaller screens/windows /
+            background: linear-gradient(to right,
+                var(--bg-start-color) 0%,
+                var(--bg-mid-color-left) 30%,
+                var(--bg-mid-color-right) 70%,
+                var(--bg-end-color) 100%
+            );
+            display: flex; / Enables flexbox for content alignment /
+            justify-content: flex-start; / Aligns content to the start (left) /
+            align-items: center; / Vertically centers content /
+            overflow: hidden; / Ensures no content spills out of the container /
+        }
+
+        / Wrapper for the central illustration image (laptop, phone, wires, etc.) /
+        .illustration-wrapper {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%; / Spans full width of parent /
+            height: 100%; / Spans full height of parent /
+            display: flex;
+            justify-content: flex-start; / Aligns the image to the left within this wrapper /
+            align-items: center; / Vertically centers the image within this wrapper /
+            z-index: 1; / Places the illustration below the text labels /
+        }
+
+        / Styling for the actual illustration image /
+        .illustration-wrapper img {
+            / This image should be a transparent PNG containing all the graphical elements
+               (laptop, smartphone, wireframe windows, icons, connecting lines) without the gradient background.
+               It should have sufficient transparent padding, especially on the right, to allow for text placement. /
+            width: 70%; / Adjusts the size of the illustration relative to the viewport width /
+            max-width: 1400px; / Maximum width for the illustration on very large screens /
+            height: auto; / Maintains the aspect ratio of the image /
+            object-fit: contain; / Ensures the entire image content is visible /
+            pointer-events: none; / Allows mouse events to pass through the image to elements below /
+        }
+
+        / Base styling for all text labels /
+        .text-label {
+            position: absolute; / Positions text labels absolutely within .developer-showcase /
+            font-size: clamp(2rem, 3.5vw, 4rem); / Responsive font size: minimum 2rem, scales with viewport width up to 4rem /
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap; / Prevents text from wrapping to the next line /
+            letter-spacing: 0.05em; / Adds slight spacing between letters /
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); / Adds a subtle shadow for better readability /
+            z-index: 2; / Places text labels above the illustration /
+
+            / Gradient text effect, as seen in the original image /
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        / Specific positioning and gradient for each text label /
+        .text-php {
+            background-image: var(--php-text-gradient);
+            top: 43%; / Vertical position /
+            left: 28%; / Horizontal position /
+        }
+
+        .text-html5 {
+            background-image: var(--html5-text-gradient);
+            top: 25%;
+            left: 63%;
+        }
+
+        .text-css {
+            background-image: var(--css-text-gradient);
+            top: 58%;
+            left: 65%;
+        }
+
+        .text-sql {
+            background-image: var(--sql-text-gradient);
+            top: 55%;
+            left: 14%;
+        }
+
+        .text-java {
+            background-image: var(--java-text-gradient);
+            top: 75%;
+            left: 33%;
+        }
+    </style>
+</head>
+<body>
+    <div class="developer-showcase">
+        <div class="illustration-wrapper">
+            <!--
+                IMPORTANT: Replace 'path/to/your/transparent-illustration.png' with the actual path to your image.
+                This image should be a transparent PNG containing ONLY the graphical elements
+                (laptop, smartphone, all wireframe windows, icons like code, fingerprint, wifi, search, gear, and connecting lines).
+                The original background gradient should be removed from this PNG.
+            -->
+            <img src="path/to/your/transparent-illustration.png" alt="Development environment illustration" loading="lazy">
+        </div>
+        <!-- Text labels, positioned absolutely over the illustration -->
+        <span class="text-label text-php">PHP</span>
+        <span class="text-label text-html5">HTML5</span>
+        <span class="text-label text-css">CSS</span>
+        <span class="text-label text-sql">SQL</span>
+        <span class="text-label text-java">JAVA</span>
+    </div>
+</body>
+</html>

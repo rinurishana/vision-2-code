@@ -1,0 +1,286 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision 2 Code Login</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        / CSS Variables for consistent theming /
+        :root {
+            --dark-blue-bg: #1A232E;
+            --input-bg: #26323F;
+            --accent-blue: #2196F3;
+            --text-white: #E0E0E0;
+            --text-dark: #333;
+            --google-bg: #FFFFFF;
+        }
+
+        / Base Styles for the body /
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            / Background image - replace with your actual image path or URL /
+            background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538add9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            color: var(--text-white);
+        }
+
+        / Dark Overlay for Background Image /
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); / Semi-transparent dark overlay /
+            z-index: 1; / Ensures overlay is above background but below content /
+        }
+
+        / Login Card Styling /
+        .login-card {
+            background-color: var(--dark-blue-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); / Soft shadow for depth /
+            width: 100%;
+            max-width: 400px; / Max width for the card /
+            text-align: center;
+            position: relative;
+            z-index: 2; / Ensures card is above the overlay /
+        }
+
+        / Logo Section Styling /
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        / Logo Icon (Stylized eye with < />) /
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #111822, #1d2732); / Dark gradient for the icon's background /
+            border-radius: 50%; / Circular shape for the icon container /
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); / Inner shadow for depth /
+            border: 1px solid rgba(255, 255, 255, 0.05); / Subtle light border /
+        }
+
+        / Stylized 'eye' shape using a pseudo-element /
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 30px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue) 20%, var(--accent-blue) 80%, transparent);
+            border-radius: 50%; / Creates an oval shape /
+            opacity: 0.3; / Subtle glow effect /
+            filter: blur(5px);
+            z-index: 1;
+        }
+
+        / The < /> text inside the logo icon /
+        .logo-icon .code-brackets {
+            position: relative;
+            z-index: 2;
+            font-size: 30px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            text-shadow: 0 0 5px rgba(33, 150, 243, 0.7); / Subtle glow for the brackets /
+            line-height: 1; / Adjust line height for better vertical centering /
+        }
+
+        / Logo Text "Vision 2 Code" /
+        .logo-text {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        / Blue color for the "2" in the logo text /
+        .logo-text .blue {
+            color: var(--accent-blue);
+        }
+
+        / Heading Section (Login Title) /
+        .heading-section {
+            margin-bottom: 30px;
+        }
+
+        .heading-section h2 {
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--text-white);
+            position: relative;
+            display: inline-block; / Allows width for pseudo-element underline /
+            margin: 0;
+            padding-bottom: 10px;
+        }
+
+        / Blue underline for the title /
+        .heading-section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 60px; / Width of the underline /
+            height: 3px;
+            background-color: var(--accent-blue);
+            border-radius: 2px;
+        }
+
+        / Input Group Styling (for username and password fields) /
+        .input-group {
+            display: flex;
+            align-items: center;
+            background-color: var(--input-bg);
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group i {
+            color: var(--text-white);
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .input-group input {
+            flex-grow: 1; / Allows input to take available space /
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text-white);
+            font-size: 16px;
+            padding: 5px 0;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(224, 224, 224, 0.7); / Lighter placeholder text /
+        }
+
+        / Common Button Styles /
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px); / Slight lift effect on hover /
+        }
+
+        / Primary Login Button /
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: var(--text-white);
+        }
+
+        .btn-primary:hover {
+            background-color: #1a7bb7; / A slightly darker blue on hover /
+        }
+
+        / Google Sign-up Button /
+        .btn-google {
+            background-color: var(--google-bg);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; / Space between icon and text /
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); / Subtle shadow /
+        }
+
+        .btn-google:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-google i {
+            font-size: 20px;
+            color: #4285F4; / Google brand blue for the icon /
+        }
+
+        / Sign-up Text at the bottom /
+        .signup-text {
+            margin-top: 30px;
+            font-size: 15px;
+            color: var(--text-white);
+        }
+
+        .signup-text a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-text a:hover {
+            color: #1a7bb7; / Darker blue on hover for the link /
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <span class="code-brackets">&lt;/&gt;</span>
+            </div>
+            <div class="logo-text">Vision<span class="blue">2</span>Code</div>
+        </div>
+
+        <div class="heading-section">
+            <h2>Login</h2>
+        </div>
+
+        <div class="form-section">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Enter Username" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Enter Password" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-google">
+                <i class="fab fa-google"></i>
+                Sign up with Google
+            </button>
+        </div>
+
+        <div class="signup-text">
+            Not signed up yet? <a href="#">Sign up now</a>
+        </div>
+    </div>
+</body>
+</html>
+```

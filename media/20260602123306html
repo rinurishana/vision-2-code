@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalSilk Homepage Design</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1440px;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .left-section {
+            flex: 1;
+            padding: 60px 50px;
+            box-sizing: border-box;
+            max-width: 50%;
+        }
+
+        .left-section h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.2;
+            margin-bottom: 40px;
+            letter-spacing: -0.5px;
+        }
+
+        .features {
+            margin-bottom: 50px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: #34495e;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .feature-item i {
+            color: #3498db;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .feature-item span {
+            text-decoration: none;
+            position: relative;
+        }
+
+        .feature-item .underline {
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #3498db;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-section .logo-text {
+            font-size: 36px;
+            font-weight: 700;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+
+        .logo-section .tagline {
+            font-size: 16px;
+            font-weight: 400;
+            color: #7f8c8d;
+            letter-spacing: 0.5px;
+        }
+
+        .right-section {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding-right: 20px;
+        }
+
+        .right-section img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .desktop-mockup {
+            width: 75%;
+            transform: translateX(-50px);
+            z-index: 1;
+        }
+
+        .laptop-mockup {
+            width: 45%;
+            position: absolute;
+            bottom: 10%;
+            left: 10%;
+            z-index: 2;
+        }
+
+        .tablet-mockup {
+            width: 15%;
+            position: absolute;
+            bottom: 15%;
+            right: 15%;
+            z-index: 3;
+        }
+
+        .phone-mockup {
+            width: 12%;
+            position: absolute;
+            bottom: 30%;
+            right: 5%;
+            z-index: 4;
+        }
+
+        .mug {
+            width: 10%;
+            position: absolute;
+            bottom: 25%;
+            right: 25%;
+            z-index: 0;
+        }
+
+        .background-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .background-gradient {
+            background: linear-gradient(to right, #eef2f3 50%, #ffffff 50%);
+        }
+
+        .blur-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://via.placeholder.com/1920x1080/cccccc/ffffff?text=Blurred+Background'); / Placeholder for blurred background /
+            background-size: cover;
+            background-position: center;
+            filter: blur(10px);
+            z-index: -1;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h1>Brand-Specific Homepage Designs</h1>
+            <div class="features">
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>THE AVERAGE USER VISITS<br>UP TO 130 WEBSITES DAILY</span>
+                    <span class="underline"></span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>38% OF USERS NOTICE A<br>WEBSITE'S LAYOUT AND<br>NAVIGATION</span>
+                    <span class="underline"></span>
+                </div>
+            </div>
+            <div class="logo-section">
+                <div class="logo-text">DIGITALSILK</div>
+                <div class="tagline">We Grow Brands Online</div>
+            </div>
+        </div>
+        <div class="right-section">
+            <img src="https://via.placeholder.com/1200x800/ffffff/cccccc?text=Desktop+Screen" alt="Desktop Screen" class="desktop-mockup">
+            <img src="https://via.placeholder.com/800x600/ffffff/cccccc?text=Laptop+Screen" alt="Laptop Screen" class="laptop-mockup">
+            <img src="https://via.placeholder.com/400x300/ffffff/cccccc?text=Tablet+Screen" alt="Tablet Screen" class="tablet-mockup">
+            <img src="https://via.placeholder.com/300x200/ffffff/cccccc?text=Phone+Screen" alt="Phone Screen" class="phone-mockup">
+            <img src="https://via.placeholder.com/150x150/ffffff/cccccc?text=Mug" alt="Mug" class="mug">
+        </div>
+    </div>
+</body>
+</html>

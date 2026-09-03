@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Science Department - Home</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23003366' d='M12 2L1 21h22L12 2zm0 3.82L19.4 19H4.6L12 5.82zM11 10h2v5h-2zm0 6h2v2h-2z'/%3E%3C/svg%3E" type="image/svg+xml">
+    <style>
+        /* General Styles */
+        :root {
+            --primary-blue: #003366; /* Dark Navy Blue */
+            --secondary-blue: #336699; /* Medium Steel Blue */
+            --accent-blue: #6699CC;   /* Lighter Blue */
+            --light-blue: #EAF2F8;    /* Very Light Blue */
+            --off-white: #F4F7FC;     /* Off-white with a hint of blue */
+            --text-dark: #333333;
+            --text-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--off-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-blue);
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary-blue);
+            text-decoration: underline;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: var(--text-light);
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .button:hover {
+            background-color: var(--secondary-blue);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        header h1 span {
+            font-size: 0.6em;
+            display: block;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        /* Navigation */
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-light);
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        #hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--text-light);
+            text-align: center;
+            padding: 100px 20px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1);
+        }
+
+        #hero h2 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            border-bottom: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        #hero p {
+            font-size: 1.4em;
+            max-width: 800px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 60px 0;
+            text-align: center;
+            background-color: var(--off-white);
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--light-blue);
+        }
+        
+        section .container {
+            padding: 20px;
+        }
+
+        /* Card Layouts */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .card {
+            background-color: var(--text-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--accent-blue);
+            transition: transform 0.3s ease;
+            transform: translateX(-100%);
+        }
+
+        .card:hover::before {
+            transform: translateX(0);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: var(--secondary-blue);
+            font-size: 1.5em;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        .card p {
+            margin-bottom: 15px;
+        }
+
+        .card .read-more {
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* Faculty specific card */
+        .faculty-card {
+            text-align: center;
+        }
+
+        .faculty-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--accent-blue);
+        }
+
+        .faculty-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+            text-align: center;
+        }
+
+        .faculty-card p.title {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        /* News/Events specific layout */
+        .news-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            text-align: left;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--accent-blue);
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .news-item .date {
+            background-color: var(--secondary-blue);
+            color: var(--text-light);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-align: center;
+            min-width: 90px;
+            margin-right: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .news-item .date span {
+            display: block;
+            font-size: 1.6em;
+            line-height: 1;
+        }
+
+        .news-item .content h3 {
+            margin-top: 0;
+            font-size: 1.3em;
+            text-align: left;
+            color: var(--primary-blue);
+        }
+
+        .news-item .content p {
+            margin: 0;
+            color: #555;
+        }
+
+        /* Contact Section */
+        #contact address {
+            font-style: normal;
+            margin-top: 30px;
+            line-height: 2;
+        }
+
+        #contact p {
+            max-width: 700px;
+            margin: 0 auto 20px auto;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header h1 {
+                font-size: 2em;
+                text-align: center;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            #hero {
+                padding: 80px 20px;
+            }
+
+            #hero h2 {
+                font-size: 2.5em;
+            }
+
+            #hero p {
+                font-size: 1.1em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-item {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .news-item .date {
+                margin: 0 0 15px 0;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .news-item .content {
+                text-align: center;
+            }
+
+            .news-item .content h3 {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Computer Science Department <span>University of Example</span></h1>
+            <nav>
+                <ul>
+                    <li><a href="#hero" class="active">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#faculty">Faculty</a></li>
+                    <li><a href="#news-events">News & Events</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <h2>Innovating the Future of Technology</h2>
+            <p>Empowering the next generation of computing leaders through cutting-edge education and research.</p>
+            <a href="#programs" class="button">Explore Our Programs</a>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2>About Our Department</h2>
+                <p>The Department of Computer Science is a vibrant hub for innovation, research, and learning. We are committed to providing a comprehensive and challenging curriculum that prepares students for successful careers in a rapidly evolving technological landscape. Our faculty are experts in various fields, dedicated to both teaching excellence and groundbreaking research.</p>
+                <p>We foster a collaborative environment where students can engage in real-world projects, participate in cutting-edge research, and develop the critical thinking skills necessary to solve complex problems.</p>
+            </div>
+        </section>
+
+        <section id="programs">
+            <div class="container">
+                <h2>Our Academic Programs</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Bachelor of Science (B.S.) in Computer Science</h3>
+                        <p>Our flagship undergraduate program provides a strong foundation in core computer science principles, software development, algorithms, and data structures. Specializations available in AI, Cybersecurity, and more.</p>
+                        <a href="#" class="read-more">Learn More &rarr;</a>
+                    </div>
+                    <div class="card">
+                        <h3>Master of Science (M.S.) in Computer Science</h3>
+                        <p>Advance your expertise with our graduate program, focusing on advanced topics in areas like machine learning, distributed systems, and theoretical computer science. Ideal for research-oriented careers.</p>
+                        <a href="#" class="read-more">Learn More &rarr;</a>
+                    </div>
+                    <div class="card">
+                        <h3>Ph.D. in Computer Science</h3>
+                        <p>Our doctoral program prepares students for leading roles in academia and industry research. Conduct original research under the guidance of world-renowned faculty members and contribute to the field.</p>
+                        <a href="#" class="read-more">Learn More &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faculty">
+            <div class="container">
+                <h2>Meet Our Esteemed Faculty</h2>
+                <div class="card-grid">
+                    <div class="card faculty-card">
+                        <img src="https://via.placeholder.com/120/6699CC/FFFFFF?text=Dr.A.S." alt="Dr. Alice Smith">
+                        <h3>Dr. Alice Smith</h3>
+                        <p class="title">Professor & Department Head</p>
+                        <p>Specializes in Artificial Intelligence and Machine Learning. Her research focuses on neural networks and natural language processing.</p>
+                        <a href="#" class="read-more">View Profile &rarr;</a>
+                    </div>
+                    <div class="card faculty-card">
+                        <img src="https://via.placeholder.com/120/336699/FFFFFF?text=Dr.B.J." alt="Dr. Bob Johnson">
+                        <h3>Dr. Bob Johnson</h3>
+                        <p class="title">Associate Professor</p>
+                        <p>Expert in Cybersecurity and Network Security. He leads projects on intrusion detection systems and secure software development.</p>
+                        <a href="#" class="read-more">View Profile &rarr;</a>
+                    </div>
+                    <div class="card faculty-card">
+                        <img src="https://via.placeholder.com/120/003366/FFFFFF?text=Dr.C.W." alt="Dr. Carol White">
+                        <h3>Dr. Carol White</h3>
+                        <p class="title">Assistant Professor</p>
+                        <p>Research interests include Data Science and Big Data Analytics. She teaches courses on data visualization and statistical modeling.</p>
+                        <a href="#" class="read-more">View Profile &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="news-events">
+            <div class="container">
+                <h2>Latest News & Events</h2>
+                <div class="news-grid">
+                    <div class="news-item">
+                        <div class="date">
+                            <span>25</span>
+                            Aug
+                        </div>
+                        <div class="content">
+                            <h3>Annual CS Research Symposium Announced</h3>
+                            <p>Join us for our annual research symposium, showcasing the latest advancements from our faculty and students. Keynote speakers and poster sessions.</p>
+                            <a href="#" class="read-more">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="date">
+                            <span>10</span>
+                            Sep
+                        </div>
+                        <div class="content">
+                            <h3>Professor Smith Receives Prestigious AI Award</h3>
+                            <p>Dr. Alice Smith honored for her pioneering work in explainable AI. Congratulations to Dr. Smith for this well-deserved recognition.</p>
+                            <a href="#" class="read-more">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="news-item">
+                        <div class="date">
+                            <span>05</span>
+                            Oct
+                        </div>
+                        <div class="content">
+                            <h3>Upcoming Cybersecurity Workshop for Students</h3>
+                            <p>A hands-on workshop focused on ethical hacking and penetration testing. Open to all students interested in cybersecurity.</p>
+                            <a href="#" class="read-more">Register Now &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <p>Have questions or want to learn more about the Computer Science Department? Feel free to reach out to us!</p>
+                <address>
+                    Department of Computer Science<br>
+                    123 Tech Avenue<br>
+                    Innovation City, IC 12345<br>
+                    Email: <a href="mailto:info@cs.example.edu">info@cs.example.edu</a><br>
+                    Phone: <a href="tel:+15551234567">(555) 123-4567</a>
+                </address>
+                <p style="margin-top: 30px;">
+                    <a href="#" class="button">Send us a Message</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Computer Science Department, University of Example. All rights reserved.</p>
+    </footer>
+</body>
+</html>
